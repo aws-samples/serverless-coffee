@@ -1,0 +1,72 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverlesspresso counting service - returns a human-friendly order ID
+
+Parameters:
+  AppName:
+    Type: String
+    Description: Application name (eg. serverlesspresso)
+    Default: 'Serverlesspresso'
+  Service:
+    Type: String
+    Description: Service name (eg. core)
+    Default: 'counting'
+  LogRetentionInDays:
+    Type: Number
+    Default: 14
+    Description: CloudWatch Logs retention period
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: nodejs14.x
+    CodeUri: code/
+    Environment:
+      Variables:
+        AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+        TableName: !Ref DynamoTable
+
+Resources:
+  GetOrderIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: getOrderId.handler
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref DynamoTable
+
+  GetOrderIdFunctionParameter:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${AppName}/${Service}/GetOrderIdFunctionName
+      Description: Counting GetOrderIdFunction Name Parameter
+      Type: String
+      Value: !Ref GetOrderIdFunction
+
+  ResetOrderIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: resetOrderId.handler
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref DynamoTable
+      Events:
+        ScheduledFunction:
+          Type: Schedule
+          Properties:
+            Schedule: cron(0 7 * * ? *)
+
+  DynamoTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: PK
+        AttributeType: S
+      KeySchema:
+      - AttributeName: PK
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+Outputs:
+  DynamoDbTable:
+    Value: !Ref DynamoTable
+    Description: DynamoDb Table

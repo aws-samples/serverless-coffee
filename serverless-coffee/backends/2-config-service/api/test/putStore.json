@@ -1,0 +1,62 @@
+{
+  "version": "2.0",
+  "routeKey": "PUT /store",
+  "rawPath": "/store",
+  "rawQueryString": "state=open",
+  "headers": {
+      "accept": "*/*",
+      "accept-encoding": "gzip, deflate, br",
+      "authorization": "Bearer eyJraWQiOiI1RTI4OWdubkdIcCt0YnZPbHR6eW82cTlMa0VRMEJpSEJmRWZPeWdtRDlvPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIzMjEyNDEyMi1mMWMxLTRkNTAtODM2Mi1hMzUyNDQyZTQ3ZGUiLCJjb2duaXRvOmdyb3VwcyI6WyJhZG1pbiJdLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtd2VzdC0yLmFtYXpvbmF3cy5jb21cL3VzLXdlc3QtMl80SXF0SWp4eWQiLCJjbGllbnRfaWQiOiI2NjQ3M2g4b3JhNHV2cWZlOHNsM2pucWN2ZiIsIm9yaWdpbl9qdGkiOiIzYWRmZGQ5Mi1mMjQ4LTQzODMtYTcyZi1jN2RjOWI0NmI5M2QiLCJldmVudF9pZCI6IjE5NjZmODU0LWUwYzYtNGY4Mi1hZTAzLWMyOWFkNGU4OTJkOSIsInRva2VuX3VzZSI6ImFjY2VzcyIsInNjb3BlIjoiYXdzLmNvZ25pdG8uc2lnbmluLnVzZXIuYWRtaW4iLCJhdXRoX3RpbWUiOjE2MzA0OTk2NzYsImV4cCI6MTYzMDUwMzI3NiwiaWF0IjoxNjMwNDk5Njc2LCJqdGkiOiJjOThjZGZiZi03NzYzLTQwZTktODY0OC1hYjJmMmQ5MjgxZDIiLCJ1c2VybmFtZSI6ImpiZXN3aWNrIn0.AAJGyh-0n3T5AYSO0Ra97hwzhqie6Qh50t1QPEbYZC69esfBifbpaBKy3DkrzRC6ZlG6zTvUPYkHNTZDpIrh2RW9siupn1rkoJgo3eZhUTNDjqiUut9Mwd9ajtTVIDuIyOqTR5Y8nTVqgVgFGRjj7M6fszc9gzqQWcW9lsuTH6SSpDO0Z9jvzaaWOJIsEKf1DusaiVmG9EycEjtOKo2mDMBDSsB0QnAnIbNMuVRTQShm10yRj33GQFbm3NldnPzq5VGp_AX7WVmawf5aCtSeazdZiCIHsCEhsUwT-3Kr06cdUaN15jaBmSx_LQtcrzv3_TRYixqLE_nnToOrdcu9zw",
+      "cache-control": "no-cache",
+      "content-length": "0",
+      "host": "9gsuhnrtxh.execute-api.us-west-2.amazonaws.com",
+      "postman-token": "ba61f2af-c22e-4d1c-bbee-939d0d717a52",
+      "user-agent": "PostmanRuntime/7.28.4",
+      "x-amzn-trace-id": "Root=1-612f77d3-6bb4fff13ac4d22c2a8505cd",
+      "x-forwarded-for": "73.142.129.185",
+      "x-forwarded-port": "443",
+      "x-forwarded-proto": "https"
+  },
+  "queryStringParameters": {
+      "state": "open"
+  },
+  "requestContext": {
+      "accountId": "468083054740",
+      "apiId": "9gsuhnrtxh",
+      "authorizer": {
+          "jwt": {
+              "claims": {
+                  "auth_time": "1630499676",
+                  "client_id": "66473h8ora4uvqfe8sl3jnqcvf",
+                  "cognito:groups": "[admin]",
+                  "event_id": "1966f854-e0c6-4f82-ae03-c29ad4e892d9",
+                  "exp": "1630503276",
+                  "iat": "1630499676",
+                  "iss": "https://cognito-idp.us-west-2.amazonaws.com/us-west-2_4IqtIjxyd",
+                  "jti": "c98cdfbf-7763-40e9-8648-ab2f2d9281d2",
+                  "origin_jti": "3adfdd92-f248-4383-a72f-c7dc9b46b93d",
+                  "scope": "aws.cognito.signin.user.admin",
+                  "sub": "32124122-f1c1-4d50-8362-a352442e47de",
+                  "token_use": "access",
+                  "username": "jbeswick"
+              },
+              "scopes": null
+          }
+      },
+      "domainName": "9gsuhnrtxh.execute-api.us-west-2.amazonaws.com",
+      "domainPrefix": "9gsuhnrtxh",
+      "http": {
+          "method": "PUT",
+          "path": "/store",
+          "protocol": "HTTP/1.1",
+          "sourceIp": "73.142.129.185",
+          "userAgent": "PostmanRuntime/7.28.4"
+      },
+      "requestId": "E--pCh7IvHcEP-w=",
+      "routeKey": "PUT /store",
+      "stage": "$default",
+      "time": "01/Sep/2021:12:53:39 +0000",
+      "timeEpoch": 1630500819270
+  },
+  "isBase64Encoded": false
+}

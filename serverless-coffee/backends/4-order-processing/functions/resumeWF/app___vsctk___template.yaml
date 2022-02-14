@@ -1,0 +1,10 @@
+Resources:
+  resumeWF:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: app.lambdaHandler
+      CodeUri: >-
+        /Users/benjasl/Desktop/GitHub/se-order-orchestrator/se-order-orchestrator/functions/resumeWF
+      Runtime: nodejs14.x
+      Environment:
+        Variables: {}

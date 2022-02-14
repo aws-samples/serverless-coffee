@@ -1,0 +1,238 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: Serverlesspresso order processor
+
+Parameters:
+  Client:
+    Type: String
+    Description: Client website for authentication redirects and cors (must start with https://)
+    Default: http://localhost:8080
+  TestWithPostman:
+    Type: String
+    Description: Do you need to test with Postman? (Not recommended for production)
+    Default: "false"
+    AllowedValues:
+      - "true"
+      - "false"
+  UserPoolId:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: User poolID for Cognito provider
+    Default: '/Serverlesspresso/core/userpool'
+  UserPoolClient:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Client id for user pool
+    Default: '/Serverlesspresso/core/userpoolclient'
+  CoreEventBusName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Event bus used by application
+    Default: /Serverlesspresso/core/eventbusname
+  CoreEventBusArn:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: "main Serverlesspresso Eventbus ARN"
+    Default: '/Serverlesspresso/core/eventbusarn'
+  GetOrderIdFunctionName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: "Lambda function that Generates an Order Numver"
+    Default: '/Serverlesspresso/counting/GetOrderIdFunctionName'
+  IsStoreOpenFunctionName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: "Arn of Lambda function that returns if store is open"
+    Default: '/Serverlesspresso/config/IsStoreOpenFunctionName'
+  IsCapacityAvailableFunctionName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: "Arn of Lambda function that returns if queue is ready, easy"
+    Default: '/Serverlesspresso/capacity/IsCapacityAvailableFunctionName'
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+
+Resources:
+  ##########################################################################
+  #  API                                                                   #
+  ##########################################################################
+
+  # Creates an HTTP API endpoint
+  MyHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      DefinitionBody:
+        'Fn::Transform':
+          Name: 'AWS::Include'
+          Parameters:
+            Location: './api.yaml'
+      Auth:
+        Authorizers:
+          OAuth2Authorizer1:
+            IdentitySource: "$request.header.Authorization"
+            JwtConfiguration:
+              issuer: !Sub
+                - https://cognito-idp.${AWS::Region}.amazonaws.com/${UP}
+                - { UP: !Ref UserPoolId }
+              audience:
+                - !Ref UserPoolClient
+        DefaultAuthorizer: OAuth2Authorizer1
+      CorsConfiguration:
+        AllowOrigins:
+          - "*"
+        AllowHeaders:
+          - Content-Type
+          - Authorization
+        AllowMethods:
+          - POST
+
+  ##########################################################################
+  #  Step Functions WF                                                      #
+  ##########################################################################
+  OrderProcessorStateMachine:
+    Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
+    Properties:
+      DefinitionUri: statemachine/op.asl.json
+      DefinitionSubstitutions:
+        GetOrderIdFunctionName: !Ref GetOrderIdFunctionName
+        IsStoreOpenFunctionName: !Ref IsStoreOpenFunctionName
+        IsCapacityAvailableFunctionName: !Ref IsCapacityAvailableFunctionName
+        EventBus: !Ref CoreEventBusName
+        Region: !Ref "AWS::Region"
+        AccountId: !Ref "AWS::AccountId"
+      Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref CoreEventBusName
+        - LambdaInvokePolicy:
+            FunctionName: !Ref GetOrderIdFunctionName
+        - LambdaInvokePolicy:
+            FunctionName: !Ref IsStoreOpenFunctionName
+        - LambdaInvokePolicy:
+            FunctionName: !Ref IsCapacityAvailableFunctionName
+
+  OrderProcessorStateMachineParameter:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /Serverlesspresso/order-processor/statemachine
+      Description: Order Processor StateMachine Parameter ARN
+      Type: String
+      Value: !Ref OrderProcessorStateMachine
+
+      #RULE 1: Routes new order events to SFN
+  EventRuleStartOrderProcessing:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: "Routes Start OrderProcessingService"
+      EventBusName: !Ref CoreEventBusName
+      State: "ENABLED"
+      EventPattern:
+        detail-type:
+          - Validator.NewOrder
+          - Validator.NewCode
+        source:
+          - awsserverlessda.serverlesspresso
+      Targets:
+        - Arn: !Ref OrderProcessorStateMachine
+          Id: "OrderProcessorStateMachine"
+          RoleArn: !GetAtt EventBridgeIAMrole.Arn
+
+
+  ##########################################################################
+  #  IAM roles and policies                                               #
+  ##########################################################################
+
+  # Create the role for API Gateway access to EventBridge
+  MyHttpApiRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service: "apigateway.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Policies:
+        - PolicyName: ApiDirectWriteEventBridge
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              Action:
+              - events:PutEvents
+              Effect: Allow
+              Resource:
+                - !Ref CoreEventBusArn
+
+  EventBridgeIAMrole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+              !Sub events.amazonaws.com
+          Action: sts:AssumeRole
+      Path: /
+      Policies:
+      - PolicyName: PutEventsDestinationBus
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - events:PutEvents
+            Resource:
+            - !Ref CoreEventBusArn
+      - PolicyName: StartOrderProcessingStepFuntions
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - states:StartExecution
+            Resource:
+            - !Ref OrderProcessorStateMachine
+
+
+
+  ##########################################################################
+  #  Lambda funtions                                                    #
+  ##########################################################################
+  LambdaSfnResume:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/resumeWF/
+      Handler: app.handler
+      Runtime: nodejs14.x
+      Events:
+        Trigger:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              detail-type:
+                - OrderManager.OrderStarted
+              source:
+                - awsserverlessda.serverlesspresso
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - "states:SendTaskSuccess"
+              Resource: !Ref OrderProcessorStateMachine
+
+  ##########################################################################
+  #  Stack outputs                                                      #
+  ##########################################################################
+Outputs:
+  # Find out more about other implicit resources you can reference within SAM
+  # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-generated-resources.html
+  OrderProcessorStateMachine:
+    Description: "Stock Trading state machine ARN"
+    Value: !Ref OrderProcessorStateMachine
+  OrderProcessorStateMachineRole:
+    Description: "IAM Role created for OrderProcessorStateMachine based on the specified SAM Policy Templates"
+    Value: !GetAtt OrderProcessorStateMachineRole.Arn
+  HttpApiEndpoint:
+    Description: "HTTP API endpoint URL"
+    Value: !Sub "https://${MyHttpApi}.execute-api.${AWS::Region}.amazonaws.com"
+  ResumerFunction:
+    Description: LambdaSfnResume function name
+    Value: !Ref LambdaSfnResume

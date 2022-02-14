@@ -1,0 +1,108 @@
+{
+    "Count": 6,
+    "Items": [
+      {
+        "detailType": {
+          "S": "Validator.NewOrder"
+        },
+        "orderDetails": {
+          "S": "{\"orderId\":\"XwXEqjBoRMbjnR1hRGfQR\",\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"bucket\":{\"last_id\":1816193,\"start_full\":\"Mon Oct 18 2021 16:15:00 GMT+0000 (Coordinated Universal Time)\",\"last_code\":\"cwo9c7yVyD\",\"end_ts\":1634574599999,\"start_ts\":1634573700000,\"end_full\":\"Mon Oct 18 2021 16:29:59 GMT+0000 (Coordinated Universal Time)\",\"PK\":1816193,\"availableTokens\":9}}"
+        },
+        "SK": {
+          "S": "\"2021-10-18T16:24:39Z\""
+        },
+        "PK": {
+          "S": "XwXEqjBoRMbjnR1hRGfQR"
+        },
+        "userId": {
+          "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+        }
+      },
+      {
+        "detailType": {
+          "S": "OrderProcessor.WorkflowStarted"
+        },
+        "orderDetails": {
+          "S": "{\"Message\":\"SFN Order started, waiting for drink info!\",\"orderId\":\"XwXEqjBoRMbjnR1hRGfQR\",\"TaskToken\":\"AAAAKgAAAAIAAAAAAAAAAYsoD2CrQkFJUbHvT7W7Py2mBoPc9n61Rm1Av6EUEVWg1WNHK5RrQZGA8EP+gKDGNJb7lekkTp4yEDjp5j8vPNBZr1QyCjV7ZjmVR1CtJ8k/Hw+AlHzyBqnjlM6FROmC8F2Bv40vr6LEiVjJObJYnL+IWLJ0pwvXthlLlx3Rdam5ES3B5D3C/yTrXUTVnjScoB2NPqCc2TjRL+UMyOoafBjn17rBo72Aiz5W3VjdmyCHsl78yEXHAgaXvgzloC+GE4YAnhfJ8lnipi8rapex/H4GqQYLj1l+u7cUYxGt20a2X7xTSzojX+18or3ChZFfRxJvd0HA0WmOBnICHnGqAM1uvoFT1ECknNYy/f/iFc/zDk4KzC1FqkuwBwqzrkN0CjA9bkWHuV23UM4l7aYzr3avQ8R9MXuO9RiWbDFaB81tGoEQrn1zsF0Jpm7xVbs7V5SUKmCSJOxciJeBVxrdO6StPAkv+79OrF22GFICFq+ehs7o1XSVhgLpbj1wWdfejz16BHCpEj1JCb/D3JUWHWRFD6tv8G1yJPhOmtK708mk+nrixEyB4ZlW/nrwK6Pgb17okP2iBYZCgkeorUyWKU5UhOWcqMBX02W5Ygk9bfeloKg852VSkJKgygwvDXOe8xqISCs4hfp0f1py0tZv78+636rYNLkTT7Hj4xkd2HAikmsAhdKMQOk6Ldjh6HrcYg==\",\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\"}"
+        },
+        "SK": {
+          "S": "\"2021-10-18T16:24:43Z\""
+        },
+        "PK": {
+          "S": "XwXEqjBoRMbjnR1hRGfQR"
+        },
+        "userId": {
+          "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+        }
+      },
+      {
+        "detailType": {
+          "S": "OrderProcessor.WaitingCompletion"
+        },
+        "orderDetails": {
+          "S": "{\"Message\":\"SFN Order waiting for barista to complete!\",\"orderNumber\":89,\"orderId\":\"XwXEqjBoRMbjnR1hRGfQR\",\"TaskToken\":\"AAAAKgAAAAIAAAAAAAAAAZxXEhexSijQ6GW/Z6LWYpln3KwzcKtB6IjHEt+dNnu8ctzy1y5zLIJmdiddIDbKbIOhDQ5P/j03D7d4XWevRtMCnbX8rx/HTY/1VTknTLUM5HLgCctMGfjgeUhmGZZ0HZZABpSaYonJcW2/nLKhgiSG6nYi65PUga9MVAmPsGMqK9liSXNsRLdAvGF/cJFg+kOf+yKwhSvCKzDka2xA+quW6sZJCEcMOzHHJvANGABWaYb008bvu9khp+oRPYJO0515IhMpdZfLpt8Ln8oC8LWljGEOyMCt6rW7lU3BmFjZJxzBwkuT66VoYn6XemvVDBqd3gv7nlg7lASFbcuSqTXPawPg38QGrGvQi59vaGoRTiCrJP/zrg0PndMhynlpaYzFKtxURh7x04WKhTROw9EYYriYN0rTALAg2IPokaGN5f8igLOQlTTXRMpSoCGfVrH6oQLyCuJUqYIe/JRwjKx5cap6CL2sKgdIyhCDFchA/Jq7gOuptjilHjQhkUBv7Ze3FvN+KnhO+nTYhtCtgIp1vLQScfaLUtPsIoIX4JVFQlSFAUHCGegoqnX2RIAFLiglcl4qAYtki4p+l9NryZeYVUZ33fy08QED81XyLl4pRiUNWaZvBk58VTN26w2Y0INcSWY/ZN0Rsa5OTH+SQTzsLc/sl5JZJ/EcN1Kq87v1Kkv6EONjbgY87e6r9Jin5Q==\",\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\"}"
+        },
+        "SK": {
+          "S": "\"2021-10-18T16:24:54Z\""
+        },
+        "PK": {
+          "S": "XwXEqjBoRMbjnR1hRGfQR"
+        },
+        "userId": {
+          "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+        }
+      },
+      {
+        "detailType": {
+          "S": "OrderManager.WaitingCompletion"
+        },
+        "orderDetails": {
+          "S": "{\"orderId\":\"XwXEqjBoRMbjnR1hRGfQR\",\"orderNumber\":89,\"state\":\"CREATED\",\"drinkOrder\":{\"icon\":\"barista-icons_cafe-latte\",\"modifiers\":[],\"drink\":\"Latte\"},\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"robot\":false,\"TS\":1634574295653}"
+        },
+        "SK": {
+          "S": "\"2021-10-18T16:24:56Z\""
+        },
+        "PK": {
+          "S": "XwXEqjBoRMbjnR1hRGfQR"
+        },
+        "userId": {
+          "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+        }
+      },
+      {
+        "detailType": {
+          "S": "OrderManager.MakeOrder"
+        },
+        "orderDetails": {
+          "S": "{\"baristaUserId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"orderId\":\"XwXEqjBoRMbjnR1hRGfQR\",\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\"}"
+        },
+        "SK": {
+          "S": "\"2021-10-18T16:25:00Z\""
+        },
+        "PK": {
+          "S": "XwXEqjBoRMbjnR1hRGfQR"
+        },
+        "userId": {
+          "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+        }
+      },
+      {
+        "detailType": {
+          "S": "OrderManager.OrderCompleted"
+        },
+        "orderDetails": {
+          "S": "{\"actionUserId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"orderId\":\"XwXEqjBoRMbjnR1hRGfQR\",\"order\":{\"orderNumber\":89,\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"drinkOrder\":{\"icon\":\"barista-icons_cafe-latte\",\"modifiers\":[],\"drink\":\"Latte\"},\"orderState\":\"COMPLETED\"},\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\"}"
+        },
+        "SK": {
+          "S": "\"2021-10-18T16:25:03Z\""
+        },
+        "PK": {
+          "S": "XwXEqjBoRMbjnR1hRGfQR"
+        },
+        "userId": {
+          "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+        }
+      }
+    ],
+    "ScannedCount": 6
+  }

@@ -1,0 +1,14 @@
+{
+  "version": "0",
+  "id": "7c5e6065-0d85-4b78-dd0d-5638bd12c8c6",
+  "detail-type": "OrderProcessor.OrderStarted",
+  "source": "awsserverlessda.serverlesspresso",
+  "time": "2021-08-19T18:54:48Z",
+  "region": "us-west-2",
+  "resources": [],
+  "detail": {
+      "userId": "jbesw",
+      "orderId": "VMWb0xlThZIl2GKXNLiFe",
+      "drink": "Americano"
+  }
+}

@@ -1,0 +1,105 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverlesspresso Metrics - Publishes to CloudWatch metrics
+
+Parameters:
+  AppName:
+    Type: String
+    Description: Application name (eg. serverlesspresso)
+    Default: "Serverlesspresso"
+  CoreEventBusName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Event bus used by application
+    Default: '/Serverlesspresso/core/eventbusname'
+  Source:
+    Type: String
+    Description: Event bus source by application
+    Default: 'awsserverlessda.serverlesspresso'
+
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: nodejs14.x
+    MemorySize: 128
+    Environment:
+      Variables:
+        AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+        AppName: !Ref AppName
+
+Resources:
+  # Define the consumer Lambda functions and EventBridge rules
+  ValidatorNewOrderFunction:
+    Type: AWS::Serverless::Function
+    Description: Serverlesspresso Metrics. Invoked by EventBridge rule
+    Properties:
+      CodeUri: code/
+      Handler: ValidatorNewOrder.handler
+      Policies:
+        - CloudWatchPutMetricPolicy: {}
+      Events:
+        TriggerMetric:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'Validator.NewOrder'
+
+  OrderManagerOrderCancelledFunction:
+    Type: AWS::Serverless::Function
+    Description: Serverlesspresso Metrics. Invoked by EventBridge rule
+    Properties:
+      CodeUri: code/
+      Handler: OrderManagerOrderCancelled.handler
+      Policies:
+        - CloudWatchPutMetricPolicy: {}
+      Events:
+        TriggerMetric:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'OrderManager.OrderCancelled'
+
+  OrderProcessorOrderTimeOutFunction:
+    Type: AWS::Serverless::Function
+    Description: Serverlesspresso Metrics. Invoked by EventBridge rule
+    Properties:
+      CodeUri: code/
+      Handler: OrderProcessorOrderTimeOut.handler
+      Policies:
+        - CloudWatchPutMetricPolicy: {}
+      Events:
+        TriggerMetric:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'OrderProcessor.OrderTimeOut'
+
+  OrderManagerWaitingCompletionFunction:
+    Type: AWS::Serverless::Function
+    Description: Serverlesspresso Metrics. Invoked by EventBridge rule
+    Properties:
+      CodeUri: code/
+      Handler: OrderManagerWaitingCompletion.handler
+      Policies:
+        - CloudWatchPutMetricPolicy: {}
+      Events:
+        TriggerMetric:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'OrderManager.WaitingCompletion'

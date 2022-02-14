@@ -1,0 +1,19 @@
+{
+    "version": "0",
+    "id": "b23fd6d0-e30e-ea9a-8a60-4af709a1f46e",
+    "detail-type": "OrderProcessor.WorkflowStarted",
+    "source": "awsserverlessda.serverlesspresso",
+    "account": "468083054740",
+    "time": "2021-09-07T14:56:15Z",
+    "region": "us-west-2",
+    "resources": [
+        "arn:aws:states:us-west-2:468083054740:stateMachine:SEOrderProcessorStateMachine-OPfyL6wDmlr0",
+        "arn:aws:states:us-west-2:468083054740:execution:SEOrderProcessorStateMachine-OPfyL6wDmlr0:f5ce903b-4f0a-8e9d-eb0e-97801dce063e_8effb6b4-0f49-20c2-0d65-5c2f664bc9f7"
+    ],
+    "detail": {
+        "Message": "SFN Order started, waiting for drink info!",
+        "orderId": "xV7c9XKgEUWvizIeX5k4t",
+        "TaskToken": "AAAAKgAAAAIAAAAAAAAAAe1nwJurmtquqUe17tj7gMbT48acx34uGefeb97ijuFpZbTPJ67rnTVfQZFTxnnvvnvTBzOpNOt1A59eWo9cfHDE/NZhjdz6SgcWjjjm5rhOXlUcv0z40cgIvTKjigzfldFpIIbrk3jIcRPymTnYP+hn7D0qRZudJH26KkLpiTolnAsG6k1OlftcdOZHKL2fkxw332RTMLLjV9H8gO2l1pnK6Wwv0538dpmu7TU/9lOBy8TMYSOh3gNrPGCnWQh56UIGpMKzkSjhurQJZDqsd7PObeozL8nPkJYoZb4pVl80z/N2u40uKcaOGEYGKBSCzuQjhi2XAeLg3T5FK7rV49ZEOsoaSaB4xq7Q/LEEOP114rM0RknbQb3U6tLTIxPjAGpKMw7MKbafwkzZOhildhV/CvejLPzz0OZ21NMsXWZLyS7DfW1FKI4YeChVGN0nnzLtCX/bBJfTpZrJ33eCkcmK1emzidoJnR6BDJdpY33JDSSVMpO5bpE2RFuXtAM4OyfTT37LJKtVV/3J5l1jfrJIccdfCSCAAKGQINLO+3ro1b536SbGG5yJN5TeoBrs1h/evv4BmnZ4+/cVayVkJ3QFLtHvc8T9QqBks7NgtB1P9MmI9zckvuk3ArwrZIMilRdrHWocu1uCE2VzHCXhxintEBGj5ecaOhQWdXUNjcbpq1BUvi08Zr60L0tifgDHGO6PdvTcqmfihSp5wSe7Nf4=",
+        "userId": "benjasl"
+    }
+}

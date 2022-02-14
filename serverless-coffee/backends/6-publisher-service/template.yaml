@@ -1,0 +1,121 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverlesspresso Publisher - Publishes events from EventBridge to IoT Core
+
+Parameters:
+  CoreEventBusName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Event bus used by application
+    Default: '/Serverlesspresso/core/eventbusname'
+  Source:
+    Type: String
+    Description: Event bus source by application
+    Default: 'awsserverlessda.serverlesspresso'
+  IOTendpoint:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Application IoT endpoint
+    Default: '/Serverlesspresso/core/realtime'
+
+Resources:
+  # Define the consumer Lambda function and EventBridge rule
+  PublisherFunction:
+    Type: AWS::Serverless::Function
+    Description: Serverlesspresso Publisher. Invoked by EventBridge rule
+    Properties:
+      CodeUri: code/
+      Handler: publishToIOT.handler
+      Runtime: nodejs14.x
+      Timeout: 3
+      Environment:
+        Variables:
+          IOT_DATA_ENDPOINT: !Ref IOTendpoint
+          IOT_TOPIC: 'serverlesspresso-config'
+      Policies:
+      - Statement:
+          - Effect: Allow
+            Resource: '*'
+            Action:
+              - iot:Connect
+              - iot:Publish
+      Events:
+        TriggerValidator:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'ConfigService.'
+
+  AdminPublisherFunction:
+    Type: AWS::Serverless::Function
+    Description: Serverlesspresso Publisher for admin applications. Invoked by EventBridge rules
+    Properties:
+      CodeUri: code/
+      Handler: publishToIOT.handler
+      Runtime: nodejs14.x
+      Timeout: 3
+      Environment:
+        Variables:
+          IOT_DATA_ENDPOINT: !Ref IOTendpoint
+          IOT_TOPIC: 'serverlesspresso-admin'
+      Policies:
+      - Statement:
+          - Effect: Allow
+            Resource: '*'
+            Action:
+              - iot:Connect
+              - iot:Publish
+      Events:
+        Trigger:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'OrderManager.'
+                - prefix: 'OrderProcessor.'
+                - prefix: 'Validator.'
+                - prefix: 'ConfigService.'
+
+  UserPublisherFunction:
+    Type: AWS::Serverless::Function
+    Description: Serverlesspresso Publisher. Invoked by EventBridge rule
+    Properties:
+      CodeUri: code/
+      Handler: publishToIOTuserTopic.handler
+      Runtime: nodejs14.x
+      Timeout: 3
+      Environment:
+        Variables:
+          IOT_DATA_ENDPOINT: !Ref IOTendpoint
+          IOT_TOPIC: 'serverlesspresso-user-'
+      Policies:
+      - Statement:
+          - Effect: Allow
+            Resource: '*'
+            Action:
+              - iot:Connect
+              - iot:Publish
+      Events:
+        OrderManagerEvents:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'OrderManager.'
+        OrderProcessorEvents:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'OrderProcessor.'

@@ -1,0 +1,24 @@
+{
+    "version": "0",
+    "id": "c0634cc3-3ca3-04d7-7233-4d52d7a0e655",
+    "detail-type": "Validator.NewOrder",
+    "source": "awsserverlessda.serverlesspresso",
+    "account": "763653534548",
+    "time": "2021-08-06T17:19:17Z",
+    "region": "us-east-2",
+    "resources": [],
+    "detail": {
+        "orderId": "O3wIFVR9HTXwunY3k3w38",
+        "userId": "TODO",
+        "bucket": {
+            "last_id": 1809189,
+            "last_code": "sYTvmpQ4rS",
+            "start_full": "Fri Aug 06 2021 17:15:00 GMT+0000 (Coordinated Universal Time)",
+            "end_ts": 1628270999999,
+            "PK": 1809189,
+            "end_full": "Fri Aug 06 2021 17:29:59 GMT+0000 (Coordinated Universal Time)",
+            "start_ts": 1628270100000,
+            "availableTokens": 9
+        }
+    }
+}

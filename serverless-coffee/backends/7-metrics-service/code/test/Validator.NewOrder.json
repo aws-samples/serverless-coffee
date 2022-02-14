@@ -1,0 +1,23 @@
+{
+  "version": "0",
+  "id": "3c30b569-4145-8295-e231-896e87a86a36",
+  "detail-type": "Validator.NewOrder",
+  "source": "awsserverlessda.serverlesspresso",
+  "time": "2021-10-19T13:53:25Z",
+  "region": "us-west-2",
+  "detail": {
+      "orderId": "xtK0OT2cEBUT1D7O_CKtb",
+      "userId": "6e95c051-ee28-4d9a-8a97-96f1f8efde0e",
+      "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
+      "bucket": {
+          "last_id": 1816279,
+          "start_full": "Tue Oct 19 2021 13:45:00 GMT+0000 (Coordinated Universal Time)",
+          "last_code": "HPycaHD-ME",
+          "end_ts": 1634651999999,
+          "start_ts": 1634651100000,
+          "end_full": "Tue Oct 19 2021 13:59:59 GMT+0000 (Coordinated Universal Time)",
+          "PK": 1816279,
+          "availableTokens": 9
+      }
+  }
+}

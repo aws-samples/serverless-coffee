@@ -1,0 +1,24 @@
+{
+    "version": "0",
+    "id": "f5ce903b-4f0a-8e9d-eb0e-97801dce063e",
+    "detail-type": "Validator.NewOrder",
+    "source": "awsserverlessda.serverlesspresso",
+    "account": "468083054740",
+    "time": "2021-09-07T14:56:11Z",
+    "region": "us-west-2",
+    "resources": [],
+    "detail": {
+        "orderId": "xV7c9XKgEUWvizIeX5k4t",
+        "userId": "benjasl",
+        "bucket": {
+            "last_id": 1812251,
+            "start_full": "Tue Sep 07 2021 14:45:00 GMT+0000 (Coordinated Universal Time)",
+            "last_code": "VuSrjpfaYg",
+            "end_ts": 1631026799999,
+            "start_ts": 1631025900000,
+            "end_full": "Tue Sep 07 2021 14:59:59 GMT+0000 (Coordinated Universal Time)",
+            "PK": 1812251,
+            "availableTokens": 9
+        }
+    }
+}

@@ -1,0 +1,26 @@
+.fas {
+  font-family: 'FontAwesome';
+}
+
+.social-icon {
+  color: #fff;
+  background: #221B14;
+  font-size: 1em;
+  border-radius: 50%;
+  line-height: 2.2em;
+  width: 2.1em;
+  height: 2.1em;
+  text-align: center;
+  display: inline-block;
+}
+
+li:hover {
+  transform: translateY(-4px);
+  transition: 0.3s;
+}
+
+/* This is to center the icons on JSFiddle only. Don't use this code */
+.social-links {
+  margin: 0 auto;
+  padding: 3rem 0;
+}

@@ -1,0 +1,261 @@
+{
+  "Comment": "This is your state machine",
+  "StartAt": "Get Shop Status",
+  "States": {
+    "Get Shop Status": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:${Region}:${AccountId}:function:${IsStoreOpenFunctionName}",
+        "Payload": {
+          "Input.$": "$"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Shop Open?",
+      "ResultSelector": {"modified.$": "States.StringToJson($.Payload.body)"},
+      "ResultPath":"$.StoreOpen",
+      "OutputPath":"$"
+
+    },
+    "Shop Open?": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.StoreOpen.modified.storeOpen",
+            "BooleanEquals": true
+          },
+          "Next": "Emit- Shop not ready",
+          "Comment": "Shop Closed"
+        }
+      ],
+      "Default": "Get Capacity Status",
+      "Comment": "check if Capacity is available"
+    },
+    "Get Capacity Status": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:${Region}:${AccountId}:function:${IsCapacityAvailableFunctionName}",
+        "Payload": {
+          "Input.$": "$"
+        }
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Lambda.ServiceException",
+            "Lambda.AWSLambdaException",
+            "Lambda.SdkClientException"
+          ],
+          "IntervalSeconds": 2,
+          "MaxAttempts": 6,
+          "BackoffRate": 2
+        }
+      ],
+      "Next": "Capacity Avialable?",
+      "ResultSelector": {"modified.$": "$.Payload.isCapacityAvailable"},
+      "ResultPath":"$.isCapacityAvailable",
+      "OutputPath":"$"
+    },
+    "Capacity Avialable?": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Not": {
+            "Variable": "$.isCapacityAvailable.modified",
+            "BooleanEquals": true
+          },
+          "Next": "Emit- Shop not ready"
+        }
+      ],
+      "Default": "Emit - Workflow Started TT"
+    },
+    "Emit - Workflow Started TT": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::events:putEvents.waitForTaskToken",
+      "ResultPath": null,
+      "Parameters": {
+        "Entries": [
+          {
+            "Detail": {
+              "Message": "The Step Functions workflow checks that the shop is open and has capcity to serve your order. Now, the workflow pauses. It emits an event with a unique 'task token', this event envoked a Lambda function that persists the token to an Amazon DynamoDB table, along with your order ID.",
+              "TaskToken.$": "$$.Task.Token",
+              "orderId.$": "$.detail.orderId",
+              "userId.$": "$.detail.userId"
+            },
+            "DetailType": "OrderProcessor.WorkflowStarted",
+            "EventBusName": "Serverlesspresso",
+            "Source": "awsserverlessda.serverlesspresso"
+          }
+        ]
+      },
+      "Next": "Generate Order Number",
+      "HeartbeatSeconds": 300,
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.Timeout"
+          ],
+          "Comment": "Customer timed out",
+          "ResultPath": "$.comment",
+          "Next": "Customer timedout"
+        }
+      ]
+    },
+    "order was cancelled": {
+      "Type": "Pass",
+      "Next": "Emit - order finished"
+    },
+    
+    "Barista timedout": {
+      "Type": "Pass",
+      "Result": "Barista timedout",
+      "ResultPath":"$.cause",
+      "Next":"Emit - error timeout"
+    },
+
+    "Customer timedout": {
+      "Type": "Pass",
+      "Result": "Customer timedout",
+      "ResultPath":"$.cause",
+      "Next":"Emit - error timeout"
+    },
+
+    "Emit - error timeout": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::events:putEvents",
+      "Parameters": {
+        "Entries": [
+          {
+            "Detail": {
+              "Message": "Order timeout",
+              "userId.$": "$.detail.userId",
+              "orderId.$": "$.detail.orderId",
+              "cause.$": "$.cause"
+            },
+            "DetailType": "OrderProcessor.OrderTimeOut",
+            "EventBusName": "Serverlesspresso",
+            "Source": "awsserverlessda.serverlesspresso"
+          }
+        ]
+      },
+      "Next": "Success"
+    },
+    "Generate Order Number": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "ResultPath": "$.Order",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:${Region}:${AccountId}:function:${GetOrderIdFunctionName}",
+        "Payload": {
+          "Input.$": "$"
+        }
+      },
+      "Next": "LOG - In Production"
+    },
+    "LOG - In Production": {
+      "Type": "Wait",
+      "Seconds": 5,
+      "Next": "Emit - Waiting Completion TT"
+    },
+    "Emit - Waiting Completion TT": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::events:putEvents.waitForTaskToken",
+      "Parameters": {
+        "Entries": [
+          {
+            "Detail": {
+              "Message": "You pressed 'submit order', this sends an HTTP POST request to a Lambda function via Amazon API Gateway. The Lambda fucntion retrives the 'Task Token' from dynamo DB and resumes the workflow. The workflow then invokes a Lambda function to generate your order number.  The Step Functions workflow then pauses once again and emits an event with a 'Task Token'.",
+              "TaskToken.$": "$$.Task.Token",
+              "orderId.$": "$.detail.orderId",
+              "orderNumber.$": "$.Order.Payload.orderNumber",
+              "userId.$": "$.detail.userId"
+            },
+            "DetailType": "OrderProcessor.WaitingCompletion",
+            "EventBusName": "Serverlesspresso",
+            "Source": "awsserverlessda.serverlesspresso"
+          }
+        ]
+      },
+      "Next": "Did baristar || customer cancel ?",
+      "HeartbeatSeconds": 900,
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.Timeout"
+          ],
+          "Next": "Barista timedout",
+          "Comment": "Barista timed out",
+          "ResultPath": "$.comment"
+        }
+      ],
+      "ResultPath":"$.order",
+      "OutputPath":"$"
+    },
+    "Did baristar || customer cancel ?": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.order.cancelled",
+          "BooleanEquals": true,
+          "Next": "order was cancelled"
+        }
+      ],
+      "Default": "Emit - order finished"
+    },
+    "Emit- Shop not ready": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::events:putEvents",
+      "Parameters": {
+        "Entries": [
+            {
+              "Detail": {
+                "Message": "The Step functions workflow checks if the shop is open and has capacity to serve a new order by invoking a Lambda function that queries the Shop conig service. The shop was not ready, and so a 'not ready' event is emitted to cancel the current order.",
+                "userId.$": "$.detail.userId"
+              },
+              "DetailType": "OrderProcessor.ShopUnavailable",
+              "EventBusName": "Serverlesspresso",
+              "Source": "awsserverlessda.serverlesspresso"
+            }
+        ]
+      },
+      "Next": "Emit - order finished"
+    },
+    
+    "Emit - order finished":{
+      "Type": "Task",
+      "Resource": "arn:aws:states:::events:putEvents",
+      "Parameters": {
+        "Entries": [
+            {
+              "Detail": {
+                "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
+                "userId.$": "$.detail.userId",
+                "orderId.$": "$.detail.orderId"
+              },
+              "DetailType": "OrderProcessor.orderFinished",
+              "EventBusName": "Serverlesspresso",
+              "Source": "awsserverlessda.serverlesspresso"
+            }
+        ]
+      },
+      "Next": "Success"
+    },
+    "Success": {
+      "Type": "Succeed"
+    }
+  }
+}

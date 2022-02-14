@@ -1,0 +1,118 @@
+{
+    "Comment": "This is your state machine",
+    "StartAt": "invocation type",
+    "States": {
+      "invocation type": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.detail-type",
+            "StringEquals": "OrderProcessor.orderFinished",
+            "Next": "Final Event"
+          },
+          {
+            "Variable": "$.detail.userId",
+            "IsPresent": false,
+            "Next":"Not a user event"
+          }
+        ],
+        "Default": "Builder event"
+      },
+      "Not a user event":{
+        "Type":"Pass",
+        "Comment": "Not a user event",
+        "End": true
+      },
+      "Final Event": {
+        "Type": "Pass",
+        "Next": "Get Orders"
+      },
+      "Builder event": {
+        "Type": "Pass",
+        "Next": "DynamoDB PutItem"
+      },
+  
+
+      "DynamoDB PutItem": {
+        "Type": "Task",
+        "Resource": "${DDBPutItem}",
+        "Parameters": {
+          "TableName": "${DDBTable}",
+          "Item": {
+            "orderDetails":{
+                "S.$":"States.JsonToString($.detail)"
+            },
+            "detailType":{
+                "S.$":"$.detail-type"
+            },
+            "userId": {
+                "S.$": "$.detail.userId"
+            },
+            "SK": {
+                "S.$": "States.JsonToString($.time)"
+            },
+            "PK":{
+                "S.$":"$.detail.orderId"
+            }
+          }
+        },
+        "End": true
+      },
+
+      "Get Orders": {
+        "Type": "Task",
+        "Resource": "${DDBQuery}",
+        "Parameters": {
+          "TableName": "${DDBTable}",
+          "KeyConditionExpression": "PK = :PK",
+          "ExpressionAttributeValues": {
+              ":PK":{
+                "S.$":"$.detail.orderId" 
+              }
+            }
+          
+        },
+        "Next": "Generate HTML",
+        "ResultPath":"$.dbResults"
+      },
+
+      "Generate HTML": {
+        
+        "Type": "Task",
+        "Resource": "${GenerateHtmlArn}",
+        "Retry": [
+          {
+            "ErrorEquals": [
+              "Lambda.ServiceException",
+              "Lambda.AWSLambdaException",
+              "Lambda.SdkClientException"
+            ],
+            "IntervalSeconds": 2,
+            "MaxAttempts": 6,
+            "BackoffRate": 2
+          }
+        ],
+        "Parameters":{
+          "contenxt.$":"$$",
+          "dbResults.$": "$.dbResults",
+          "EndTime.$":"$.time",
+          "orderId.$":"$.detail.orderId"
+        },
+        "Next": "Save to S3",
+        "ResultPath":"$"
+      },
+      "Save to S3": {
+        "Type": "Task",
+        "Parameters": {
+          "Body.$": "$.html",
+          "Bucket": "${S3Bucket}",
+          "Key.$": "$.fileName",
+          "ContentType": "text/html",
+          "Acl": "public-read"
+
+        },
+        "Resource": "${S3BucketPut}",
+        "End": true
+      }
+    }
+  }

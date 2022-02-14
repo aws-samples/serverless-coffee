@@ -1,0 +1,51 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverlesspresso capacity service - checking if order queue is full
+
+Parameters:
+  AppName:
+    Type: String
+    Description: Application name (eg. serverlesspresso)
+    Default: 'Serverlesspresso'
+  Service:
+    Type: String
+    Description: Service name (eg. core)
+    Default: 'capacity'
+  LogRetentionInDays:
+    Type: Number
+    Default: 14
+    Description: CloudWatch Logs retention period
+  MaxQueueCapacity:
+    Type: Number
+    Description: Maximum number of orders in the queue
+    Default: 100
+
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: nodejs14.x
+    CodeUri: code/
+    Environment:
+      Variables:
+        StateMachineArn: ''
+        MaxQueueCapacity: !Ref MaxQueueCapacity
+
+Resources:
+  IsCapacityAvailableFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: isCapacityAvailable.handler
+      Policies:
+        - Statement:
+          - Effect: Allow
+            Resource: !Sub "arn:${AWS::Partition}:states:${AWS::Region}:${AWS::AccountId}:stateMachine:*"
+            Action:
+              - states:ListExecutions
+
+  IsCapacityAvailableFunctionParameter:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${AppName}/${Service}/IsCapacityAvailableFunctionName
+      Description: Capacity IsCapacityAvailableFunction Name Parameter
+      Type: String
+      Value: !Ref IsCapacityAvailableFunction

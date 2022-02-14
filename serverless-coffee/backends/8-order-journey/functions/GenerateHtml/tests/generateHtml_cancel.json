@@ -1,0 +1,108 @@
+{
+    "version": "0",
+    "id": "3b2070c3-413d-0b51-bce3-0cf2203846a8",
+    "detail-type": "OrderProcessor.orderFinished",
+    "source": "awsserverlessda.serverlesspresso",
+    "time": "2021-10-22T14:32:39Z",
+    "region": "us-west-2",
+    "resources": [
+      "arn:aws:states:us-west-2:123456789012:stateMachine:OrderProcessorStateMachine-sPNgKo43tHYa",
+      "arn:aws:states:us-west-2:123456789012:execution:OrderProcessorStateMachine-sPNgKo43tHYa:688ca023-78c6-82b2-9dfd-0b12e0a7760c_7a930a2b-a9d8-8501-0ba8-bbbd7e5bcb26"
+    ],
+    "detail": {
+      "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
+      "orderId": "9aY8pKxL8f-ylr2CD2p5_",
+      "userId": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+    },
+    "dbResults": {
+      "Count": 5,
+      "Items": [
+        {
+          "detailType": {
+            "S": "Validator.NewOrder"
+          },
+          "orderDetails": {
+            "S": "{\"orderId\":\"9aY8pKxL8f-ylr2CD2p5_\",\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"Message\":\"A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.\",\"bucket\":{\"last_id\":5449710,\"last_code\":\"Fj897VSyVo\",\"start_full\":\"Fri Oct 22 2021 14:30:00 GMT+0000 (Coordinated Universal Time)\",\"end_ts\":1634913299999,\"PK\":5449710,\"end_full\":\"Fri Oct 22 2021 14:34:59 GMT+0000 (Coordinated Universal Time)\",\"start_ts\":1634913000000,\"availableTokens\":8}}"
+          },
+          "SK": {
+            "S": "\"2021-10-22T14:31:53Z\""
+          },
+          "PK": {
+            "S": "9aY8pKxL8f-ylr2CD2p5_"
+          },
+          "userId": {
+            "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+          }
+        },
+        {
+          "detailType": {
+            "S": "OrderProcessor.WorkflowStarted"
+          },
+          "orderDetails": {
+            "S": "{\"Message\":\"The Step Functions workflow checks that the shop is open and has capcity to serve your order. Now, the workflow pauses. It emits an event with a unique 'task token', this event envoked a Lambda function that persists the token to an Amazon DynamoDB table, along with your order ID.\",\"orderId\":\"9aY8pKxL8f-ylr2CD2p5_\",\"TaskToken\":\"AAAAKgAAAAIAAAAAAAAAAUNoyiXQgc5MFu/J/Bu1GU4BQEaoVech9K2pgddzpJoNhoyaTdQw0Y3x3wAdlyQXiSe30CVjztHnI8GGP59SqiUrJqyVj2FYuCKbdSboWIKs2ZJrgnz6LsSsfHQbSCzQoT1554QbJHl2GuGpIw/da9J3GANNmdz/sErERnlDVg1yNBnM+bbgzwJOaFSVIEpDQzIPIOzpF2od2wQqbZJtVMhXqUo2LZ1deX7hteDslWTTpbeZJJ8mstO0mBsIaY/PobgcNKg6ycAtVZABqIyUmEPx3ubrEMTsdBqmSL6k6J1792OerI2Wanf+vhSQkWL4EXozjIqjcHPDqsy2bxySKe6oRcVId3Dh6Zfd9SJlKa5J+ldXx+pNkhYWA0yJteomYztbkriN6q3L9WWWE8qHOoe7pi3Lz0kHFdwVTdG6ayjw0GVK/c7Mfz7dBTYzkw43lmumU7wfRvE6mfYbvyz1IZd5nLyLNQx2mJj7kWNIIsRO4+mtw99vtsQ1HjWw0ZF0aKhg+rXqsT/LP+tVit2vNzDr8DET7vcZZshEi3bZzSkBxryhVEQcsqzLVAmbirtDRbSziXRk9dpnTlLZZmyJ7E869KyliSNdAhKylC6gWvVj4/O+B5lv9o6lMh3lMuzwfBCvKddU/MzcSrg/yflC+hqy52X5+4kz/YF0M4mcxDVARmfd7nP7UgsW84pQsuCTkQ==\",\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\"}"
+          },
+          "SK": {
+            "S": "\"2021-10-22T14:31:55Z\""
+          },
+          "PK": {
+            "S": "9aY8pKxL8f-ylr2CD2p5_"
+          },
+          "userId": {
+            "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+          }
+        },
+        {
+          "detailType": {
+            "S": "OrderProcessor.WaitingCompletion"
+          },
+          "orderDetails": {
+            "S": "{\"Message\":\"You pressed 'submit order', this sends an HTTP POST request to a Lambda function via Amazon API Gateway. The Lambda fucntion retrives the 'Task Token' from dynamo DB and resumes the workflow. The workflow then invokes a Lambda function to generate your order number.  The Step Functions workflow then pauses once again and emits an event with a 'Task Token'.\",\"orderNumber\":13,\"orderId\":\"9aY8pKxL8f-ylr2CD2p5_\",\"TaskToken\":\"AAAAKgAAAAIAAAAAAAAAAbFzGee+i+IXTvgDqg2ppr5QxNUI0R2Q8FXf3L6gnepApEjWUJUl0waLln/mldMKGLaxOukriEL2vrwaFmzlFLbrPhbKorMCLfWMDbMREK2YRx3/fzWo1EaGVlHkPvL8nXnRTNJVCFCbq1RDgK1UIkXQ9oFgih5YijLRWUJuBOym7lCXBr1iagTd4+cQJ72//78mDluxxE5XYD1FKc3Oi5nW0r4P6RSg2l3FYHhFRojy6TNiiqiJemr/7/eJwOsVpmaiujGXY0IYQWTmlQnrQpZ40jpyRzj3CbM0ImA4ccA9nuHyjo8jOH9jn/cc9u7AqvGJSFo6dHX3K3tE6jsUh4WfIfHosllJ/ySQ/++k6rO2qoEH/Ho1yqAnXZyasa/ScZxHOw6v/BLiPJyjKX2oRbHfmFs8zPYJY1PRm/ofVgm8IgHYU7cXj629b3PJR9DQwFFcfnSQbXLPx8h8nw4tCZkIl8JKyUaatfU+HOEfAsJNmyp8z0Ts7vCYjNNeVMNHX3ZhNwxqcnCKdnQ+II5URwW7iR//jL3QsIdFMyN+qvCuU/tgKP7WAzsMiC61L1UL65U7BuNClWTA+m1/cFJPCum8HzuUrC7S6ZFxyoGRapkXyWoE44E2VjO9cWIkrD291PqJzgfycqXD3BhfjibpOqA0v0qHb+G10qRa20+QU+mImbal74DVFMrd1cv0FmjmoQ==\",\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\"}"
+          },
+          "SK": {
+            "S": "\"2021-10-22T14:32:04Z\""
+          },
+          "PK": {
+            "S": "9aY8pKxL8f-ylr2CD2p5_"
+          },
+          "userId": {
+            "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+          }
+        },
+        {
+          "detailType": {
+            "S": "OrderManager.WaitingCompletion"
+          },
+          "orderDetails": {
+            "S": "{\"orderId\":\"9aY8pKxL8f-ylr2CD2p5_\",\"orderNumber\":13,\"state\":\"CREATED\",\"drinkOrder\":{\"icon\":\"barista-icons_latte-macchiato\",\"modifiers\":[\"Coconut\"],\"drink\":\"Mocha\"},\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"robot\":false,\"TS\":1634913125189,\"Message\":\"The 'task token' is persisted in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order.\"}"
+          },
+          "SK": {
+            "S": "\"2021-10-22T14:32:05Z\""
+          },
+          "PK": {
+            "S": "9aY8pKxL8f-ylr2CD2p5_"
+          },
+          "userId": {
+            "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+          }
+        },
+        {
+          "detailType": {
+            "S": "OrderManager.OrderCancelled"
+          },
+          "orderDetails": {
+            "S": "{\"actionUserId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"orderId\":\"9aY8pKxL8f-ylr2CD2p5_\",\"order\":{\"orderNumber\":13,\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"drinkOrder\":{\"icon\":\"barista-icons_latte-macchiato\",\"modifiers\":[\"Coconut\"],\"drink\":\"Mocha\"},\"orderState\":\"CANCELLED\"},\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\"}"
+          },
+          "SK": {
+            "S": "\"2021-10-22T14:32:39Z\""
+          },
+          "PK": {
+            "S": "9aY8pKxL8f-ylr2CD2p5_"
+          },
+          "userId": {
+            "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+          }
+        }
+      ],
+      "ScannedCount": 5
+    }
+  }

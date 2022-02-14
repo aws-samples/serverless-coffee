@@ -1,0 +1,25 @@
+{
+    "version": "0",
+    "id": "tesdftc",
+    "detail-type": "OrderManager.sdfg",
+    "source": "awsserverlessda.serverlesspresso",
+    "account": "468083054740",
+    "time": "2021-10-11T15:09:1Z",
+    "region": "us-west-2",
+    "resources": [],
+    "detail": {
+      "orderId": "-FE-MtHfT6bsdIsKzvZ25",
+      "orderNumber": 1,
+      "state": "CREATED",
+      "drinkOrder": {
+        "icon": "barista-icons_cup-of-coffee",
+        "modifiers": [
+          "2%"
+        ],
+        "drink": "Americano"
+      },
+      "userId": "ec94372c-5b38-4b87-bcd4-2aa96276af8a",
+      "robot": false,
+      "TS": 1633960893862
+    }
+  }

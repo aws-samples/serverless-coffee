@@ -1,0 +1,18 @@
+{
+  "version": "0",
+  "id": "77671ea7-2494-69b6-d4d4-0a8818f0fec5",
+  "detail-type": "OrderProcessor.OrderTimeOut",
+  "source": "awsserverlessda.serverlesspresso",
+  "time": "2021-10-20T13:23:16Z",
+  "region": "us-west-2",
+  "resources": [
+    "arn:aws:states:us-west-2:468083054740:stateMachine:OrderProcessorStateMachine-sPNgKo43tHYa",
+    "arn:aws:states:us-west-2:468083054740:execution:OrderProcessorStateMachine-sPNgKo43tHYa:eb16ed8c-f2a4-0030-cbd5-67b6351ee256_04507803-e424-b11d-2d3c-07495f4cacbd"
+  ],
+  "detail": {
+    "Message": "Order timeout",
+    "orderId": "HObVz_69sbnVjiKUl1hlp",
+    "cause": "Barista timedout",
+    "userId": "robot"
+  }
+}

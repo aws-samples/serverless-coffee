@@ -1,0 +1,143 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: Serverlesspresso - Validator microservice
+
+Parameters:
+  TimeInterval:
+    Type: Number
+    Description: Time interval of buckets (mins)
+    Default: 5
+  CodeLength:
+    Type: Number
+    Description: Code length in characters
+    Default: 10
+  TokensPerBucket:
+    Type: Number
+    Description: Tokens in each bucket
+    Default: 10
+
+  CoreEventBusName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Event bus used by application
+    Default: '/Serverlesspresso/core/eventbusname'
+  Source:
+    Type: String
+    Description: Event bus source by application
+    Default: 'awsserverlessda.serverlesspresso'
+
+  # User pool deployed by Core stack
+  UserPoolId:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: User poolID for Cognito provider
+    Default: '/Serverlesspresso/core/userpool'
+
+  UserPoolClient:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Client id for user pool
+    Default: '/Serverlesspresso/core/userpoolclient'
+
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: nodejs14.x
+    CodeUri: code/
+    MemorySize: 128
+    Environment:
+      Variables:
+        AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+        TableName: !Ref ApplicationTable
+        TimeInterval: !Ref TimeInterval
+        CodeLength: !Ref CodeLength
+        TokensPerBucket: !Ref TokensPerBucket
+        BusName: !Ref CoreEventBusName
+        Source: !Ref Source
+
+Resources:
+  # Admin HTTP API
+  MyAdminApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Auth:
+        Authorizers:
+          GeneralAuth:
+            # AuthorizationScopes:
+            #   - email
+            IdentitySource: "$request.header.Authorization"
+            JwtConfiguration:
+              issuer: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPoolId}
+              audience:
+                - !Ref UserPoolClient
+        # CORS configuration - this is open for development only and should be restricted in prod.
+        # See https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapicorsconfiguration.html
+      CorsConfiguration:
+        AllowMethods:
+          - GET
+          - POST
+          - DELETE
+          - OPTIONS
+        AllowHeaders:
+          - "*"
+        AllowOrigins:
+          - "*"
+
+  ## Lambda functions
+  GetQRcodeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: getCode.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ApplicationTable
+      Events:
+        UploadAssetAPI:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: GeneralAuth
+            Path: /qr-code
+            Method: get
+            ApiId: !Ref MyAdminApi
+
+  VerifyQRcodeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: verifyCode.handler
+      Policies:
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref CoreEventBusName
+
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ApplicationTable
+      Events:
+        UploadAssetAPI:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: GeneralAuth
+            Path: /qr-code
+            Method: post
+            ApiId: !Ref MyAdminApi
+
+  ## DynamoDB table
+  ApplicationTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: PK
+        AttributeType: N
+      KeySchema:
+      - AttributeName: PK
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+
+## Take a note of the outputs for deploying the workflow templates in this sample application
+Outputs:
+  APIendpoint:
+    Description: HTTP API endpoint URL (admin)
+    Value: !Sub "https://${MyAdminApi}.execute-api.${AWS::Region}.amazonaws.com"
+
+  DynamoDBstreamARN:
+    Description: Stream ARN used for workflows.
+    Value: !GetAtt ApplicationTable.StreamArn

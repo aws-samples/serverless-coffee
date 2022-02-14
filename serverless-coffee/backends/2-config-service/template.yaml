@@ -1,0 +1,258 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverlesspresso config service - Provides app-wide info via API
+
+Parameters:
+  AppName:
+    Type: String
+    Description: Application name (eg. serverlesspresso)
+    Default: 'Serverlesspresso'
+  Service:
+    Type: String
+    Description: Service name (eg. core)
+    Default: 'config'
+  LogRetentionInDays:
+    Type: Number
+    Default: 14
+    Description: CloudWatch Logs retention period
+  CoreEventBusName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Event bus used by application
+    Default: '/Serverlesspresso/core/eventbusname'
+  Source:
+    Type: String
+    Description: Event bus source by application
+    Default: 'awsserverlessda.serverlesspresso'
+  IOTendpoint:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Application IoT endpoint
+    Default: '/Serverlesspresso/core/realtime'
+
+  # User pool deployed by Core stack
+  UserPoolId:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: User poolID for Cognito provider
+    Default: '/Serverlesspresso/core/userpool'
+
+  UserPoolClient:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Client id for user pool
+    Default: '/Serverlesspresso/core/userpoolclient'
+
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: nodejs14.x
+    CodeUri: code/
+    Environment:
+      Variables:
+        AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+        TableName: !Ref DynamoTable
+        EventBusName: !Ref CoreEventBusName
+        Source: !Ref Source
+
+Resources:
+  # Admin HTTP API
+  MyApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Auth:
+        Authorizers:
+          Auth:
+            # AuthorizationScopes:
+            #   - email
+            IdentitySource: "$request.header.Authorization"
+            JwtConfiguration:
+              issuer: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPoolId}
+              audience:
+                - !Ref UserPoolClient
+        # CORS configuration - this is open for development only and should be restricted in prod.
+        # See https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapicorsconfiguration.html
+      CorsConfiguration:
+        AllowMethods:
+          - GET
+          - POST
+          - DELETE
+          - OPTIONS
+          - PUT
+        AllowHeaders:
+          - "*"
+        AllowOrigins:
+          - "*"
+
+  MyOpenApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      # CORS configuration - this is open for development only and should be restricted in prod.
+      # See https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapicorsconfiguration.html
+      CorsConfiguration:
+        AllowMethods:
+          - GET
+          - OPTIONS
+          - PUT
+        AllowHeaders:
+          - "*"
+        AllowOrigins:
+          - "*"
+
+  CloudFront:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        IPV6Enabled: true
+        HttpVersion: http2
+        Comment: !Ref 'AWS::StackName'
+        Origins:
+        - Id: APIGOrigin
+          DomainName: !Sub ${MyOpenApi}.execute-api.${AWS::Region}.amazonaws.com
+          CustomOriginConfig:
+            HTTPSPort: 443
+            OriginProtocolPolicy: https-only
+        DefaultCacheBehavior:
+          AllowedMethods: ["GET", "HEAD"]
+          CachedMethods: ["GET", "HEAD"]
+          ForwardedValues:
+            Headers:
+            - Access-Control-Request-Headers
+            - Access-Control-Request-Method
+            - Origin
+            QueryString: true
+          TargetOriginId: APIGOrigin
+          ViewerProtocolPolicy: https-only
+          Compress: true
+          DefaultTTL: 5
+
+  CloudFrontURLParam:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${AppName}/${Service}/CloudFrontDistributionURL
+      Description: Config Service Cloudfront Distribution URL
+      Type: String
+      Value:
+        !Sub
+          - 'https://${Function}'
+          - { Function: !GetAtt 'CloudFront.DomainName' }
+
+  StoreFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: api/
+      Handler: putStore.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoTable
+      Events:
+        UploadAssetAPI:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: Auth
+            Path: /store
+            Method: put
+            ApiId: !Ref MyApi
+  GetConfigFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: getConfig.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref DynamoTable
+      Events:
+        UploadAssetAPI:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: Auth
+            Path: /config
+            Method: get
+            ApiId: !Ref MyApi
+
+  GetAdminConfigFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: getConfig.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref DynamoTable
+      Events:
+        UploadAssetAPI:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: Auth
+            Path: /admin-config
+            Method: get
+            ApiId: !Ref MyApi
+
+  OpenConfigFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: getConfig.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref DynamoTable
+      Events:
+        GetConfig:
+          Type: HttpApi
+          Properties:
+            Path: /config
+            Method: get
+            ApiId: !Ref MyOpenApi
+
+  ConfigChangedFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: configChanged.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref DynamoTable
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref CoreEventBusName
+      Events:
+        Stream:
+          Type: DynamoDB
+          Properties:
+            Stream: !GetAtt DynamoTable.StreamArn
+            BatchSize: 1
+            StartingPosition: TRIM_HORIZON
+
+  IsStoreOpenFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: isStoreOpen.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref DynamoTable
+  IsStoreOpenFunctionParameter:
+    Type: "AWS::SSM::Parameter"
+    Properties:
+      Name: !Sub /${AppName}/${Service}/IsStoreOpenFunctionName
+      Description: Config Service Order Processor StateMachine Parameter Name
+      Type: String
+      Value: !Ref IsStoreOpenFunction
+
+
+  DynamoTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: PK
+        AttributeType: S
+      KeySchema:
+      - AttributeName: PK
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+
+Outputs:
+  DynamoDbTable:
+    Value: !Ref DynamoTable
+    Description: DynamoDb Table
+## Take a note of the outputs for deploying the workflow templates in this sample application
+  APIendpoint:
+    Description: HTTP API endpoint URL (admin)
+    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com"
+    Description: HTTP API endpoint URL (open)
+    Value: !Sub "https://${MyOpenApi}.execute-api.${AWS::Region}.amazonaws.com"

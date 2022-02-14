@@ -1,0 +1,452 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverlesspresso Order Manager - keeps track of order state
+
+Parameters:
+  CoreEventBusName:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Event bus used by application
+    Default: '/Serverlesspresso/core/eventbusname'
+  Source:
+    Type: String
+    Description: Event bus source by application
+    Default: 'awsserverlessda.serverlesspresso'
+
+  OrderProcessorStateMachineArn:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Step Functions state machine
+    Default: /Serverlesspresso/order-processor/statemachine
+
+  ConfigURL:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Public endpoint of the config service
+    Default: '/Serverlesspresso/config/CloudFrontDistributionURL'
+
+  # User pool deployed by Core stack
+  UserPoolId:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: User poolID for Cognito provider
+    Default: '/Serverlesspresso/core/userpool'
+
+  UserPoolClient:
+    Type: AWS::SSM::Parameter::Value<String>
+    Description: Client id for user pool
+    Default: '/Serverlesspresso/core/userpoolclient'
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: nodejs14.x
+    MemorySize: 256
+    Environment:
+      Variables:
+        AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+        TableName: !Ref DynamoTable
+        BusName: !Ref CoreEventBusName
+        Source: !Ref Source
+
+Resources:
+  # HTTP API
+  MyApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Auth:
+        Authorizers:
+          AppAuth:
+            # AuthorizationScopes:
+            #   - email
+            IdentitySource: "$request.header.Authorization"
+            JwtConfiguration:
+              issuer: !Sub https://cognito-idp.${AWS::Region}.amazonaws.com/${UserPoolId}
+              audience:
+                - !Ref UserPoolClient
+        # CORS configuration - this is open for development only and should be restricted in prod.
+        # See https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapicorsconfiguration.html
+      CorsConfiguration:
+        AllowMethods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - OPTIONS
+        AllowHeaders:
+          - "*"
+        AllowOrigins:
+          - "*"
+
+  # API functions
+  GetOrderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: api/
+      Handler: getById.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref DynamoTable
+      Events:
+        GetOrderEvent:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: AppAuth
+            Path: /orders/{id}
+            Method: GET
+            ApiId: !Ref MyApi
+
+  GetAllOrdersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: api/
+      Handler: getAll.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref DynamoTable
+      Events:
+        GetOrdersEvent:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: AppAuth
+            Path: /orders
+            Method: GET
+            ApiId: !Ref MyApi
+
+  GetAllOrdersByUserIdFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: api/
+      Handler: getAllByUserId.handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref DynamoTable
+      Events:
+        GetOrdersEvent:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: AppAuth
+            Path: /myOrders
+            Method: GET
+            ApiId: !Ref MyApi
+
+  PutOrderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: api/
+      Handler: put.handler
+      Environment:
+        Variables:
+          ConfigURL: !Ref ConfigURL
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref DynamoTable
+        - Statement:
+          - Effect: Allow
+            Resource: !Ref OrderProcessorStateMachineArn
+            Action:
+              - states:SendTaskSuccess
+      Events:
+        GetAllOrdersEvent:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: AppAuth
+            Path: /orders/{id}
+            Method: put
+            ApiId: !Ref MyApi
+
+  # Order operations
+  CompleteOrderAPIFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: api/
+      Handler: apiCompleteOrder.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoTable
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref CoreEventBusName
+        - Statement:
+          - Effect: Allow
+            Resource: !Ref OrderProcessorStateMachineArn
+            Action:
+              - states:SendTaskSuccess
+      Events:
+        CompleteOrderEvent:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: AppAuth
+            Path: /orders/complete/{id}
+            Method: put
+            ApiId: !Ref MyApi
+
+  ClaimOrderAPIFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: api/
+      Handler: apiMakeOrder.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoTable
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref CoreEventBusName
+      Events:
+        ClaimOrderEvent:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: AppAuth
+            Path: /orders/claim/{id}
+            Method: put
+            ApiId: !Ref MyApi
+
+  CancelOrderAPIFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: api/
+      Handler: apiCancelOrder.handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref DynamoTable
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref CoreEventBusName
+        - Statement:
+          - Effect: Allow
+            Resource: !Ref OrderProcessorStateMachineArn
+            Action:
+              - states:SendTaskSuccess
+      Events:
+        CancelOrderEvent:
+          Type: HttpApi
+          Properties:
+            Auth:
+              Authorizer: AppAuth
+            Path: /orders/cancel/{id}
+            Method: put
+            ApiId: !Ref MyApi
+
+  OrderProcessorTimeOutOrderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: events/
+      Handler: OrderProcessorTimeOutOrder.handler
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref DynamoTable
+      Events:
+        Trigger:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - "OrderProcessor.OrderTimeOut"
+
+  # Functions processing events
+  ValidatorNewOrderFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: events/
+      Handler: ValidatorNewOrder.handler
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref DynamoTable
+      Events:
+        Trigger:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - "Validator.NewOrder"
+  OrderProcessorWorkflowStartedFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: events/
+      Handler: OrderProcessorWorkflowStarted.handler
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref DynamoTable
+      Events:
+        Trigger:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - "OrderProcessor.WorkflowStarted"
+
+  OrderProcessorOrderStartedFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: events/
+      Handler: OrderProcessorOrderStarted.handler
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref DynamoTable
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref CoreEventBusName
+        - Statement:
+          - Effect: Allow
+            Resource: !Ref OrderProcessorStateMachineArn
+            Action:
+              - states:SendTaskSuccess
+      Events:
+        Trigger:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - "OrderProcessor.OrderStarted"
+
+  OrderProcessorWaitingCompletionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: events/
+      Handler: OrderProcessorWaitingCompletion.handler
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref DynamoTable
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref CoreEventBusName
+      Events:
+        Trigger:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - "OrderProcessor.WaitingCompletion"
+
+  OrderProcessorOrderTimeOutFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: events/
+      Handler: OrderProcessorOrderTimeOut.handler
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref DynamoTable
+      Events:
+        Trigger:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref CoreEventBusName
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - "OrderProcessor.OrderTimeOut"
+
+  OrderRobotFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: robot/
+      Runtime: nodejs14.x
+      Handler: sendOrders.handler
+      Timeout: 30
+      Environment:
+        Variables:
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+          BusName: !Ref CoreEventBusName
+          ConfigURL: !Ref ConfigURL
+          maxOrders: 10
+      Policies:
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref CoreEventBusName
+        - DynamoDBWritePolicy:
+            TableName: !Ref DynamoTable
+        - Statement:
+          - Effect: Allow
+            Resource: !Ref OrderProcessorStateMachineArn
+            Action:
+              - states:SendTaskSuccess
+      Events:
+        ScheduledFunction:
+          Type: Schedule
+          Properties:
+            Schedule: 'rate(1 minute)'
+            Enabled: false
+
+  DynamoTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: PK
+        AttributeType: S
+      - AttributeName: SK
+        AttributeType: S
+      - AttributeName: TS
+        AttributeType: N
+      - AttributeName: ORDERSTATE
+        AttributeType: S
+      - AttributeName: USERID
+        AttributeType: S
+
+      KeySchema:
+      - AttributeName: PK
+        KeyType: HASH
+      - AttributeName: SK
+        KeyType: RANGE
+
+      LocalSecondaryIndexes:
+        -
+          IndexName: LSI-timestamp
+          KeySchema:
+            -
+              AttributeName: PK
+              KeyType: HASH
+            -
+              AttributeName: TS
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+      GlobalSecondaryIndexes:
+        -
+          IndexName: GSI-status
+          KeySchema:
+            -
+              AttributeName: ORDERSTATE
+              KeyType: HASH
+            -
+              AttributeName: SK
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+        -
+          IndexName: GSI-userId
+          KeySchema:
+            -
+              AttributeName: USERID
+              KeyType: HASH
+            -
+              AttributeName: SK
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+      BillingMode: PAY_PER_REQUEST
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+
+Outputs:
+  DynamoDbTable:
+    Value: !Ref DynamoTable
+    Description: DynamoDb Table
+
+  APIendpoint:
+    Description: HTTP API endpoint URL (admin)
+    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com"

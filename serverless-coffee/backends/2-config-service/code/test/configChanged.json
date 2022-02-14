@@ -1,0 +1,145 @@
+{
+  "Records": [
+    {
+      "eventName": "MODIFY",
+      "eventVersion": "1.1",
+      "eventSource": "aws:dynamodb",
+      "awsRegion": "us-west-2",
+      "dynamodb": {
+        "ApproximateCreationDateTime": 1629490533,
+        "Keys": {
+          "PK": {
+            "S": "config"
+          }
+        },
+        "NewImage": {
+          "PK": {
+            "S": "config"
+          },
+          "value": {
+            "M": {
+              "operatingHoursRobot": {
+                "M": {
+                  "closingTime": {
+                    "S": "200000"
+                  },
+                  "openingTime": {
+                    "S": "060000"
+                  }
+                }
+              },
+              "lastOrderMinsBefore": {
+                "N": "15"
+              },
+              "maxOrdersPerUser": {
+                "N": "1"
+              },
+              "overrides": {
+                "M": {
+                  "forceOpen": {
+                    "BOOL": false
+                  },
+                  "forceClose": {
+                    "BOOL": true
+                  }
+                }
+              },
+              "maxOrdersInQueue": {
+                "N": "10"
+              },
+              "operatingHoursLive": {
+                "L": [
+                  {
+                    "M": {
+                      "closingTime": {
+                        "S": "08-16-2021 16:00:00"
+                      },
+                      "openingTime": {
+                        "S": "08-16-2021 09:00:00"
+                      }
+                    }
+                  },
+                  {
+                    "M": {
+                      "closingTime": {
+                        "S": "08-17-2021 16:00:00"
+                      },
+                      "openingTime": {
+                        "S": "08-17-2021 07:00:00"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "OldImage": {
+          "PK": {
+            "S": "config"
+          },
+          "value": {
+            "M": {
+              "operatingHoursRobot": {
+                "M": {
+                  "closingTime": {
+                    "S": "200000"
+                  },
+                  "openingTime": {
+                    "S": "060000"
+                  }
+                }
+              },
+              "lastOrderMinsBefore": {
+                "N": "15"
+              },
+              "maxOrdersPerUser": {
+                "N": "1"
+              },
+              "overrides": {
+                "M": {
+                  "forceOpen": {
+                    "BOOL": true
+                  },
+                  "forceClose": {
+                    "BOOL": true
+                  }
+                }
+              },
+              "maxOrdersInQueue": {
+                "N": "10"
+              },
+              "operatingHoursLive": {
+                "L": [
+                  {
+                    "M": {
+                      "closingTime": {
+                        "S": "08-16-2021 16:00:00"
+                      },
+                      "openingTime": {
+                        "S": "08-16-2021 09:00:00"
+                      }
+                    }
+                  },
+                  {
+                    "M": {
+                      "closingTime": {
+                        "S": "08-17-2021 16:00:00"
+                      },
+                      "openingTime": {
+                        "S": "08-17-2021 07:00:00"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "SequenceNumber": "9258100000000017020574256",
+        "SizeBytes": 658,
+        "StreamViewType": "NEW_AND_OLD_IMAGES"
+      }
+    }
+  ]
+}

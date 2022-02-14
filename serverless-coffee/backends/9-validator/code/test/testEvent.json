@@ -1,0 +1,30 @@
+{
+  "version": "2.0",
+  "routeKey": "POST /qr-code",
+  "rawPath": "/qr-code",
+  "rawQueryString": "token=FbpMm4V95_",
+  "queryStringParameters": {
+    "token": "FbpMm4V95_"
+  },
+  "requestContext": {
+    "authorizer": {
+      "jwt": {
+        "claims": {
+          "sub": "7ee02af2-1234-1234-1234-a77942e51a38"
+        },
+        "scopes": null
+      }
+    },
+    "http": {
+      "method": "POST",
+      "path": "/qr-code",
+      "protocol": "HTTP/1.1",
+      "sourceIp": "73.142.129.185",
+      "userAgent": "PostmanRuntime/7.28.3"
+    },
+    "routeKey": "POST /qr-code",
+    "time": "18/Aug/2021:13:38:05 +0000",
+    "timeEpoch": 1629293885496
+  },
+  "isBase64Encoded": false
+}

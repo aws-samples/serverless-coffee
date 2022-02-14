@@ -1,0 +1,165 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  order-journey-service
+  Sample SAM Template for order-journey-service
+Parameters:
+  CoreEventBusName:
+    Type: String
+    Description: Event bus used by application
+    Default: Serverlesspresso
+  Source:
+    Type: String
+    Description: Event bus source by application
+    Default: 'awsserverlessda.serverlesspresso'
+
+  JourneyBucket:
+    Type: String
+    Description: S3 Bucket for html files
+    Default: 'serverlesspresso-order-journey-journeybucket-1lc9wg7eac1f4'
+    
+Globals:
+  Function:
+    Timeout: 3
+    Runtime: nodejs14.x
+    MemorySize: 128
+    Environment:
+      Variables:
+        TableName: !Ref OrderJourneyEventsTable
+        CoreEventBusName: !Ref CoreEventBusName
+
+
+Resources:
+  OrderJourneyService:
+    Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
+    Properties:
+      DefinitionUri: statemachine/StepFunction.asl.json
+      DefinitionSubstitutions:
+        GenerateHtmlArn: !GetAtt GenerateHtml.Arn
+        DDBPutItem: !Sub arn:${AWS::Partition}:states:::dynamodb:putItem
+        DDBQuery: !Sub arn:${AWS::Partition}:states:::aws-sdk:dynamodb:query
+        DDBTable: !Ref OrderJourneyEventsTable
+        S3Bucket: !Ref JourneyBucket
+        S3BucketPut: arn:aws:states:::aws-sdk:s3:putObject
+      Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+        - LambdaInvokePolicy:
+            FunctionName: !Ref GenerateHtml
+        - DynamoDBWritePolicy:
+            TableName: !Ref OrderJourneyEventsTable
+        - DynamoDBReadPolicy:
+            TableName: !Ref OrderJourneyEventsTable
+        - S3WritePolicy:
+            BucketName: !Ref JourneyBucket
+
+
+            
+   #RULE 1: Routes new order events to SFN
+  EventRuleStartOrderJourneySFN:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: "Routes Start orderJourney SFN"
+      EventBusName: !Ref CoreEventBusName
+      State: "ENABLED"
+      EventPattern:
+        source:
+          - !Ref Source
+      Targets:
+        - Arn: !Ref OrderJourneyService
+          Id: "OrderJourneyService"
+          RoleArn: !GetAtt EventBridgeIAMrole.Arn
+  
+  EventBridgeIAMrole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+              !Sub events.amazonaws.com
+          Action: sts:AssumeRole
+      Path: /
+      Policies:
+      - PolicyName: OrderJourneyServiceStepFuntions
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - states:StartExecution
+            Resource:
+            - !Ref OrderJourneyService
+
+  GenerateHtml:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/GenerateHtml/
+      Handler: app.lambdaHandler
+      Environment:
+        Variables:
+          s3Bucket: !Ref JourneyBucket
+      Policies:
+        - S3WritePolicy:
+            BucketName: !Ref JourneyBucket
+
+
+  OrderJourneyEventsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: PK
+        AttributeType: S
+      - AttributeName: SK
+        AttributeType: S
+      KeySchema:
+      - AttributeName: PK
+        KeyType: HASH
+      - AttributeName: SK
+        KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST    
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES   
+
+  # Cloud front stuff      
+  JourneyCloudFront:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig: 
+        Enabled: true
+        Comment: !Ref 'AWS::StackName'
+        Origins:
+          -   
+            Id: JourneyBucket
+            DomainName: !Sub ${JourneyBucket}.s3.${AWS::Region}.amazonaws.com
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${OriginAccessIdentity}'
+        DefaultCacheBehavior:
+          AllowedMethods: ["GET", "HEAD"]
+          CachedMethods: ["GET", "HEAD"]
+          ForwardedValues:
+            Headers:
+            - Access-Control-Request-Headers
+            - Access-Control-Request-Method
+            - Origin
+            QueryString: true
+          TargetOriginId: JourneyBucket
+          ViewerProtocolPolicy: https-only
+          Compress: true
+          DefaultTTL: 5
+
+  OriginAccessIdentity:
+    Type: 'AWS::CloudFront::CloudFrontOriginAccessIdentity'
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: 'Access S3 bucket content only through CloudFront'
+
+Outputs:
+  # Find out more about other implicit resources you can reference within SAM
+  # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-generated-resources.html
+  OrderJourneyServiceArn:
+    Description: "OrderJourneyService"
+    Value: !Ref OrderJourneyService
+  OrderJourneyServiceRole:
+    Description: "IAM Role created for Stock Trading state machine based on the specified SAM Policy Templates"
+    Value: !GetAtt OrderJourneyServiceRole.Arn

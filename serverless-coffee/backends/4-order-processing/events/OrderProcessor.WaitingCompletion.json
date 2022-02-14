@@ -1,0 +1,20 @@
+{
+    "version": "0",
+    "id": "3d019763-792a-d0c3-1921-fc88113975c0",
+    "detail-type": "OrderProcessor.WaitingCompletion",
+    "source": "awsserverlessda.serverlesspresso",
+    "account": "468083054740",
+    "time": "2021-09-07T14:56:25Z",
+    "region": "us-west-2",
+    "resources": [
+        "arn:aws:states:us-west-2:468083054740:stateMachine:SEOrderProcessorStateMachine-OPfyL6wDmlr0",
+        "arn:aws:states:us-west-2:468083054740:execution:SEOrderProcessorStateMachine-OPfyL6wDmlr0:f5ce903b-4f0a-8e9d-eb0e-97801dce063e_8effb6b4-0f49-20c2-0d65-5c2f664bc9f7"
+    ],
+    "detail": {
+        "Message": "SFN Order waiting for barista to complete!",
+        "orderNumber": 11,
+        "orderId": "xV7c9XKgEUWvizIeX5k4t",
+        "TaskToken": "AAAAKgAAAAIAAAAAAAAAAZTgETINQY0VpEyC0Jqy0JrFSurnxfH7qNt5B4iYUkKaHzdvb8RnCeCoi6r9/ZCanj0nA30Z29F4ZxeqFt97xe1/Uu0sGYycfdhIx8YEOP8c+NxJBy9UGEs3wwNRuMkVPyaKAmwIvnR1SKjmSpg1GidsQmuq6e34RAAJkjqfaRjQ5rjdMpzgpM+Bp9bEd4z7EZDn7GxzfdewijjyuUAcm6WvVdAf+hc+xSKJS1tqg55AY0x/Mpy676f7fHFBjf9HLS9Tc9pMsMHE/YZo/nNPmS/jUNpSud/1rmFenUXzqsoYCKuv/3d5SSERFKTX2HMFdjff+i5DBvBohso0NA9Z25iw/k78BI3iIgPqKiU9YybYJX/2JIP03nudDGCfX7EausvzGLTBIMO145ItiLEMC5qIX7KH5kS5322UYGFi0luJTfhicCsD7sn6fDuxbpJmkOavajv04jY3tA9VKVxi6oJSsvXe+gYLyQrYfjD3jU2IUXpocidg/TQkWD5ixnXQFslWfQugkylnJ+q5IDpa2A7e0z5UKaXHldqnpbzOOdWAg82sisyYiNp6ZNn7Shh+8mi/OAzGQNK+6m7m1P05OenbQvnRQsu9oielus8OqCELz407h/GuicU1J7zmXCEB7kfs1iXKBFW0tOI/t0giZRg0DtXOGCpTtx4ZAPqm3Mw0xfHKRSzQXhH+fXCmH0pd+YxHLQNl6UYi8rGBQmHvf3M=",
+        "userId": "benjasl"
+    }
+}

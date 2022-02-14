@@ -1,0 +1,22 @@
+openapi: "3.0.1"
+info:
+  title: "API Gateway HTTP API to Amazon EventBridge"
+  version: "1.0.0"
+paths:
+  /order:
+    post:
+      responses:
+        default:
+          description: "EventBridge response"
+      x-amazon-apigateway-integration:
+        integrationSubtype: "EventBridge-PutEvents"
+        credentials:
+          Fn::GetAtt: [MyHttpApiRole, Arn]
+        requestParameters:
+          Detail: "$request.body.detail"
+          DetailType: OrderProcessor.OrderStarted
+          Source: awsserverlessda.serverlesspresso
+          EventBusName: {Ref: CoreEventBusName}
+        payloadFormatVersion: "1.0"
+        type: "aws_proxy"
+        connectionType: "INTERNET"

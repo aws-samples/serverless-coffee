@@ -1,0 +1,91 @@
+{
+    "Count": 5,
+    "Items": [
+      {
+        "detailType": {
+          "S": "Validator.NewOrder"
+        },
+        "orderDetails": {
+          "S": "{\"orderId\":\"Oln22HE9cFDmeV1it4Orh\",\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"bucket\":{\"last_id\":1815785,\"last_code\":\"qJypddnIyU\",\"start_full\":\"Thu Oct 14 2021 10:15:00 GMT+0000 (Coordinated Universal Time)\",\"end_ts\":1634207399999,\"PK\":1815785,\"end_full\":\"Thu Oct 14 2021 10:29:59 GMT+0000 (Coordinated Universal Time)\",\"start_ts\":1634206500000,\"availableTokens\":8}}"
+        },
+        "SK": {
+          "S": "\"2021-10-14T10:29:16Z\""
+        },
+        "PK": {
+          "S": "Oln22HE9cFDmeV1it4Orh"
+        },
+        "userId": {
+          "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+        }
+      },
+      {
+        "detailType": {
+          "S": "OrderProcessor.WorkflowStarted"
+        },
+        "orderDetails": {
+          "S": "{\"Message\":\"SFN Order started, waiting for drink info!\",\"orderId\":\"Oln22HE9cFDmeV1it4Orh\",\"TaskToken\":\"AAAAKgAAAAIAAAAAAAAAAciPN+zHrxQpmAUbuhdDmJ/UW7JHkMIdEFUX1ZBQxaaeQRCK/aHptO8l7dLW100bKmw86RsABNH4XPjVztwrt+10C1vQ9ya7fAyhYMPD1/pg05zXGveY/H1v3OqFcOXfBKPon5WIWbJK32+0obyjuHHaQo9XbkVBWqzRTrzjaCpeXNx4IETjkqeJ5OCrXoWrXSGSTaRTPS9FwGWv6FormnAXtRLUf0RQWX5sbzcSpI2huAEbMKSxuGxfDSRMAjPXCg82R3BQ/pmcG1UJ+H4exKATP8rmqrNW2qW2c9NCypy2y7FMugV7p6BszkZEt+2z6ZFpy8zsosEjxAZ3JJfdFtcT+CgAzQrCFFXQ2Ko+riNtP5//15vLIknP1ZYGCgdq2kfe+wlLoqPrn5K9TCpjhSzH+6TABZDE2izqUfvleJbVX2rei1QPO6leH7IzgSaBSgGfNMncA2FxK4zlEfIbLndYHwzOZu1wHgjSmop300lTX1gMXBio7WYUhD5ULVckjTwdsb9w+y9qMnQZR/Sws/2jLj+qVRbIu+wQBqorQE5q4FD532969Lkvb2pUM2aXDhEO4pQB/vrxtxJmSWxtVRDYF+JbqoDO3A63UzDADfi1+p/l7l+ocxGxpRytPe3AW3DSKINyXx3pzzNnwzrQOmMLSOXyWEzNM4wSvAwb6w9PTJ3JsV9ucOii9gZgIO/PEw==\",\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\"}"
+        },
+        "SK": {
+          "S": "\"2021-10-14T10:29:17Z\""
+        },
+        "PK": {
+          "S": "Oln22HE9cFDmeV1it4Orh"
+        },
+        "userId": {
+          "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+        }
+      },
+      {
+        "detailType": {
+          "S": "OrderProcessor.WaitingCompletion"
+        },
+        "orderDetails": {
+          "S": "{\"Message\":\"SFN Order waiting for barista to complete!\",\"orderNumber\":5,\"orderId\":\"Oln22HE9cFDmeV1it4Orh\",\"TaskToken\":\"AAAAKgAAAAIAAAAAAAAAAegKnzJsAvgKQH6IAjLUR/Zl70U7Yxyf162dcOUHOi1vhR0Fgr/5L2lB6pi3g4ZS02ww3LSZda2BLVC3lApPpG6TaOshT/VOjH1aMW014WEW9vUcbh8nDKDyfUEtA/483TYD0iIA8nkcKJxKXrI9tAALfAodZLB09pwQWGAOKP+0CWxzGAa2ShaJUotQIMR0OmAzQsvIdfCjiTIrVmkHVSq682DEE7bqDfZcuSOB1PQlQx0+jlzL4QeYndqQSi+LDvSBSDvN0GqmWWQgFTTzpuAvlJDoweu7gTXB0e8ulf6s4WwFmcuV6v+iatZf3UxmES0R7jzjmztQPDW3gaqB/j3PzpQWixif7NcbX0FFzYFt3/TatD1yHi8E8Ap/WwX9MbKkQABVlEa9gL1PoYxEbDVbRzd0rWgo/TXnGdzba2yNaYTGKqZ3f6R+ePVqL+8x+nntDfYUJM2+T6pp+d410vRrDlMbznAmPDmdt68nbONmzN980Xyt/utd8HyTIFbwB+lh/tuIb8oPAVJBa51IFda7YANwQbagQOOIJYDiHj3JIT1dNxyM4RFXCvPT90rMriR2a4DDH7CTrLBBDEx+m//OZNickBWbrlepylt+4tDFck2NgR27r85eM7yuewoZlzEl6YNx13ITBd94Pf2WsMM2/UkjMP+gHCyOn0fYTM9JtDzGfaHOaxTOeJO/5WdP2w==\",\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\"}"
+        },
+        "SK": {
+          "S": "\"2021-10-14T10:29:31Z\""
+        },
+        "PK": {
+          "S": "Oln22HE9cFDmeV1it4Orh"
+        },
+        "userId": {
+          "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+        }
+      },
+      {
+        "detailType": {
+          "S": "OrderManager.WaitingCompletion"
+        },
+        "orderDetails": {
+          "S": "{\"orderId\":\"Oln22HE9cFDmeV1it4Orh\",\"orderNumber\":5,\"state\":\"CREATED\",\"drinkOrder\":{\"icon\":\"barista-icons_cup-of-coffee\",\"modifiers\":[\"2%\"],\"drink\":\"Americano\"},\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"robot\":false,\"TS\":1634207372285}"
+        },
+        "SK": {
+          "S": "\"2021-10-14T10:29:32Z\""
+        },
+        "PK": {
+          "S": "Oln22HE9cFDmeV1it4Orh"
+        },
+        "userId": {
+          "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+        }
+      },
+      {
+        "detailType": {
+          "S": "OrderManager.OrderCancelled"
+        },
+        "orderDetails": {
+          "S": "{\"actionUserId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"orderId\":\"Oln22HE9cFDmeV1it4Orh\",\"order\":{\"orderNumber\":5,\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\",\"drinkOrder\":{\"icon\":\"barista-icons_cup-of-coffee\",\"modifiers\":[\"2%\"],\"drink\":\"Americano\"},\"orderState\":\"CANCELLED\"},\"userId\":\"1004dc5f-5bed-419c-b3af-613f4ae52be4\"}"
+        },
+        "SK": {
+          "S": "\"2021-10-14T10:30:00Z\""
+        },
+        "PK": {
+          "S": "Oln22HE9cFDmeV1it4Orh"
+        },
+        "userId": {
+          "S": "1004dc5f-5bed-419c-b3af-613f4ae52be4"
+        }
+      }
+    ],
+    "ScannedCount": 5
+  }
