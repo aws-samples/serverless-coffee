@@ -8,8 +8,9 @@ Important: this application uses various AWS services and there are costs associ
 .
 ├── README.MD       <-- This instructions file
 ├── backends        <-- Source code for backend applications
-├── frontends       <-- Source code for frontend applications
 ```
+
+To see the Serverlesspresso workshop, visit: https://workshop.serverlesscoffee.com/.
 
 ## Requirements
 
