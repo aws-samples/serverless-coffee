@@ -1,6 +1,6 @@
 # Serverlesspresso - A serverless coffee ordering workload.
 
-This repo provides the code for a serverless coffee bar exhibit, as seen at AWS re:Invent 2021. This consists of three frontend applications and various backend microservices. This README explains the  process to completely install all the various components.
+This repo provides the code for a serverless coffee bar exhibit, first seen at AWS re:Invent 2021. This consists of three frontend applications (not included) and various backend microservices. This README explains the  process to completely install all the various components.
 
 Important: this application uses various AWS services and there are costs associated with these services after the Free Tier usage - please see the [AWS Pricing page](https://aws.amazon.com/pricing/) for details. You are responsible for any AWS costs incurred. No warranty is implied in this example.
 
@@ -29,7 +29,7 @@ This create a custom event bus, custom SMS auth flow for Cognito signin, and oth
 
 1. From the command line, install the realtime messaging stack:
 ```
-cd backends/0-core
+cd /00-baseCore
 sam build
 sam deploy --guided
 ```
@@ -39,89 +39,15 @@ During the prompts, enter `serverlesspresso-core` for the Stack Name, `core` for
 
 ### 2. Install base microservices
 
-1. To install the counting service:
 ```
-cd ../1-counting-service
-sam deploy --guided
-```
-During the prompts, enter `serverlesspresso-counting-service` for the Stack Name, `counting` for Service, and accept the defaults for the remaining questions.
-
-2. To install the config service:
-```
-cd ../2-config-service
-sam deploy --guided
-```
-During the prompts:
-- Enter `serverlesspresso-config-service` for the Stack Name
-- For `OpenConfigFunction may not have authorization defined, Is this okay?`, enter Y.
-- Accept the defaults for the remaining questions.
-
-2. To install the capacity service:
-```
-cd ../3-capacity-service
-sam deploy --guided
-```
-
-During the prompts, enter `serverlesspresso-config-capacity` for the Stack Name and accept the defaults for the remaining questions.
-
-### 3. Install the order processor
-
-To install, run:
-```
-cd ../4-order-processing
+cd /01-appCore
 sam build
 sam deploy --guided
 ```
-During the prompts, enter `serverlesspresso-order-processor` for the Stack Name and accept the defaults for the remaining questions.
+During the prompts, enter `serverlesspresso` for the Stack Name.
 
-2. Using the StateMachineArn output from this stack, update the environment variable for the IsCapacityAvailableFunction above:
-
-```
-aws lambda update-function-configuration --region us-east-1 --function-name *EnterFunctionName* --environment Variables="{StateMachineArn=enterStateMachineARN}"
-```
-
-### 4. Install order manager
-
-From the command line, install the realtime messaging stack:
-```
-cd ../5-order-manager
-sam build
-sam deploy --guided
-```
-During the prompts, enter `serverlesspresso-order-manager` for the Stack Name and accept the defaults for the remaining questions.
-
-### 5. Install final microservices
-
-1. From the command line, install the publisher service:
-```
-cd ../6-publisher-service
-sam deploy --guided
-```
-During the prompts, enter `serverlesspresso-publisher` for the Stack Name and accept the defaults for the remaining questions.
-
-2. From the command line, install the publisher service:
-```
-cd ../7-metrics-service
-sam deploy --guided
-```
-During the prompts, enter `serverlesspresso-metrics` for the Stack Name and accept the defaults for the remaining questions.
-
-3. From the command line, install the publisher service:
-```
-cd ../8-order-journey
-sam deploy --guided
-```
-During the prompts, enter `serverlesspresso-order-journey` for the Stack Name and accept the defaults for the remaining questions.
-
-### 6. Install the validator microservice
-
-1. From the command line, install the realtime messaging stack:
-```
-cd ../9-validator
-sam build
-sam deploy --guided
-```
-During the prompts, enter `serverlesspresso-validator` for the Stack Name, enter `us-east-1` for Region, and accept the defaults for the remaining questions.
+### 3. The serverlesspresso Workshop
+In this workshop, you will deploy a serverless backend that supports a pop-up coffee shop. You will then test your application using 3 front-end applications that are provided. [Start here](https://workshop.serverlesscoffee.com/) 
 
 ## Cleaning up
 
