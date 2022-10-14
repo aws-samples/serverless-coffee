@@ -49,9 +49,6 @@ During the prompts, enter `serverlesspresso` for the Stack Name.
 2. Delete each stack that starts with `serverlesspresso`.
 
 ## Next steps
-
-In 2022, the DA team will be producing a workshop and blog content walking through the services and features used to build Serverlesspresso.
-
 If you have any questions, please contact the author or raise an issue in the GitHub repo.
 
 Important: this application uses various AWS services and there are costs associated with these services after the Free Tier usage - please see the [AWS Pricing page](https://aws.amazon.com/pricing/) for details. You are responsible for any AWS costs incurred. No warranty is implied in this example.
