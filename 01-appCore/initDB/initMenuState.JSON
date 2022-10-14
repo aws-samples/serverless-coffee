@@ -1,0 +1,134 @@
+[
+  {
+  "PK": {
+   "S": "config-ABC123"
+  },
+  "drinksPerBarcode": {
+   "N": "10"
+  },
+  "end": {
+   "S": "2022-06-22"
+  },
+  "language": {
+   "S": "en"
+  },
+  "maxOrdersInQueue": {
+   "N": "10"
+  },
+  "maxOrdersPerUser": {
+   "N": "1"
+  },
+  "menu": {
+   "L": [
+    {
+     "M": {
+      "available": {
+       "BOOL": true
+      },
+      "drink": {
+       "S": "Espresso"
+      },
+      "icon": {
+       "S": "barista-icons_espresso-alternative"
+      },
+      "modifiers": {
+       "L": []
+      }
+     }
+    },
+    {
+     "M": {
+      "available": {
+       "BOOL": true
+      },
+      "drink": {
+       "S": "Cappuccino"
+      },
+      "icon": {
+       "S": "barista-icons_cappuccino-alternative"
+      },
+      "modifiers": {
+       "L": []
+      }
+     }
+    },
+    {
+     "M": {
+      "available": {
+       "BOOL": true
+      },
+      "drink": {
+       "S": "Latte"
+      },
+      "icon": {
+       "S": "barista-icons_cafe-latte"
+      },
+      "modifiers": {
+       "L": []
+      }
+     }
+    },
+    {
+     "M": {
+      "available": {
+       "BOOL": true
+      },
+      "drink": {
+       "S": "Flat White"
+      },
+      "icon": {
+       "S": "barista-icons_flat-white-alternative@2x"
+      },
+      "modifiers": {
+       "L": []
+      }
+     }
+    },
+    {
+     "M": {
+      "available": {
+       "BOOL": true
+      },
+      "drink": {
+       "S": "Americano"
+      },
+      "icon": {
+       "S": "barista-icons_americano"
+      },
+      "modifiers": {
+       "L": []
+      }
+     }
+    },
+    {
+     "M": {
+      "available": {
+       "BOOL": true
+      },
+      "drink": {
+       "S": "Caffe Latte"
+      },
+      "icon": {
+       "S": "barista-icons_americano"
+      },
+      "modifiers": {
+       "L": []
+      }
+     }
+    }
+   ]
+  },
+  "region": {
+   "S": "us-east-1"
+  },
+  "requester": {
+   "S": "jbeswick"
+  },
+  "start": {
+   "S": "2022-06-20"
+  },
+  "storeOpen": {
+   "BOOL": true
+  }
+ }
+]

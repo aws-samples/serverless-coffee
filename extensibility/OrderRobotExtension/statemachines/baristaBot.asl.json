@@ -1,0 +1,100 @@
+{
+    "Comment": "A description of my state machine",
+    "StartAt": "Randomize Wait time",
+    "States": {
+      "Randomize Wait time": {
+        "Type": "Pass",
+        "Next": "Wait",
+        "Parameters": {
+          "wait.$": "States.MathRandom(10, 30)"
+        },
+        "ResultPath": "$.wait"
+      },
+      "Wait": {
+        "Type": "Wait",
+        "Next": "generate percent chance of cancelling",
+        "SecondsPath": "$.wait.wait"
+      },
+      "generate percent chance of cancelling": {
+        "Type": "Pass",
+        "Next": "Choice",
+        "Parameters": {
+          "cancel.$": "States.MathRandom(1, 10)"
+        },
+        "ResultPath": "$.chance"
+      },
+      "Choice": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.chance.cancel",
+            "NumericLessThanEquals": 1,
+            "Next": "Cancel"
+          }
+        ],
+        "Default": "Complete"
+      },
+      "Cancel": {
+        "Type": "Pass",
+        "Parameters": {
+          "action": "cancel"
+        },
+        "Next": "EventBridge PutEvents (1)",
+        "ResultPath": "$.action"
+      },
+      "EventBridge PutEvents (1)": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::events:putEvents",
+        "Parameters": {
+          "Entries": [
+            {
+              "Detail": {
+                "action.$": "$.action.action",
+                "eventId.$": "$.detail.eventId",
+                "orderId.$": "$.detail.orderId",
+                "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1"
+              },
+              "DetailType": "OrderRobot.FulfillOrder",
+              "EventBusName": "Serverlesspresso",
+              "Source": "awsserverlessda.serverlesspresso"
+            }
+          ]
+        },
+        "Next": "Fail"
+      },
+      "Complete": {
+        "Type": "Pass",
+        "Parameters": {
+          "action": "complete"
+        },
+        "Next": "EventBridge PutEvents",
+        "ResultPath": "$.action"
+      },
+      "EventBridge PutEvents": {
+        "Type": "Task",
+        "Resource": "arn:aws:states:::events:putEvents",
+        "Parameters": {
+          "Entries": [
+            {
+              "Detail": {
+                "action.$": "$.action.action",
+                "eventId.$": "$.detail.eventId",
+                "orderId.$": "$.detail.orderId",
+                "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1"
+              },
+              "DetailType": "OrderRobot.FulfillOrder",
+              "EventBusName": "Serverlesspresso",
+              "Source": "awsserverlessda.serverlesspresso"
+            }
+          ]
+        },
+        "Next": "Success"
+      },
+      "Success": {
+        "Type": "Succeed"
+      },
+      "Fail": {
+        "Type": "Fail"
+      }
+    }
+  }

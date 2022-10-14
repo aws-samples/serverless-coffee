@@ -3,17 +3,13 @@
  */
 
 // Mock event
-const event = require('./test/orderProcessor.orderStarted.json')
+const event = require('./test/testEvent.json')
 
 // Mock environment variables
 process.env.localTest = true
-process.env.AWS_REGION = '<< YOUR REGION >>'
-process.env.TableName = '<< YOUR TABLE NAME >>'
-process.env.IOT_DATA_ENDPOINT = '<< YOUR ENDPOINT >>'
-
-process.env.IOT_TOPIC = "serverlesspresso-admin"
-process.env.BusName = 'default'
-process.env.Source = 'awsserverlessda.serverlesspresso'
+process.env.AWS_REGION = 'us-east-1'
+process.env.IOT_DATA_ENDPOINT = 'anput1xffmgcz.iot.us-east-1.amazonaws.com'
+process.env.IOT_TOPIC = "serverlesspresso-config"
 
 // Lambda handler
 const { handler } = require('./publishToIOT')

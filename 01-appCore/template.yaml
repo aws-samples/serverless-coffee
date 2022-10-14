@@ -1,0 +1,866 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: Serverlesspresso core stack.
+
+Parameters:
+  AppName:
+    Type: String
+    Description: Application name (eg. serverlesspresso)
+    Default: 'Serverlesspresso-app-core'
+  Service:
+    Type: String
+    Description: Service name (eg. core)
+    Default: 'core'
+  TimeInterval:
+    Type: Number
+    Description: Time interval of buckets (mins)
+    Default: 5
+  CodeLength:
+    Type: Number
+    Description: Code length in characters
+    Default: 10
+  Source:
+    Type: String
+    Description: Event bus source by application
+    Default: 'awsserverlessda.serverlesspresso'
+
+  ServerlesspressoEventBus:
+    Type: String
+    Description: Event bus source by application
+    Default: 'Serverlesspresso'
+
+  IoTRealtimeParameter:
+    Type: String
+    Default: 'IoTRealtimeParameter'
+
+  ServerlesspressoEventBusARNParameter:
+    Type: String
+    Default: 'ServerlesspressoEventBusARNParameter'
+
+  UserPoolARNParameter:
+    Default: 'UserPoolARNParameter'
+    Type: String
+
+  #JourneyBucket:
+    #Type: String
+    #Description: S3 Bucket for html files
+    #Default: 'serverlesspresso-order-journey-journeybucket-1lc9wg7eac1f4'
+
+Globals:
+  Api:
+    Cors:
+        AllowOrigin: "'*'"
+        AllowHeaders: "'Content-Type'"
+        AllowMethods: "'GET,OPTIONS'"
+Resources:
+##########################################
+# Order Journey service                 #
+##########################################
+
+  JourneyBucket:
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: !Sub serverlesspresso-order-journey-journeybucket-${AWS::Region}
+
+
+  OrderJourneyService:
+    Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
+    Properties:
+      DefinitionUri: ../backends/8-order-journey/statemachine/StepFunction.asl.json
+      DefinitionSubstitutions:
+        GenerateHtmlArn: !GetAtt GenerateHtml.Arn
+        DDBPutItem: !Sub arn:${AWS::Partition}:states:::dynamodb:putItem
+        DDBQuery: !Sub arn:${AWS::Partition}:states:::aws-sdk:dynamodb:query
+        DDBTable: !Ref OrderJourneyEventsTable
+        S3Bucket: !Ref JourneyBucket
+        S3BucketPut: arn:aws:states:::aws-sdk:s3:putObject
+      Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+        - LambdaInvokePolicy:
+            FunctionName: !Ref GenerateHtml
+        - DynamoDBWritePolicy:
+            TableName: !Ref OrderJourneyEventsTable
+        - DynamoDBReadPolicy:
+            TableName: !Ref OrderJourneyEventsTable
+        - S3WritePolicy:
+            BucketName: !Ref JourneyBucket
+  
+  #RULE 1: Routes new order events to SFN
+  EventRuleStartOrderJourneySFN:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: "Routes Start orderJourney SFN"
+      EventBusName:  !Ref ServerlesspressoEventBus
+      State: "ENABLED"
+      EventPattern:
+        source:
+          - !Ref Source
+      Targets:
+        - Arn: !Ref OrderJourneyService
+          Id: "OrderJourneyService"
+          RoleArn: !GetAtt EventBridgeIAMrole.Arn
+  
+  EventBridgeIAMrole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+              !Sub events.amazonaws.com
+          Action: sts:AssumeRole
+      Path: /
+      Policies:
+      - PolicyName: OrderJourneyServiceStepFuntions
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - states:StartExecution
+            Resource:
+            - !Ref OrderJourneyService
+
+  GenerateHtml:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      Timeout: 3
+      Runtime: nodejs14.x
+      MemorySize: 128
+      CodeUri: ../backends/8-order-journey/functions/GenerateHtml/
+      Handler: app.lambdaHandler
+      Environment:
+        Variables:
+          TableName: !Ref OrderJourneyEventsTable
+          CoreEventBusName:  !Ref ServerlesspressoEventBus
+          s3Bucket: !Ref JourneyBucket
+      Policies:
+        - S3WritePolicy:
+            BucketName: !Ref JourneyBucket
+
+  OrderJourneyEventsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: PK
+        AttributeType: S
+      - AttributeName: SK
+        AttributeType: S
+      KeySchema:
+      - AttributeName: PK
+        KeyType: HASH
+      - AttributeName: SK
+        KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST    
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES 
+  
+  # Cloud front stuff      
+  JourneyCloudFront:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig: 
+        Enabled: true
+        Comment: !Ref 'AWS::StackName'
+        Origins:
+          -   
+            Id: JourneyBucket
+            DomainName: !Sub ${JourneyBucket}.s3.${AWS::Region}.amazonaws.com
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${OriginAccessIdentity}'
+        DefaultCacheBehavior:
+          AllowedMethods: ["GET", "HEAD"]
+          CachedMethods: ["GET", "HEAD"]
+          ForwardedValues:
+            Headers:
+            - Access-Control-Request-Headers
+            - Access-Control-Request-Method
+            - Origin
+            QueryString: true
+          TargetOriginId: JourneyBucket
+          ViewerProtocolPolicy: https-only
+          Compress: true
+          DefaultTTL: 5
+  
+  OriginAccessIdentity:
+    Type: 'AWS::CloudFront::CloudFrontOriginAccessIdentity'
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: 'Access S3 bucket content only through CloudFront'
+
+
+##########################################
+# Counting table                      #
+##########################################
+  CountingTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: serverlesspresso-counting-table
+      AttributeDefinitions:
+      - AttributeName: PK
+        AttributeType: S
+      KeySchema:
+      - AttributeName: PK
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+##########################################
+# Publisher service                      #
+##########################################
+  PublisherFunctionAdmin:
+    Type: AWS::Serverless::Function
+    Description: Serverlesspresso Publisher. Invoked by EventBridge rule
+    Properties:
+      CodeUri: ../backends/6-publisher-service/code/
+      Handler: publishToIOT.handler
+      Runtime: nodejs14.x
+      Timeout: 3
+      Environment:
+        Variables:
+          IOT_DATA_ENDPOINT: !Ref IoTRealtimeParameter
+          IOT_TOPIC: 'serverlesspresso-admin'
+      Policies:
+      - Statement:
+          - Effect: Allow
+            Resource: 'arn:aws:iot:*'
+            Action:
+              - iot:Connect
+              - iot:Publish
+      Events:
+        Trigger:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: "Serverlesspresso"
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'OrderManager.'
+                - prefix: 'OrderProcessor.'
+                - prefix: 'Validator.'
+                - prefix: 'ConfigService.'
+
+  PublisherFunctionUser:
+    Type: AWS::Serverless::Function
+    Description: Serverlesspresso Publisher. Invoked by EventBridge rule
+    Properties:
+      CodeUri: ../backends/6-publisher-service/code/
+      Handler: publishToIOTuserTopic.handler
+      Runtime: nodejs14.x
+      Timeout: 3
+      Environment:
+        Variables:
+          IOT_DATA_ENDPOINT: !Ref IoTRealtimeParameter
+          IOT_TOPIC: 'serverlesspresso-user-'
+      Policies:
+      - Statement:
+          - Effect: Allow
+            Resource: 'arn:aws:iot:*'
+            Action:
+              - iot:Connect
+              - iot:Publish
+      Events:
+        OrderManagerEvents:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: "Serverlesspresso"
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'OrderManager.'
+        OrderProcessorEvents:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: "Serverlesspresso"
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'OrderProcessor.'
+
+  PublisherFunctionConfig:
+    Type: AWS::Serverless::Function
+    Description: Serverlesspresso Publisher. Invoked by EventBridge rule
+    Properties:
+      CodeUri: ../backends/6-publisher-service/code/
+      Handler: publishToIOTconfig.handler
+      Runtime: nodejs14.x
+      Timeout: 3
+      Environment:
+        Variables:
+          IOT_DATA_ENDPOINT: !Ref IoTRealtimeParameter
+          IOT_TOPIC: 'serverlesspresso-config'
+      Policies:
+      - Statement:
+          - Effect: Allow
+            Resource: 'arn:aws:iot:*'
+            Action:
+              - iot:Connect
+              - iot:Publish
+      Events:
+        TriggerValidator:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: "Serverlesspresso"
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'ConfigService.'
+
+##########################################
+# Config service                         #
+##########################################
+  ConfigTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: serverlesspresso-config-table
+      AttributeDefinitions:
+      - AttributeName: PK
+        AttributeType: S
+      KeySchema:
+      - AttributeName: PK
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+
+  RESTApiConfigService:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      Variables:
+        UserPool: !Ref UserPoolARNParameter
+      DefinitionBody:
+        'Fn::Transform':
+          Name: 'AWS::Include'
+          Parameters:
+            Location: '../backends/2-config-service/RestAPIs/api.yaml'
+
+
+  ConfigChangedFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backends/2-config-service/code
+      Handler: configChanged.handler
+      Runtime: nodejs14.x
+      Timeout: 15
+      MemorySize: 128
+      Environment:
+        Variables:
+          EventBusName: !Ref ServerlesspressoEventBus
+          Source: !Ref Source
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref ConfigTable
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref ServerlesspressoEventBus
+      Events:
+        Stream:
+          Type: DynamoDB
+          Properties:
+            Stream: !GetAtt ConfigTable.StreamArn
+            BatchSize: 1
+            StartingPosition: TRIM_HORIZON
+
+
+##########################################################################
+#   Config service API Role                                                #
+##########################################################################
+  ConfigRESTApiRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - apigateway.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+      - PolicyName: DynamoDBinteraction
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+            - Effect: "Allow"
+              Action:
+              - dynamodb:Scan
+              - dynamodb:GetItem
+              - dynamodb:UpdateItem
+              Resource: !GetAtt ConfigTable.Arn
+            - Effect: "Allow"
+              Action:
+              - dynamodb:Query
+              Resource:
+                Fn::Sub:
+                - ${tableArn}${index}
+                - {tableArn: !GetAtt ConfigTable.Arn, index: "/index/*"}
+
+##########################################
+#     < /   END Config service    >      #
+##########################################
+
+
+##########################################
+#  Validator Service                     #
+##########################################
+
+
+  GetQRcodeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backends/9-validator/code
+      Handler: getCode.handler
+      Runtime: nodejs14.x
+      Timeout: 15
+      MemorySize: 128
+      Environment:
+        Variables:
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+          TableName: !Ref ValidatorTable
+          ConfigTableName: !Ref ConfigTable
+          TimeInterval: !Ref TimeInterval
+          CodeLength: !Ref CodeLength
+          BusName: !Ref ServerlesspressoEventBus
+          Source: !Ref Source
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ValidatorTable
+        - DynamoDBReadPolicy:
+            TableName: !Ref ConfigTable
+      Events:
+        GetQrCode:
+          Type: Api
+          Properties:
+            RestApiId: !Ref RESTApiValidatorService
+            Path: /qr-code
+            Method: get
+            Auth:
+              Authorizer: MyCognitoAuthorizor
+              AuthorizationScopes:
+                - aws.cognito.signin.user.admin
+
+  VerifyQRcodeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backends/9-validator/code
+      Handler: verifyCode.handler
+      Runtime: nodejs14.x
+      Timeout: 10
+      MemorySize: 128
+      Environment:
+        Variables:
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+          TableName: !Ref ValidatorTable
+          BusName: !Ref ServerlesspressoEventBus
+          Source: !Ref Source
+      Policies:
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref ServerlesspressoEventBus
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ValidatorTable
+      Events:
+        GetQrCode:
+          Type: Api
+          Properties:
+            RestApiId: !Ref RESTApiValidatorService
+            Path: /qr-code
+            Method: POST
+            Auth:
+              Authorizer: MyCognitoAuthorizor
+              AuthorizationScopes:
+                - aws.cognito.signin.user.admin
+
+  RESTApiValidatorService:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: ServerlesspressoValidatorServiceRestApi
+      StageName: Prod
+      Cors:
+        AllowOrigin: "'*'"
+        AllowHeaders: "'*'"
+        AllowMethods: "'GET,POST,OPTIONS'"
+      Auth:
+        DefaultAuthorizer: MyCognitoAuthorizor # OPTIONAL
+        AddDefaultAuthorizerToCorsPreflight: FALSE
+        Authorizers:
+          MyCognitoAuthorizor:
+            # Can also accept an array
+            UserPoolArn: !Ref UserPoolARNParameter
+
+  ## DynamoDB table
+  ValidatorTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: serverlesspresso-validator
+      AttributeDefinitions:
+      - AttributeName: PK
+        AttributeType: S
+      KeySchema:
+      - AttributeName: PK
+        KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+
+#############################################
+# < /END Validator service > #
+#############################################
+   # Lambda function for initializing DDB table content
+  FillDatabasesCustomResource:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: initDB
+      Handler: app.handler
+      Runtime: nodejs14.x
+      Timeout: 15
+      MemorySize: 128
+      Environment:
+        Variables:
+          configTable: !Ref ConfigTable
+          countingTable: !Ref CountingTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ConfigTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref CountingTable
+
+   #Triggers Lambda function after stack creation
+  DeploymentCustomResourcePrefil:
+    Type: AWS::CloudFormation::CustomResource
+    Properties:
+      ServiceToken: !GetAtt FillDatabasesCustomResource.Arn
+
+##########################################################################
+#  STEP FUNCTION LOG GROUP                                               #
+##########################################################################
+  StateMachineLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Join [ "/", [ "stepfunctions", StateMachineExpressSync]]
+
+#############################################
+# < Order Manager  service > #
+#############################################
+
+  SanitizeOrderLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backends/5-order-manager/functions/sanitize
+      Handler: app.handler
+      Runtime: nodejs14.x
+      Timeout: 20
+      MemorySize: 128
+
+
+  WorkFlowStarted:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backends/5-order-manager/functions/workflowStarted
+      Handler: app.handler
+      Runtime: nodejs14.x
+      Timeout: 15
+      MemorySize: 128
+      Environment:
+        Variables:
+          TableName: !Ref OrderTable
+      Policies:
+        - DynamoDBWritePolicy:
+            TableName: !Ref OrderTable
+      Events:
+        Trigger:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: "Serverlesspresso"
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'OrderProcessor.WorkflowStarted'
+
+
+
+  OrderTimedOut:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backends/5-order-manager/functions/OrderTimedOut
+      Handler: app.handler
+      Runtime: nodejs14.x
+      Timeout: 15
+      MemorySize: 128
+      Environment:
+        Variables:
+          TableName: !Ref OrderTable
+          BusName: !Ref ServerlesspressoEventBus
+          Source: !Ref Source
+      Policies:
+        - DynamoDBWritePolicy:
+              TableName: !Ref OrderTable
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref ServerlesspressoEventBus
+      Events:
+        Trigger:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: "Serverlesspresso"
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'OrderProcessor.OrderTimeOut'
+
+  WaitingCompletion:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../backends/5-order-manager/functions/waitingCompletion
+      Handler: app.handler
+      Runtime: nodejs14.x
+      Timeout: 15
+      MemorySize: 128
+      Environment:
+        Variables:
+          TableName: !Ref OrderTable
+          BusName: !Ref ServerlesspressoEventBus
+          Source: !Ref Source
+      Policies:
+        - DynamoDBWritePolicy:
+              TableName: !Ref OrderTable
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref ServerlesspressoEventBus
+      Events:
+        Trigger:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: "Serverlesspresso"
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - prefix: 'OrderProcessor.WaitingCompletion'
+
+
+#   Order Table - DynamoDB             #
+  OrderTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: serverlesspresso-order-table
+      AttributeDefinitions:
+      - AttributeName: PK
+        AttributeType: S
+      - AttributeName: SK
+        AttributeType: S
+      - AttributeName: TS
+        AttributeType: N
+      - AttributeName: ORDERSTATE
+        AttributeType: S
+      - AttributeName: USERID
+        AttributeType: S
+
+      KeySchema:
+      - AttributeName: PK
+        KeyType: HASH
+      - AttributeName: SK
+        KeyType: RANGE
+
+      LocalSecondaryIndexes:
+        -
+          IndexName: LSI-timestamp
+          KeySchema:
+            -
+              AttributeName: PK
+              KeyType: HASH
+            -
+              AttributeName: TS
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+      GlobalSecondaryIndexes:
+        -
+          IndexName: GSI-status
+          KeySchema:
+            -
+              AttributeName: ORDERSTATE
+              KeyType: HASH
+            -
+              AttributeName: SK
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+        -
+          IndexName: GSI-userId
+          KeySchema:
+            -
+              AttributeName: USERID
+              KeyType: HASH
+            -
+              AttributeName: SK
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+      BillingMode: PAY_PER_REQUEST
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+
+#   Order Manager REST API                                               #
+  RESTApiForOrderManager:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: Prod
+      DefinitionBody:
+        'Fn::Transform':
+          Name: 'AWS::Include'
+          Parameters:
+            Location: '../backends/5-order-manager/RestAPIs/api.yaml'
+
+
+#   Order Manager API Role                                                #
+  RESTApiRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+              - apigateway.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+      - PolicyName: DynamoDBinteraction
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+            - Effect: "Allow"
+              Action:
+              - states:StartExecution
+              Resource: !GetAtt OrderManagerStateMachine.Arn
+            - Effect: "Allow"
+              Action:
+              - dynamodb:GetItem
+              Resource: !GetAtt OrderTable.Arn
+            - Effect: "Allow"
+              Action:
+              - dynamodb:Query
+              Resource:
+                Fn::Sub:
+                - ${tableArn}${index}
+                - {tableArn: !GetAtt OrderTable.Arn, index: "/index/*"}
+
+  #  Order Manager SFN                                                   #
+  OrderManagerStateMachine:
+    Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
+    Properties:
+      DefinitionUri: ../backends/5-order-manager/statemachine/om.asl.json
+      DefinitionSubstitutions:
+        OMTable: !Ref OrderTable
+        ConfigTable: !Ref ConfigTable
+        SanitizeOrderLambda: !Ref SanitizeOrderLambda
+      Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+        - EventBridgePutEventsPolicy:
+            EventBusName: !Ref ServerlesspressoEventBus
+        - LambdaInvokePolicy:
+            FunctionName: !Ref SanitizeOrderLambda
+        - DynamoDBReadPolicy:
+            TableName: !Ref ConfigTable
+        - DynamoDBWritePolicy:
+            TableName: !Ref OrderTable
+        - Statement:
+          - Sid: SendTaskSuccess
+            Effect: Allow
+            Action:
+            - states:SendTaskSuccess
+            Resource: '*'
+
+#############################################
+# < /Order Manager  service > #
+#############################################
+
+##########################################
+# Order Processor WF               #
+##########################################
+  #  Order Manager SFN                                                   #
+  OrderProcessorStateMachine:
+    Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
+    Properties:
+      DefinitionUri: ../backends/4-order-processing/statemachine/op.asl.json
+      Role: !GetAtt OrderProcessorRole.Arn
+      DefinitionSubstitutions:
+        #OrderProcessorWorkflowARN: !GetAtt OrderProcessorStateMachine.ARN
+        OrderProcessorWorkflowARN: REPLACE_THIS_WITH_ORDERPROCESSOR_ARN
+      Events:
+        ValidatorNewOrder:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: !Ref ServerlesspressoEventBus
+            Pattern:
+              source:
+                - !Ref Source
+              detail-type:
+                - "Validator.NewOrder"
+
+##########################################
+# Order Processor IAM ROLE               #
+##########################################
+  OrderProcessorRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              Service:
+                - "states.amazonaws.com"
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+  RolePolicies:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: "orderProcessorWFPolicy"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action: "events:PutEvents"
+            Resource: !Ref ServerlesspressoEventBusARNParameter
+          - Effect: "Allow"
+            Action: "dynamodb:GetItem"
+            Resource: !GetAtt ConfigTable.Arn
+          - Effect: "Allow"
+            Action: "dynamodb:UpdateItem"
+            Resource: !GetAtt ConfigTable.Arn
+          - Effect: "Allow"
+            Action: "dynamodb:UpdateItem"
+            Resource: !GetAtt CountingTable.Arn
+          - Effect: "Allow"
+            Action: "states:ListExecutions"
+            Resource: !Join [ "", [ "arn:aws:states:", !Ref "AWS::Region", ":", !Ref "AWS::AccountId", ":stateMachine:", "*"] ]
+      Roles:
+        - Ref: "OrderProcessorRole"
+
+##########################################
+# Outputs                                #
+##########################################
+
+Outputs:
+  ServerlesspressoOrdermanagerRestApi:
+    Description: "API Prod stage endpoint"
+    Value: !Sub "https://${RESTApiForOrderManager}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+
+  ServerlesspressoValidatorServiceRestApi:
+    Description: "API Prod stage endpoint"
+    Value: !Sub "https://${RESTApiValidatorService}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+
+  ServerlesspressoConfigServiceRestApi:
+    Description: "API Prod stage endpoint"
+    Value: !Sub "https://${RESTApiConfigService}.execute-api.${AWS::Region}.amazonaws.com/Prod/"

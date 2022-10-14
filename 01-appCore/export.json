@@ -1,0 +1,73 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "ORDERMANAGERRESTAPI",
+    "version" : "2021-12-21T15:32:58Z"
+  },
+  "servers" : [ {
+    "url" : "https://jkp77d6hp9.execute-api.us-east-2.amazonaws.com/{basePath}",
+    "variables" : {
+      "basePath" : {
+        "default" : "/Prod"
+      }
+    }
+  } ],
+  "paths" : {
+    "/orders" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "headers" : {
+              "Access-Control-Allow-Origin" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Methods" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "Access-Control-Allow-Headers" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Empty"
+                }
+              }
+            }
+          }
+        },
+        "x-amazon-apigateway-integration" : {
+          "credentials" : "arn:aws:iam::468083054740:role/severlesspresso-workshop-core-4-RESTApiRole-1TK7PZRK0TGJD",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-2:states:action/StartSyncExecution",
+          "responses" : {
+            "default" : {
+              "statusCode" : "200"
+            }
+          },
+          "requestTemplates" : {
+            "application/json" : "{\n    \"input\": \"$util.escapeJavaScript($input.json('$'))\",\n    \"stateMachineArn\": \"arn:aws:states:us-east-2:468083054740:stateMachine:OrderManagerGetOrderByUID-lGuLw8xoeAuk\"\n} "
+          },
+          "passthroughBehavior" : "when_no_templates",
+          "type" : "aws"
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Empty" : {
+        "title" : "Empty Schema",
+        "type" : "object"
+      }
+    }
+  }
+}

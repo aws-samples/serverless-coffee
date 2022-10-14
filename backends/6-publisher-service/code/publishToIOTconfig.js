@@ -6,11 +6,12 @@ const AWS = require('aws-sdk')
 AWS.config.update({region: process.env.AWS_REGION})
 const iotdata = new AWS.IotData({ endpoint: process.env.IOT_DATA_ENDPOINT })
 
-// Publishes the message to the IoT topic (admin)
+// Publishes the message to the IoT topic
 const iotPublish = async function (baseTopic, event) {
 
   try {
-    const eventId = event.detail.eventId
+    const PK = event.detail.NewImage.PK.S
+    const eventId = PK.split('-')[1]
     const topic = `${baseTopic}-${eventId}`
     console.log({ eventId }, { topic })
 
@@ -24,7 +25,7 @@ const iotPublish = async function (baseTopic, event) {
     }
     console.log('Params: ', params)
     const result = await iotdata.publish(params).promise()
-    console.log('iotPublish success: ', topic, process.env.IOT_DATA_ENDPOINT, result)
+    console.log('iotPublish successful: ', topic, result)
   } catch (err) {
     console.error('iotPublish error:', err)
   }

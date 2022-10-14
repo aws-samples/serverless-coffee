@@ -3,10 +3,6 @@ Transform: AWS::Serverless-2016-10-31
 Description: Serverlesspresso - Validator microservice
 
 Parameters:
-  TimeInterval:
-    Type: Number
-    Description: Time interval of buckets (mins)
-    Default: 5
   CodeLength:
     Type: Number
     Description: Code length in characters
@@ -46,7 +42,6 @@ Globals:
       Variables:
         AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
         TableName: !Ref ApplicationTable
-        TimeInterval: !Ref TimeInterval
         CodeLength: !Ref CodeLength
         TokensPerBucket: !Ref TokensPerBucket
         BusName: !Ref CoreEventBusName
@@ -88,6 +83,14 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref ApplicationTable
+      Environment:
+        Variables:
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+          TableName: !Ref ApplicationTable
+          CodeLength: !Ref CodeLength
+          TokensPerBucket: !Ref TokensPerBucket
+          BusName: !Ref CoreEventBusName
+          Source: !Ref Source
       Events:
         UploadAssetAPI:
           Type: HttpApi
@@ -105,9 +108,16 @@ Resources:
       Policies:
         - EventBridgePutEventsPolicy:
             EventBusName: !Ref CoreEventBusName
-
         - DynamoDBCrudPolicy:
             TableName: !Ref ApplicationTable
+      Environment:
+        Variables:
+          AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+          TableName: !Ref ApplicationTable
+          CodeLength: !Ref CodeLength
+          TokensPerBucket: !Ref TokensPerBucket
+          BusName: !Ref CoreEventBusName
+          Source: !Ref Source
       Events:
         UploadAssetAPI:
           Type: HttpApi

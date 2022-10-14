@@ -7,8 +7,9 @@ const event = require('./test/testEvent.json')
 
 // Mock environment variables
 process.env.localTest = true
-process.env.AWS_REGION = '<< YOUR REGION >>'
-process.env.TableName = '<< ENTER TABLE NAME >>'
+process.env.AWS_REGION = 'us-east-1'
+process.env.TableName = 'serverlesspresso-validator'
+process.env.ConfigTableName = 'serverlesspresso-config-table'
 // process.env.IOT_DATA_ENDPOINT = 'a2ty1m17b5znw2-ats.iot.us-east-1.amazonaws.com'
 process.env.TimeInterval = 15
 process.env.CodeLength = 10

@@ -8,7 +8,7 @@ exports.lambdaHandler = async (event, context) => {
     const endTime= event.time
     const dbEvent = event.dbResults
     const orderId = event.orderId
-    const fileName ='123456789.html'
+    const fileName ='11111.html'
 
     let html=["<head><link rel='stylesheet' type='text/css' href='https://serverlesspresso-order-journey-journeybucket-1lc9wg7eac1f4.s3.us-west-2.amazonaws.com/assets/css/style.css'>",
     "<link rel='stylesheet' type='text/css' href='https://serverlesspresso-order-journey-journeybucket-1lc9wg7eac1f4.s3.us-west-2.amazonaws.com/assets/css/fa.css'>",
@@ -17,8 +17,8 @@ exports.lambdaHandler = async (event, context) => {
     "<div style='text-align:center'>",
     "<a href='https://order.serverlesscoffee.com'><img src='https://da-public-assets.s3.amazonaws.com/serverlesspresso/images/serverlesspresso-large.png'></a>",
     "</div>",
-    "<section style='padding:20px;'><p style='font-size:45px !important;'>Your order was orchestrated by this AWS Step Functions workflow:<br><img src='https://da-public-assets.s3.amazonaws.com/serverlesspresso/images/"+choosegraph(dbEvent.Items)+"'><p></section>",       
-    "<section style='padding:20px;'><h2 style='font-size:45px !important;'>Events:</h2><p style='font-size:45px !important;'>These are the events that choreographed the order:</p></section>",       
+    "<section style='padding:20px;'><p style=''>Your order was orchestrated by this AWS Step Functions workflow:<br><img src='https://da-public-assets.s3.amazonaws.com/serverlesspresso/images/"+choosegraph(dbEvent.Items)+"'><p></section>",       
+    "<section style='padding:20px;'><h2 style=''>Events:</h2><p style=''>These are the events that choreographed the order:</p></section>",       
     
     "<section class='cd-timeline js-cd-timeline'>",
     "<div class='container max-width-lg cd-timeline__container'>"]
@@ -34,11 +34,11 @@ exports.lambdaHandler = async (event, context) => {
                             "<img src='https://serverlesspresso-order-journey-journeybucket-1lc9wg7eac1f4.s3.us-west-2.amazonaws.com/assets/img/cd-icon-picture.svg' alt='Picture'>",
                             "</div> <!-- cd-timeline__img -->",
                                 "<div class='cd-timeline__content text-component'>",
-                                "<h2 style='font-size:65px !important;'>"+parseDetail(item.detailType.S)+"</h2>",
-                                "<p style='font-size:45px !important;' class='color-contrast-medium'>"+parseMessage(eventDetails.Message)+"</p>",
+                                "<h2 style=''>"+parseDetail(item.detailType.S)+"</h2>",
+                                "<p style='' class='color-contrast-medium'>"+parseMessage(eventDetails.Message)+"</p>",
                                 "<p><img style='width:100%;' src='https://da-public-assets.s3.amazonaws.com/serverlesspresso/images/"+item.detailType.S.replace('.','')+".png'></p>",
                                 "<div class='flex justify-between items-center'>",
-                                        "<span class='cd-timeline__date'><h2 style='font-size:65px !important;'>"+parseTime(item.SK.S)+"</h2></span>",
+                                        "<span class='cd-timeline__date'><h2 style=''>"+parseTime(item.SK.S)+"</h2></span>",
                                     "</div>",
                             "</div> <!-- cd-timeline__content -->",
                         "</div> <!-- cd-timeline__block -->"
@@ -53,7 +53,7 @@ exports.lambdaHandler = async (event, context) => {
                 "</div> <!-- cd-timeline__block -->",
                 "</div>",
                 "<div style='text-align:center'>",
-                "<a style='width:50% !important; padding:15px; font-size:60px;' data-size='large' href='https://twitter.com/intent/tweet?text=I%20Just%20ordered%20a%20coffee%20using sererlesspresso!%20&url=https://d2hk76v3b9g9lc.cloudfront.net/"+orderId+".html&hashtags=serverlesspresso,AWSreInvent&related=AWSreInvent' class='twitter-share-button btn btn--subtle'> Share </a>",
+                "<a style='width:50% !important; padding:10px; font-size:30px;' data-size='large' href='https://twitter.com/intent/tweet?text=I%20Just%20ordered%20a%20coffee%20using sererlesspresso!%20&url=https://serverlessland.com/sls-order-journey?orderId="+orderId+"&hashtags=serverlesspresso' class='twitter-share-button btn btn--subtle'> Share </a>",
                 "</div>",
                 "</section> <!-- cd-timeline -->",
                 

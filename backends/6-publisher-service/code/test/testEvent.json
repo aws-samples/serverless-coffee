@@ -1,24 +1,25 @@
 {
     "version": "0",
-    "id": "c0634cc3-3ca3-04d7-7233-4d52d7a0e655",
-    "detail-type": "Validator.NewOrder",
+    "id": "ae258779-142f-2fef-7082-13e0c7aa6533",
+    "detail-type": "OrderManager.WaitingCompletion",
     "source": "awsserverlessda.serverlesspresso",
-    "account": "763653534548",
-    "time": "2021-08-06T17:19:17Z",
-    "region": "us-east-2",
+    "account": "468083054740",
+    "time": "2022-05-18T16:07:15Z",
+    "region": "us-east-1",
     "resources": [],
     "detail": {
-        "orderId": "O3wIFVR9HTXwunY3k3w38",
-        "userId": "TODO",
-        "bucket": {
-            "last_id": 1809189,
-            "last_code": "sYTvmpQ4rS",
-            "start_full": "Fri Aug 06 2021 17:15:00 GMT+0000 (Coordinated Universal Time)",
-            "end_ts": 1628270999999,
-            "PK": 1809189,
-            "end_full": "Fri Aug 06 2021 17:29:59 GMT+0000 (Coordinated Universal Time)",
-            "start_ts": 1628270100000,
-            "availableTokens": 9
-        }
+        "orderId": "wtU8IRSLMyUFTnbLs84Hm",
+        "orderNumber": "40",
+        "state": "ABC123-CREATED",
+        "drinkOrder": {
+            "userId": "750a9af3-e48a-420d-9da1-6bb03fe25d65",
+            "drink": "Americano",
+            "modifiers": [],
+            "icon": "barista-icons_americano"
+        },
+        "userId": "750a9af3-e48a-420d-9da1-6bb03fe25d65",
+        "robot": false,
+        "TS": 1652890034744,
+        "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
     }
 }

@@ -123,27 +123,6 @@ sam deploy --guided
 ```
 During the prompts, enter `serverlesspresso-validator` for the Stack Name, enter `us-east-1` for Region, and accept the defaults for the remaining questions.
 
-## Installing the frontends
-
-The frontend code is saved in the `frontends` subdirectory. There are three applications:
-* vue-barista-app: Used by the barista to produce and cancel drink orders
-* vue-display-app: A display application that shows the upcoming list of drinks and completed orders.
-* vue-order-app: Used by customers to place orders and get notifications when drinks are made or canceled.
-
-To run each of these applications:
-1. Change directory into the application you want to run.
-2. Before running, you need to set environment variables in the `src\main.js` file for each application. These are marked with `<< ENTER YOUR VALUE >>`. These are the values shown in the outputs from the backend installation and are unique to your deployments.
-3. Install the npm packages required:
-```
-npm install
-```
-4. After installation is complete, you can run the application locally:
-```
-npm run serve
-```
-
-You can optionally use [AWS Amplify Console](https://console.aws.amazon.com/amplify/home) to deploy these applicaitons automatically for public access.
-
 ## Cleaning up
 
 1. Navigate to the AWS CloudFormation console.

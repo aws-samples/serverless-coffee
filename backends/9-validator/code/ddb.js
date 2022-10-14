@@ -6,6 +6,30 @@ const AWS = require('aws-sdk')
 AWS.config.update({region: process.env.AWS_REGION})
 const documentClient = new AWS.DynamoDB.DocumentClient()
 
+
+const getConfig = async (id) => {
+  const PKvalue = `config-${id}`
+  const params = {
+    TableName: process.env.ConfigTableName,
+    KeyConditionExpression: "#pk = :pk",
+    ExpressionAttributeNames: {
+      "#pk": "PK"
+    },
+    ExpressionAttributeValues: {
+      ":pk": PKvalue
+    }
+  }
+  console.log('getConfig params: ', params)
+
+  try {
+    const result = await documentClient.query(params).promise()
+    console.log('getConfig result: ', result.Items)
+    return result.Items
+  } catch (err) {
+    console.error('getConfig error: ', err)
+  }
+}
+
 const getItem = async (id) => {
   const params = {
     TableName: process.env.TableName,
@@ -30,7 +54,7 @@ const getItem = async (id) => {
 
 const saveItem = async (record) => {
   const Item = {
-    PK: record.last_id,
+    PK: record.PK,
     ...record
   }
   console.log(Item)
@@ -45,7 +69,7 @@ const decrementToken = async (record) => {
   const params = {
     TableName: process.env.TableName,
     Key: {
-      PK: record.last_id
+      PK: record.PK
     },
     UpdateExpression: "set availableTokens = availableTokens - :val",
     ExpressionAttributeValues:{
@@ -58,4 +82,4 @@ const decrementToken = async (record) => {
   console.log('decrementToken: ', result)
 }
 
-module.exports = { saveItem, getItem, decrementToken }
+module.exports = { getConfig, saveItem, getItem, decrementToken }

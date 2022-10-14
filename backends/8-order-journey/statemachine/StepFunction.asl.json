@@ -29,11 +29,43 @@
       },
       "Builder event": {
         "Type": "Pass",
-        "Next": "DynamoDB PutItem"
+        "Next": "Choice"
       },
-  
 
-      "DynamoDB PutItem": {
+      "Other": {
+        "Type": "Pass",
+        "Next": "DynamoDB PutItem Other"
+      },
+      "Completed": {
+        "Type": "Pass",
+        "Next": "DynamoDB PutItem Completed"
+      },
+
+      "Cancelled": {
+        "Type": "Pass",
+        "Next": "DynamoDB PutItem Cancelled"
+      },
+
+
+      "Choice": {
+        "Type": "Choice",
+        "Choices": [
+          {
+            "Variable": "$.detail-type",
+            "StringMatches": "OrderManager.*-COMPLETED",
+            "Next": "Completed"
+          },
+          {
+            "Variable": "$.detail-type",
+            "StringMatches": "OrderManager.*-CANCELLED",
+            "Next": "Cancelled"
+          }
+        ],
+        "Default": "Other"
+      },
+
+
+      "DynamoDB PutItem Other": {
         "Type": "Task",
         "Resource": "${DDBPutItem}",
         "Parameters": {
@@ -44,6 +76,59 @@
             },
             "detailType":{
                 "S.$":"$.detail-type"
+            },
+            "userId": {
+                "S.$": "$.detail.userId"
+            },
+            "SK": {
+                "S.$": "States.JsonToString($.time)"
+            },
+            "PK":{
+                "S.$":"$.detail.orderId"
+            }
+          }
+        },
+        "End": true
+      },
+  
+
+      "DynamoDB PutItem Cancelled": {
+        "Type": "Task",
+        "Resource": "${DDBPutItem}",
+        "Parameters": {
+          "TableName": "${DDBTable}",
+          "Item": {
+            "orderDetails":{
+                "S.$":"States.JsonToString($.detail)"
+            },
+            "detailType":{
+                "S": "OrderManagerOrderCancelled"
+            },
+            "userId": {
+                "S.$": "$.detail.userId"
+            },
+            "SK": {
+                "S.$": "States.JsonToString($.time)"
+            },
+            "PK":{
+                "S.$":"$.detail.orderId"
+            }
+          }
+        },
+        "End": true
+      },
+
+      "DynamoDB PutItem Completed": {
+        "Type": "Task",
+        "Resource": "${DDBPutItem}",
+        "Parameters": {
+          "TableName": "${DDBTable}",
+          "Item": {
+            "orderDetails":{
+                "S.$":"States.JsonToString($.detail)"
+            },
+            "detailType":{
+                "S": "OrderManagerOrderCompleted"
             },
             "userId": {
                 "S.$": "$.detail.userId"

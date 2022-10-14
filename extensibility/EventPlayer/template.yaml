@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  serverlesspresso-exensibility
+  Sample SAM Template for serverlesspresso-exensibility
+Resources:
+
+  ServerlesspressoEventBus:
+    Type: AWS::Events::EventBus
+    Properties:
+      Name: "Serverlesspresso"
+
+  EventPlayer:
+    Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
+    Properties:
+      DefinitionUri: statemachines/player.asl.json
+      Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+        - EventBridgePutEventsPolicy:
+            EventBusName: "Serverlesspresso"
+Outputs:
+  EventPlayerArn:
+    Description: "EventPlayer state machine ARN"
+    Value: !Ref EventPlayer
+

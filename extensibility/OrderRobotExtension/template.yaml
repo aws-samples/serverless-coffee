@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  serverlesspresso-exensibility
+
+  Sample SAM Template for serverlesspresso-exensibility
+
+Resources:
+  BaristaRobot:
+    Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
+    Properties:
+      DefinitionUri: statemachines/baristaBot.asl.json
+      Events:
+        FulFillOrder:
+          Type: EventBridgeRule
+          Properties:
+            EventBusName: "Serverlesspresso"
+            Pattern:
+              source:
+                - "awsserverlessda.serverlesspresso"
+              detail-type:
+                - prefix: 'ProducerRobot.FulfillOrder'
+      Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+        - EventBridgePutEventsPolicy:
+            EventBusName: "Serverlesspresso"
+
+
+  OrderRobot:
+    Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
+    Properties:
+      DefinitionUri: statemachines/orderBot.asl.json 
+      Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+         - EventBridgePutEventsPolicy:
+              EventBusName: "Serverlesspresso"
+Outputs:
+  BaristaRobotArn:
+    Description: "BaristaRobot state machine ARN"
+    Value: !Ref BaristaRobot
+  OrderRobotArn:
+    Description: "OrderRobot state machine ARN"
+    Value: !GetAtt OrderRobot.Arn

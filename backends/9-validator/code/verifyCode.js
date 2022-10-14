@@ -9,7 +9,7 @@ const eventbridge = new AWS.EventBridge()
 const { nanoid } = require('nanoid')
 const { getItem, decrementToken } = require('./ddb')
 
-const TIME_INTERVAL = (process.env.TimeInterval * 60 * 1000)
+const TIME_INTERVAL = (5 * 60 * 1000)
 
 // Verifies a QR code
 exports.handler = async (event,context) => {
@@ -24,11 +24,22 @@ exports.handler = async (event,context) => {
     }
   }
 
+  // Check eventId parameter exists
+  if (!event.queryStringParameters?.eventId) {
+    return {
+      "statusCode": 400
+    }
+  }
+
+  // Load config from event ID
+  const eventId = event.queryStringParameters?.eventId
+
   // Load bucket from DynamoDB, if available
   const CURRENT_TIME_BUCKET_ID = parseInt(Date.now() / TIME_INTERVAL)
-  console.log('Bucket:', CURRENT_TIME_BUCKET_ID)
+  const PK = `${eventId}-${CURRENT_TIME_BUCKET_ID}`
+  console.log('Bucket:', PK)
 
-  const result = await getItem(CURRENT_TIME_BUCKET_ID)
+  const result = await getItem(PK)
   if ( result.Items.length != 0 ) {
     bucket = result.Items[0]
     console.log('Bucket loaded: ', bucket)
@@ -63,7 +74,7 @@ exports.handler = async (event,context) => {
 
   // Decrement token count
   const orderId = nanoid()
-  const userId = event.requestContext.authorizer.jwt.claims.sub
+  const userId = event.requestContext.authorizer.claims.sub
 
   bucket.availableTokens--
   await decrementToken(bucket)
@@ -75,6 +86,7 @@ exports.handler = async (event,context) => {
         Detail: JSON.stringify({
           orderId,
           userId,
+          eventId,
           Message:"A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
           bucket
         }),
@@ -92,6 +104,11 @@ exports.handler = async (event,context) => {
   // Return the code
   return {
     statusCode: 200,
-    body: JSON.stringify({ orderId })
+    body: JSON.stringify({ orderId }),
+    headers: {
+      "Access-Control-Allow-Headers" : "Content-Type",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+    },
   }
 }
