@@ -34,7 +34,7 @@ During the prompts, enter `serverlesspresso-core` for the Stack Name, `core` for
 
 2. After installation, note the outputs section, which provides the UserPoolID, bus name and ARN, IoT endpoint, and user pool client name. These outputs are also stored in [AWS Systems Manager Parameter Store](https://console.aws.amazon.com/systems-manager/parameters/) for the subsequent SAM stacks to use.
 
-### 2. Install base microservices
+### 2. Install microservices
 
 ```
 cd /01-appCore
@@ -55,6 +55,8 @@ In 2022, the DA team will be producing a workshop and blog content walking throu
 If you have any questions, please contact the author or raise an issue in the GitHub repo.
 
 Important: this application uses various AWS services and there are costs associated with these services after the Free Tier usage - please see the [AWS Pricing page](https://aws.amazon.com/pricing/) for details. You are responsible for any AWS costs incurred. No warranty is implied in this example.
+
+
 ==============================================
 
 
