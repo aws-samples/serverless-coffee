@@ -1,6 +1,6 @@
 # serverlesspresso Event Player
 
-This extension creates Step Functions workflow which runs a prefefined event Archive taken from Serverlesspresso. It emits realistic events every 5 seconds, simulating the order of events for a 5 minutes of serverlesspresso. Each event is emitted onto an Event Bus named `Serverlesspresso`.
+A Step Functions workflow which runs a pre-defined event archive taken from Serverlesspresso. It emits realistic events every 5 seconds that simulate the order process.  Each event is emitted onto an Event Bus named `Serverlesspresso`.
 
 This applications Contains:
 - EventBus - A custom event bus for all serverlesspresso related events.
