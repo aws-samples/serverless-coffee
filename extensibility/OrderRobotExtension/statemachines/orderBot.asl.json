@@ -45,7 +45,7 @@
           "orderId.$": "States.UUID()",
           "userId": "robot",
           "bucket": {
-            "eventId": "NYC"
+            "eventId.$": "$.eventId"
           },
           "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion."
         }

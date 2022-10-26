@@ -22,7 +22,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "d6e373b5-709c-40b0-a614-80d9a07276fc"
@@ -42,7 +42,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "d6e373b5-709c-40b0-a614-80d9a07276fc",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAASaVwQCbjNxQOMN3/sLTfaZer+1eYKmlZ3qmQNKX1PgtHwwIAYyNl26T7bSBKWtKwV0FHrazfRoM9kFrnwTF8gVXHrgKdIxOAnLl3qfME16UfkA1UZLyf5VAAz45oz/Rn0ORQmx5NeLJS6EL9SxcYyh6Y0m4zLWCXXV+QZ4oHNDHE4z//JeybtRzBEw7f7s2pLcAHy5QdzOYysc7m9PWw+bYLFH1CJTGy28UnKZLdAIbXowEH9NSeQ0gWe7K4VLsHD3VPOpI0VDfm5mDkVb5oT0Vfkds3JyaEHkQeytmkxrhxitlxx1dZDRH/67xsRISS2zCoH/yB7xLsLurEH8kaWotcHumh42RmRiw3hGgZ/S7t/rfgoRi3w/29NWOWdYgePO1E+vpje32uzoKlsPj9jcYZQ2utTs/TPPnZPkXy7fKyLUltrqj7DnWbN2S647VxxkNsBYg+rgCeD6++DqO9QzBDAAc4+PZHURly+SgrwvgjdMpp+B46XgruKMSgJlunzywDNhxDIzG/+uc9gak0+7yV7aDeVCIpaMjblb63gjrbtF3Yy28c/CyHL0fM/j+8u2H2DkdPZCg+70hHP3zUZ83e/8kdJn/L0omJu3m+E2AE5POgQ8sgKURe7khtpiGKUKDcMNXdC8hPx/3lRL2",
               "userId": "robot"
@@ -69,7 +69,7 @@
                 "userId": "robot",
                 "drink": "Flat White"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "d6e373b5-709c-40b0-a614-80d9a07276fc"
             }
           },
@@ -87,7 +87,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "ad644f2d-5b53-4cdf-88f6-fb3274a27852",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAccxFh/A6SASlKf4VQk3OdSJPaitvmmgXjmw6bJcjBsPHrCAz+KOkw8ySTOBpEEg/bw1cgNRTB9diJimqbcfBeaEXBoiyf/snScbJcqMQIFBm76DdA7yQm1cjaMQLXzUL29oROUbHL/1hM6q+r3zo8a/wk7gyfPlnBOXk0S8X5QL8gM4A5OtMo9drkKaXX6HxBE6K0S+PHxq2joRE0KtYp4H66lph2nqusYIm48eCZMGzZDnfLi9A2+0q4qt/LQYK9gzWzG6QQkosJC1of2hY8EdNULtbjjvRF/WHhq+nASDN/Wj2ZUOc0mGrCLSgu+Wpv+FrKtakO6VFv1xBViB8emsEMOulHdQfa/RD/8HVcCN3PCyaMLFOkX1cmuJforU3pNekHKyPXfc8k4pEhqk9NaZtYNalWq6ONYMlB/J5/1lSDwM8Rhya3e9RKdMD8SpPg3OW/zMdZeCjYTVA9+k0RBJXTObYZkNNa8CbmbKJp+WwyPXHfpImO8pQqAkwmMCNxG1jzYLuw0c8/uiAJxIYpafJI5opcoJ3NTi/UMy6iYCLEll4wmID1u64ojHUxLG8UafgJPBPS5TnvYQCMZJXBtbmcMPthTOeJ38Otg6GthSvXsjb14i91impfGZ22tRXwwB/1wHLnP5KoNxVlxD",
               "userId": "robot"
@@ -107,7 +107,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "112",
               "orderId": "ad644f2d-5b53-4cdf-88f6-fb3274a27852",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAdh/tR1EaAYGA6D5Ki4OOMHjW1ekHmZ3xe3TB/7FmTfJkuFscDzya/OF5b2FHn6jRIW6B0MkWu0NbtuMh39Db8Qu1IqyGO6TZF4bV0prkNfWADK8vXg4YJ+l7PWDfcOtos/hYhPjNfwRz8oKGdsFMxjKytj9cetCYDB3BB/Te6nuetwgA5XURItEQ8XG8jomnSEjq416lmLcfIaVhHsW/VX2jjz0Py24OU07sHbLM1m82zXXJ5VhrRVH/23h44YNoFL+tAzBAwhgDKJxcdDa2L+MCe6tIswqjX2N2vlM+7uExkWDxN7irtJqI4HUXttxY/zciNlQqj7dwDuOG4i7JHD5zsL2YjyLjGMeVabtPx+VJxYceDHAQ4QlvtsJeg53aOBapmzp03K6VjH1kxr++t8/PzQPPiSoHDQM+4ZwepgaJHzpA+kuWhOYY1Qb7AbPTCETCEjDi21ODK2wjgIvo1qAkZHlYeE8TxielNSPIsLTHJhU1fMAjaz/vnqhBkP32z4/3nmYqMAnvsS+ADVCs4ZXRwm0G/fJBIZFCggjTBupcoIZqv620VLNeo+ejepKNnSwkzv34/TCjyzJ3oRLUJN0IxbIHw1ax2rnL9VSdfT0O3FiIAgHZK9XWdWNMFMKmHHi+/T0sdhzoQdNfbRd",
@@ -128,7 +128,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "6a921474-0ff0-42a5-9869-12e9091d3af1",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAWO8Fbh+32zWrJGT/Xmlh3ujWUklPMjcjCLoNPyQdXe1RbZ4c+utOJ/B5HPzJpJBSy6Lm+AeCQkMlGxYz4OW/T8f+4X2qNwky6T7JErC/lCb4KjvPkzf9s/J5KIJCFpwpYuBEnc6A8rvEGNEd6UqrcbiCeyGtt7ZcdtzQYdmrNfKUWowT+n47AcujaI2W7nNYaywE8bxz7HxoLT+/yLNYUAp5xwkdicT2CDF3sKWbFR9sIq5uKjneG/nEjET8hUumDyCiE+UcJgBVoWQH+VTgRyVYuILvchOq2bKgDcNh37ZcEmD4c/FmMNNzdN12DCUppf4mlXqePST5jBhqgiHjT9/BAn2VCa/sZ7+wCKgbC9RwvEOeKEtNhidFpJ/fCT26Sp0qWaV3tJZQvHcVGEadgdff0LyPvlKufK2b+tz2MmCtLK5nJ9jCVlQDHp7AR/uT25ctSX5Bc8B2lFWAzxa/dCcL05TFVLDwGpnTij3Bf00yl5aPOTJhaAr+pT5FaL8My9hxmLsmbEnqzPR4UfB7o+Up+nDfb02lxDGLM4w1l41WufdBNJQKc029Fy9dUg8alr45gu6Z+350utMGJ66uJ3MQMA6qifhpFckNPNgUO+TNbhg3infdQGFyHBXa52T9mxgIaMMJ1TDqF/156US",
               "userId": "robot"
@@ -155,7 +155,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665751954523,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -175,7 +175,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "21c8645c-1be0-4347-9270-beed0f04b37d"
@@ -195,7 +195,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "65f0448a-fb1e-4297-8c99-e7ef24f88094",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAZYRT5d8o14NuF23vzY8kM1o3wnm4GUvDbPg+ugftH6nTtob9ZrkI1Zi08GoywZvrfW5kKmX916x7wGiwozxdfLBPKh9pT7jf6HrmqkFsYb4C2kX2qoLo3QNBd541tB4kZdxyx/G0CYn3v7gTAvXmhNb31k89LhEZDS2Q2TGByKlgw7pzhO1Bn+Zp9m4ovdQchvWgHoY0CplK8ErewQpTLGxGzDcFpfIVxOb6NlHT/pQAyJzkVyjwODHwf38anRwloPe3yEPKBBxn9DVohLc7TqrTX+9SmIetY8UNcC8w/RWnfKPsAX8V16fqYe5+J43YP4tOmqycq9TP5dfkqfCMPGRWnsApCVSbl3dfAIYp6WW98usdIv3YLfrwClLKYRMiONib/R5x/e63VJzbEhGMv5i2V7eFti6Lixu9ZMyOGQp/QTWeDh7YIvYmYeS5S4fOrqCv870eqnp+GX2te4RlCIb3f7OGJlMu9q+2rUAa4iBBJ9dd2py+AUJE6QukwNK6+vuyf3h1ma760/8f+cvx8z+Hf1ffAnwTvinvlOhfIj39SiXA5Z2bYPgJX2XTfowH5hHiMeacoopW3JK0ZGsqTYXNacioPr41EBD3mhf/Z3J7qZjNJSocFYx6tQ8HHFnzfuFcF9G4AE9WV7IfhtU",
               "userId": "robot"
@@ -222,7 +222,7 @@
                 "userId": "robot",
                 "drink": "Caffe Latte"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "65f0448a-fb1e-4297-8c99-e7ef24f88094"
             }
           },
@@ -241,7 +241,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "d05e32ee-f6c2-4036-92b8-b794fb69a9d6"
@@ -261,7 +261,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "3",
               "orderId": "d05e32ee-f6c2-4036-92b8-b794fb69a9d6",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAaV0H5dIHssB34aLgBo7/HasUsrLRBRlec9gSxOvGR08oZYS5OW3Ih+DqOducBNTLXxm/xikdABBME3HgjpFVl7z3fggY1qY/RRdF1pFZW6IlZ+EqNy62V6y3UhtWXq/QLw0v1+ZLiqqMv4dWMVzx9FYVPiXyLrEsiUf1mU3VXNw0PqjNx5naqzWfqUHIGfa+IIKVV18J0Zt5T/sYqpKdONkfV7DZNy9XD5tj/g+pDtwPpoekzVgHv4/vRvtrgB1TJddzzeX/pKpQ6Hhs+KZHzyfBEziwSWNsw5MU9P8e+A8HEudQRSe5Y9JnA8hVqWd0QmYL2tAS5uAZauifeG6q0UmT+N8B5Y1Ajsy27temXvcNv2uORY2RDyyrXOoKukTVLUq6twnQ2MhWbrr02hAwqgkDiriS3lSk7XuVTsYnwf1SjicceEHVBV8SN9ymP0os3cAzkTMZkrnSVC0RMDEs1sm62TcgdLFvgYUx+K1huNMxv9I1rYxHEyR1SjDW7L9zYTdVcKuvP4h+ai4BGGRGRfyy24Cv083vuieAsPi6t0x7VKbMWQ0X19aPZ+fLwIee/3DYuJ7Ugm+hFw+AXibCLvMHTq4BPk7S09+38PbcCExMrduWnG2KTPYJSyeFNIWgosutf2TfvdavjFXBu4h",
@@ -282,7 +282,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "042deba4-71df-4847-8e1c-70ac0926dfec",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAaKdy1Q8s+TqiUTnR1Asth2VOOjEdGQEdxnk8SKqFFzJ5AracM81x/3ZxoFJHWv/gwYgyQChnGVIwiUNrXFeyVPMbgO55jdJoar7ceIOVqPSqzu8tni0D79+M+Y1m7TIZk85oGTrzjJIrUsgN7uhrYjwoKYt+gBbfvjt0/Nd2BjdBpLuyO2jijlXYoZ+lgZgSOsupvWsxmZbcFHMZUTogvNzJLtGU6Mc5seAC7AtclZSo9r6VJAOmZ63MtlMxFEkBn6neN8Zy/NI4o+IwawtMn7Y4ZneTYxRNs6cpyp+80+ZreZkI2cSmk6EfXcRyuLrki85c3uj6FqMBpzXcR6XGF5xjr40kw/iZWSMWxkq5Q0pNT+9NyK9qdOFHVOlJDS+S6WSB8CficRsK0yJn9oavYrwqWkymgXidejlPTbixvkFVY9MfhQ4DZ7Urpzyrkm3ITG88bauzYKoOzW5B7y3SJfG28EElUl3cwr04isNurDkuNujqrE+L7unEYOCS639cbcieCVowH1Y0fFIKg8GExCPWL66T5cfsHbWQsrGDot2EkwV2ZK9sK8KCTwsnb7AXrpmmwSl8D/pCGO6ir5d5Hjud7qp8l9TW+fTyJeVyhQyf4Pdhusjy6bwZ+HKfhz8D/lBkIUJ/5nIAS8FVkig",
               "userId": "robot"
@@ -309,7 +309,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752049427,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -329,7 +329,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "3b26419e-7829-4353-a2d5-cc86447df6bb"
@@ -349,7 +349,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "5",
               "orderId": "042deba4-71df-4847-8e1c-70ac0926dfec",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAZVcfIJ8O44Bjvmn+7cTeAmt+kKOeis7kPc4ABXRCh/B0AUAZCJNNGl8+ta5oSE9T/0k7Zy/w6pUGB4Ok5fErTxYlxaue+uD7C/ghNgVcbmugO3ae4i8ExsdGnqNcmabLaQkncl5J3oUlITKRt4OXPsP8inot+wryeBNvI86fmDx6kU1TgtCn5tKY89psdJsF5YPmPbeOZgU2ln+4gpKgvazX0UKVZfD0VlFyOgS/+ZN7cejXpVOb7MYCgk+LK+YcxCYlPYSwq4E5dNK29/fVhqb252tXTAklRvfMkrmGvTpIGrf2fPtWjNwW49U0/xWqOEIvSPJWeC4YgBboe49d8jYhh3+w8fv/MOcIhUJKCid0OizJpFmWY8imDimLOr4GfEl7tVVcX0cDOgFMnlgcX2xrZyyStERIC9TWpWJnVTm++/R37Mf+ynP+j8qN01XZEW/qQYz6+duJyoiP7h0POGLFL28/demlNjxPWeBlOC9nWSH//FjkOnOqh6SSCD4phFG/MqxvQzIf5S4dzuVxH+8L+ickXnb67VKBa9bNRjiNncaXcKPfne77yWmM/8eCW2qgxXOjrM7xWQUHmcP36NsCErGwXFD8lrrLM36CRmQqmI4jB9xUQvZDVVVcrcc7KsIvIP49KuD+NYuY/K+",
@@ -377,7 +377,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752055151,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -403,7 +403,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752060611,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -429,7 +429,7 @@
                 "userId": "robot",
                 "drink": "Espresso"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "4c23c6da-b308-4cd8-b852-7a644505ba33"
             }
           },
@@ -447,7 +447,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "0b83a990-fbae-458f-be03-013346f6cd19",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAeJDyXAVw9u3j7l2ZFBQ4brvsT5C28+U0JtNwiTANd6VPIrL8MUP9yxhxPPDg+aQ/7HczMQ9a8IEPSK3tjPem/kmyusgC50Sh/yFfK/JwgkHr1qq3RCJh7hVVIVmWOPTCD0VcKsBSM/A8xXmG4yISrUIPdJFaCqAscOBl0/wPnfNddlmUHidyoYS33QnKtuafcD7G84U30gQ000HIzYWM+1KlG2pyYygDBctMYFS1r9oi8G70+DLN3m3VFP/BM06YBfmpeFV0vyL2JslB0wzDbAfW7rEEcw3Nj8nDABaEEA6ECb4N9/2/PlOt3RhUS+Ay7UDDbc3BXIpdRQ8eaTvW+EPmppwDyTu8R8JCEB3O1QvKzE9q8uZCmTKabM2hkcLjmg/IkOKVmHshq6dS1Vws9QcfGo6APsMGuI8cBmCkVK9tpLrm+iT9iZVzhivIkipAdCAiC3Bt88+faux5qjojHJNLJ9wMh09eSm9DqCuh9/TfEE4Z/LDUw9QAV3/b7g+rNWTzkesFWxofP/11rR0TYOrMHw4yA6+AGvhwapq+yxlbIZZK/yoLU6PeP5ZZZjc3u0DiUixczCDc+rmTlhw3xvBv7/pkXOPSKCMZj2wE4ynltCrVep1ljLQFGhaG3/H5wOQ9SxUZWeIApDkCjhR",
               "userId": "robot"
@@ -467,7 +467,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "5dd70186-301b-4c88-85f2-c47756d4c652",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAbIhgvepRV9sneY+QOCiXsnxaUM+IiTx2z9KBwBeiYaNiBlDHE2+7Mpu6sB9g0QUx2Xz2mgWxDRKX1ISWPg8RBQByLEHdOozIf3Cwj42JOzplgzgmTNABtG3dio6zN67K5/1I6KCGTvDHTL4jFGoeDjCJsPQlxjDo5vRPIzP3Jwl5Qoa5Mpk+NJtughL4MbWwkgluKMAWMA5nsn26k73/02X4JeWXlrbza8zdoU8XrzZC+xdtmyzI1ueVt3Mfl+Awn7NvtOyMSgC1qnTUpgFc7giKHSVG9ZgueFM1l/yjtlcHJjFUBqwVmdw/5ZBgMdRl2/0qH/v8J7gFYnmU/M/fZ8j+OSzi98sZltA9xg2PUOgUGGiMO7C/hNV1kh2rs9oBXdc1PJq9aHEaA38fyp1NVKJE64LW3ClOJ1zQj08Aa4ovbzte4Xiy/O7Z2xqZkqL3oWCYZCKckCGLYK4n9DhqHlKejSInBuuIcYw+PpaOg5Qm//8tfa1zijvuaRwRV/+6h3+aDdYbVj/1govxBSmj6qM/3q3a7PLN3yy/eI1C2naNK00QVYKgqkDnLmrkAIFrZl9y+z/fAD5+Z1iwdQJQy0pCWpNHeYV4YbhV9oUlJxCth2xgpxNUZG9EXCZpNB1i4lVie5+J6tbcmLkQx2d",
               "userId": "robot"
@@ -487,7 +487,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "6d1dfcc0-67fe-4085-916c-c37d8972bc1e",
               "userId": "robot"
             }
@@ -513,7 +513,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752071666,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -532,7 +532,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "042deba4-71df-4847-8e1c-70ac0926dfec",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -552,7 +552,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "10",
               "orderId": "97832b30-03bc-4ae5-a0d4-ddd10ee5d4b8",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAATda06TrgEEqxKniFZ/HgLJizS/A9bxr5Cs8A8dlqXvINIdhbDgsyiPyOAsxxh9IIgDTxk/lI5LLGHLGAA+BKP4SpU3hIaoFB3hY5tWbGcDg7ROehgfmHP+yNdGVr80WAaHO5e6rBR8DcB9E5SEZ7otHytpdzdO6ciro0jMPRbuFrUxW2OxsLzV5mzmUlvWQmzLVCtU1BcgEsPqsgRlX+y+4ChUUc8OX91C3szBjXNn2ePGbhLnG9F7RZ34S49frDdFoArZtCPB9ojZuT+UXQm7m7wRLQbc0QDHtRjCyuew+/Q1asXsZrCOetaXTVmgpi4OrJtEx+BmGUT2WRZzZh67BYhvKGzvCXeV0q1dweYPKXOPp4jae9ApD/Sywvu/VNt8Cep4b008I9W9vncz7JD7PId8Xfd6v5b1tAtBtm6Q3zZzq5VVuEi5HLIyTld2yqBORWve4BSW0gqU+oZzhONUsgjIYCemftWPI4U7VEJ7MFPW6rZ2vrLT5/QDi9uRcHOwU6MY8HZWFAIIDiUEpPmEyWoSpHQIhrZ02wij/WoHbmReLMEHPWvpDCJHggvVeiFArpNKrRaCHu7Px4aXSzZt/qIDW2Sx98e49/w2wMfcUsPqfe0X2ssYHIhu1ouysq5SzLLcqUniEqbv+Yw+W",
@@ -573,7 +573,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "4c23c6da-b308-4cd8-b852-7a644505ba33",
               "action": "complete"
             }
@@ -592,7 +592,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "0b83a990-fbae-458f-be03-013346f6cd19",
               "action": "complete"
             }
@@ -618,7 +618,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752087548,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -644,7 +644,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752093075,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -670,7 +670,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752098082,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -696,7 +696,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752104492,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -722,7 +722,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752109749,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -741,7 +741,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "0dc8a054-2b9f-4690-8338-3605dccb0dd5",
               "ORDERSTATE": "NYC-CANCELLED",
               "userId": "robot"
@@ -768,7 +768,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752115559,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -788,7 +788,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "619bd81d-99e7-48f8-8714-6267c5632539"
@@ -808,7 +808,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "619bd81d-99e7-48f8-8714-6267c5632539",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAancZEKrc1WuZm4AnA9L+YC855spEjxawiqGuFY3EF/gixGycEXaGiNnk69w8LrxtQfTjTqQtyUvTSI5dyGqg0O/lFtNPSwekjMCO6iM+TvtSzpkkI7/mlgZ9pqBDHplZW8Wii/YIhOBFmXBJPTLOdo6AI0EHy2XxAP8VcNLd4vzk2ytQkG9A1ANFp0pqtWNyvPKkYXosqRswWgxG86+mQHjE1uyDfqTgQ4BRU4MjQmriHKX2HW7SM6r3dngdbrwWu7Bm6WkHRDAe67mf6jw8QZ1xtyAjn0d2viozgjZ4wuY4T+NVsedQFheVZkXCzr1QfI7qRgcB6A6OtNPdmNexzyYEj8e+uoGHYck+WA2U9KGLdHjdsHdeYeqAFA5J81xtBfrXyTBTPsBf0i5D+7W6FLgmNhGbAMLAl4sHMeF7qwXVUEnxJlJcoKEfmCQAEYk9Q7dLMpkfI95ROzBN3dVJ8lxlcI+rkC8auQyynYXWlTtDafaDJxQUSi6WG47sdfQ0gOc7hbkLdf9DDMZrXs79f2NjUNXOXgpEGPv3dzhLtGHSRM2UAuTGmCRcLa43Kqa8wOQf9hYSN5xHxHl4Ym1OsPGOlZQ4tiLIp94g6gXh/Y0EELjAL7V7OuXS6lDvGMJ4Um5B8XXaURAYeXeq9up",
               "userId": "robot"
@@ -828,7 +828,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "0b8c3c13-dabe-4242-b171-dc1df058eff4",
               "action": "complete"
             }
@@ -847,7 +847,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "0b8c3c13-dabe-4242-b171-dc1df058eff4",
               "userId": "robot"
             }
@@ -866,7 +866,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "3de525c5-192d-4aa3-a62f-2b762cd2f216",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAASaG76xzm4my1ihJPprTnh7m5KkV2FUf0VF1gXeU/tUpJOCj3UziUZ2WMEx3oVxGAcRAYSl6TYkISRDfLLI9tpGqLB+Wvl9Zury1xgvkwJqO5sciRu8hMVPk3h9h27S/CX18M9T5bwe3M0mVHes5LzrsbOExc7FXh+WCRduuvN2f30ZQjlNgUSSRAwRPgksSAGl+9jtpPyF3RiPGZYteTrCTJdp0uKsBq07n1q9zSrRxHykY+1TuKwhqycC5SHkUkdy4XI+TeYE/6nNqIu8onyo0O8TPf2JxlAyVsJzqt5W0/SY9Lpy2KxB3NxJYS2fofEorPTd5vQNm+anDIAwzTPakuUyZ3R4FTJ1+H4VChvL+mh86SuA7tEz6lCqf5whkfoSFvmee+dEXcvPbVC6sJWjkVeBg0Ssy9UilvmBp4KynEYOdroX05IesM1QVaNGz86ScmYPyc7q+DIhbyaAq9jG7DeqGIPl9sAEwp+kQ+/Zm9Mk+nWG26HdLT2xmzchLo8JMcvh4AonLcQvNtPmAtqYR1qvh5BAY2yJCOYPMYDTRSIomL+vNMSuvDefqvMFmcGHMHEZ2Tt3xGOHrlhrol6fm7Swp0jxwjg8haTDsmzL1u89O1DtM+Adh4NHMIzIhXxAJFmJBUgec6hUIjhEi",
               "userId": "robot"
@@ -886,7 +886,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "19",
               "orderId": "619bd81d-99e7-48f8-8714-6267c5632539",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAQTx7boSZ0nGdjW+nGiqvIK7FEj8t5JNknHROQJEejBeVSmhCf/x8QKSAiFXo3P3mgXcsuK/Iw9rmG1dFcpCXGDdU5uWmHGiVIOjcXSVO3cF9hBK1ZjwFAbbkzfe/NqATQKMjyP+fDSG5GvI4Dt8+6ouMVyqq/dfrMDf3uxQ5EurAQq5TB4r0785uRteRXYdlmEIGuk9dcrfVizAP+AFfITlxb8F5blR4lCdecEcJHlUk6S4X/ttTq1hAbJr2odaq5phqzo3+WWSZxEw+fZ0knoMngfd6tRyNYSl87suSkVXL2lN+L2T1HbT5lFfTM3yknLl1pxpqnxbnTaTLhk1XNiv9ipFO1NNeuTNEekveo9UPj65jUx4BL6Pag3joW110GglThhN18gLfzMn4ecvPQn7E1Hx+CrdymHNH9FUul0uqXW80/pDINB7bZCiZHIOUGQpF+1UPUtlEVGiWoq1PelwxzfNvv+qw9+KKHgMXoGbMQfowsS6lD039YqocU1lGC2pPJ+xe5Kges5Im735hxCIsKtEd8gmIPXQoh8oiBc5f4ShqJC245npvEjr99t/5sxt/qm3u/xbG2zpg4TnvhQzUjewEL3bc5sxuwrAxUrlwS1mtiImFGDAc9wIIMEAd9es1bCkQTkJSZjuLXnG",
@@ -907,7 +907,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "64239b0c-85ed-49b2-af88-df08132ea573",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAdOi7qERgSqUudEbZTmxltcoQ2bHQoLQcaW1ErXUQ0hZPd94nwbxYkzrL0BQcFBU4kZV0IyxxTcDzfODjH5eQNKe24S2l3iANdtI+khN5s/VFQr4wSa4RzzhPvFdei10qbB70iBVaPTaCnNU6pyp0jK8Tv+6pMdEx0BjhCzbi7Iz1BThFXvLJFsbvDseTPq0OcRvJ4iW0oqyAHcXdLsmfigbIa6gOYSoas7FVWu6tavBIWPs7NiGcG18slMoP58nD76P5LoAubJ2pj2c0CrwSMh3BueVJDoMk2WzKpHwv5QD1P760ywOR3Dj1xjGIs5/ajg5Sc0xppbwxiMolNRW90XlqGA7vNYieamfLMH3BMa56eMwCmQyC1lIHYRgfK7fF6o5kxOrz7rLr5W1Al5S6XOuESvQVi3TIkHunXRthSdDDdRKaQgobKYPoJqBWHvxR4jzhmME4BMlB+qQSPZOCH1609Ws1r3C5XVnQbNIM5MaJuqdOp/6xb54r2ebrbvk/pUwWaGHS8vP/Y3gW4xYJMk4sgJoEg3gyeOe0x+YmobIvLynKE/illC/Lu9mw9vuuN057xsbjSRKHhrSG8/vFJesdEigFWy54rxDH5EGqPtyft9MruqucQARgFQBmjFCmlBKsOPJsI/+QG1ATdUr",
               "userId": "robot"
@@ -927,7 +927,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "20",
               "orderId": "3de525c5-192d-4aa3-a62f-2b762cd2f216",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAbo7YqKFIO7En4QVIKW6UHBuzaLnHU/czXbflCJlrJyrg6Eo790a6ijuMOck2tZweUJtBJ+h3rCcUz69I4HEOGHwC9v0Mdl2RRSFVe9IwDHIYiChlocDri1f3MACadFM/+8N/FL5CroiRRPJFP7g0QB7ug7zQbPQLTfurHXnN0YBiGrhA6lRlRq/NPxESYw1gKi3PoDTWQp5kwAwXftEAYEB9j4IjSk69ZeTI/x5Zu32DIgr6R6TDJBFN+LXQqiKn4mQLKhIzzVOaEcmDJDkeQQ9HaCq4CrgowHqD+JUTmyKqL8c/ud+r6puCZuvwJkntziqOKtsrAKPhYD9LIsGPyuXvuhBp27G+8njB28FZj8Y4owAznT+hY+5Tfgi4lxJ6CSfzlOY+2t5VZx1im3o8dhkSQbSUDCSGFYuWXt424fjzgnY1C+A+IZTQoPEVIl3+NBjbegZMfhdgK1H5yet/p2VQUipuz6/mI9kRIIgMIEY/8L2HaY+/0A968d3bbqupDDqEDy+0l6aIdOkbu5OxQuoT/jwTjlGBfhO6kxW2U18EiIoSg0Sdy8h3nQ/H/R7eLOoL3tfRvPYk443KMF0skA41ljcVHD0LpHqfa2MA5YtDVMb83LX8O/0G0LrHcOlI4CD/47sujfi5mU12eMj",
@@ -948,7 +948,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "619bd81d-99e7-48f8-8714-6267c5632539",
               "action": "complete"
             }
@@ -974,7 +974,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752142672,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -993,7 +993,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "66345cea-0ae5-4227-9496-ddc26eca3000",
               "userId": "robot"
             }
@@ -1012,7 +1012,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "7bfd754e-579b-43f2-83cc-3140dcd87f00",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -1032,7 +1032,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "7bfd754e-579b-43f2-83cc-3140dcd87f00",
               "userId": "robot"
             }
@@ -1051,7 +1051,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "79611ccd-2341-43c4-8295-ef4de175d185",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAcB25I5oRLu3ZieNuUSBp/gb8chDFG2+22O3cnGCnErjwJCZuJlbqhsojv+mO+bXT4jg+ccBpBJtUy/EXEtWAIOlGp2861OsyTAJ+henklFmgoCwVWWDEMeX1FMUF0KvlB+frtcVS13pj/tppbkCK1lgy7/svSTHLBfSbgX0deNqw3MhCZaEv4BNlMdwOeTz/YvJ8zDVdNh8MRu8DuGG8fWM9N2g5dhDXVJQ19v87ZMRsLBw8KFkDaYc3n8m5sdgXw0lMdzbYfwArv7QWiaYAASP6eeHR84NiVGcMzRCv5qAc5kYjFFy2i7ByTsfH00Gq8FgbkvC+/evSWlEvtrhdYUskox7+dmDdnflu+l+XkvgBanMaEzla4o4ZzqxPO+sxWVTi9juXEGxrAQjyMRuVvMcu54RPoBx5UtRebJbUdln1Klivfi9FJGxb0F/Rso5BIlSjZkpXroLzRShuF6/Z5avrVtdLBJK6qFWXEjmrnNx0D4Ff57tzJuyhMb4uKXgVCAvUT4ThbPKDTEN610AgKxgxnBDSbQc5tnBNgjeMVh52PL+3o++aVI6omLCAecwDExdFk46kWPWYp7/v9j1KrD45lWtTEJ8Z6MBU0VkM11alSff/+nu4zGzFws0g0e23LYtlwBSfde5SzIjFI3y",
               "userId": "robot"
@@ -1071,7 +1071,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "aa2b10dd-8b04-4249-a307-e475e3f82312",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAUpJPPTMqYH/vn7DJGJCdR1wWJVeVMLZJBVqwG4qRkNktAQ4uq5gTT0FPSt3oVPPGhn5fNkGS/YMp1ccyu4J63Neb86w8RNPNPwWg5vSlU0yMZUvDzFD0KP6JtMkEra+hHpVQwgCB4t0F2kMQQilO3ja/GNw31Lxp3wqtOSq1NmY8K2XClOhsirowyi9/6UYS6eoMGV2KLHUuWo1pXjUh80ZlAulW5N3WEwmlhM0qyi/2Y/IrCUcibwXEkMpCHGKGV7ODFXDH713pFQIhbVhD5zYGACkVTmjjAwFFYJYuUv2JfyqaaBXj56TtgpJJMsM0ES1pqtoinMnvxqjV3Huc2EJ/L5Y23/yKuUJ3ossfFFwbEr6RDa4INCHymjfwn8JS1BEIeOQ798V2EX8jq8nmhE3UUFqpQ0NuWkFBjpsd3tDKL7szMnSon4ZVzISx9KPjs5ErDJMb7U63gqsBHL+kUvkR++xNt2lbc5xIsBkGdJaMecog/BF3dSgyZ86p7HCp99OtYFXZk/+ADTCOeyzvxjmnVadYPq6u3dyyahG5EWHaqCXcPRGWPtUUo60emX76DqPnahtxaTj4lheINukZPp3fTvX87TkOkK3rEV5UCtMeQKI+BesT8IbGhvwam8+EoG3uUGpv5tfScjtxe3z",
               "userId": "robot"
@@ -1091,7 +1091,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "3de525c5-192d-4aa3-a62f-2b762cd2f216",
               "action": "complete"
             }
@@ -1110,7 +1110,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "26",
               "orderId": "e2f5a023-996f-47f5-9e59-347664edbbe8",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAYIAOdGzrRQpKzzjLUJ5fHGvGz7FA8H68Y0BpbhIaBiyjYj0Jxg1h1xhjb5LHK4hL4ZFOR+pdFT/5ft2D15VmmwegIhAr7d3xOgJ3nI/sJl/AYSypRZ32xZ9gw+Lj8G1lAC3ivbdJxpEKAW8XaDeIPkhF3RHY5IE2zFEStKY9mO+ZhgVdaRG/ucQOwHzt2dYIPUP+7E+gcRQB6rys+3uuBhW6aetZKjiB2j+mXOLuulie32548R9s75oxvBUDgnLwB0DS9PaGE8NrRPVYZCmtvDiuckwwnuga2kvGEs1z0r+8Wttw5GdH8XdFLfkIIHQstacodJXurzXkBSNKPIJMpuYWpmbFJjXzA8PuJv9GzoJURmDihSQN+bz5HuUjvzsE/LgXX50Co0H8xBv8uNBoNHCpZDyl4Ckam8ntx1y777QdAakT99BLCaXsjOlxqtNGzflg/MaRmA5uv0QcGy7b2/2nC5ktzVxzw3kbfGcojau+6aIUgtgKUsq17/xqfjT/rBQVnBtPZuEC125+XaMADKC1GcsgqTphxQfeSTkSmH1WVdeYgZwa6koqPsWQRWItBMEF/3jofYqyRWAWD7p6LLlQK9ZIzJ7I4ICuN7ZB7CHCancJ/YKpvn+QI95fSWb/PLkbu6UnVDi2W+gooVt",
@@ -1131,7 +1131,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "64239b0c-85ed-49b2-af88-df08132ea573",
               "userId": "robot"
             }
@@ -1157,7 +1157,7 @@
                 "userId": "robot",
                 "drink": "Bens Brew"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "8a679a0a-b9a9-489c-969d-86f0b300ad79"
             }
           },
@@ -1176,7 +1176,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "87530fa4-5e59-4621-96a2-ea6f3608b68c"
@@ -1196,7 +1196,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "27",
               "orderId": "8a679a0a-b9a9-489c-969d-86f0b300ad79",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAb5WXuo+9Pz7e3AnOOQ1k/75GY3c0NHjzWo1rQa1HRHRdcp5ilxEz86pXDrH0GUtObrAd0f4slwMvj7IjX32Agcw/aMMUDcXAkjGAOebJFYzbjVofu9zVOfBulfNFKhD15ng9icp4lLPFwvbTQLztE6WBf2OANEhkzJO23ZQSz9vts44dUhFxPtO+KbkkQ6GlPVnYvV2wTPckep7QoY5k4pyVaWTR4yT185AD6CSzUu816am5+VWys3NVZqgsT26V1wh4iJZHOulftaBS+ykkYwiuMhkuarVUFEzy+szXRSUhMYV52BQvd5+dt8c/91IWIZtJRCorjTGqQ+wKKLqkyt6KoUISotsDM0DHNDP3vlWO3Owxk0VgyQ08j1qCxQNgIKkRTYih6N4M4ZcVAc4X2GQb2ZN/t+q0E2u5PqbXwA+BTk6q3/0kr2Sr2h/PnOAIa8yqER8CY19nrP4Cly98EZVpMTo03GsPVmbPZxmBBdGrflYhHykYFcFZl6PYGjaN24gmSHEYctzqiDUDe054C8VNXqrvpnN328GFGAsz6nhHMRrsIzycXt/sD6V+5NA0BXPd5FOo67caBou70UgTurwSPlOmIRrW+Zqmf9UHJWjSy6EnKB64L/Vi3R+x8m80fB/kj7FiiQny1evCCXL",
@@ -1224,7 +1224,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752175175,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -1243,7 +1243,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "e2f5a023-996f-47f5-9e59-347664edbbe8",
               "action": "complete"
             }
@@ -1262,7 +1262,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "84269328-4f80-4e7a-9e79-19247cb76c2c",
               "action": "complete"
             }
@@ -1281,7 +1281,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "63268fd4-27f5-4100-9706-c4ab00d6df1a",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAXgO5kwqijyDsSTzg4oN+z/EVEMR4Dc0+NZOacl8WLOtf8eZadK1s6NVe1OxRolWOm1Lletgesd+wtsnAeA3t+BXQcQ+iy4Xrg6NeGU/69CIy9VARUHOwh6lZkAXH/b1W3v3aoKxDFEN3x90Wm26IpWfwLxMYzSIdcEoQiQ4nEVGPFntRIDdcbyyZyomyyqa+bEdNN4HJ3NQxAj5QkwoImyjtTY1hJ2S/xE23OcLqgZKCCi2DjLkuSsFCL2h6W2eKBzLFUKAiQFNaShvOOUmBz6hdfM2UM+CFQTERA2gOct4pJqToAuFGyVzQc1B4m/k2oCzZrP5viQFsGlubKy7yZ4FluPcuQ9/ROCr2wpR4PyP7paJE5irkvZeXEj8bQqgP0GeJs5dgdctUPGLM+JwvWAj2nFvVDuiaEI/jxrMjHZyrBXLDgLWXiIdBwzrb/1qfZh5E5mM6qjGg9nhtMWhc9M/WXfn/y4s357MDcyh6pjYDPvF8hhamKGpLftgc/u3gi3GFDqxKFCOYJXXRCLOaN1rfoANAp24z6RTRvC7+xc0NZgTFbdaRGDoq1gf437JScRNzO8y9IY4zPoYhKKhyKrZrKg57CM1iupOVpr08ZROWGhWV8ioIS/7Vk4bCpTD4NuUQwKzj53YzICBPWfV",
               "userId": "robot"
@@ -1308,7 +1308,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752186268,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -1327,7 +1327,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "30",
               "orderId": "63268fd4-27f5-4100-9706-c4ab00d6df1a",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAcKWNkPZIwLEocifxN4COjNYeiAb86hyHYDSmrKFBfgSnzT3uQam2T0u3q/ZfvHBzMrbwCBvFloBM+q7zMcwYDudJm460iKg0n334dhRKxM/9rm0ClEPBqznmFckmbqIDnfZNG9u3yDERC1xILE1geiQvJoDSd1OEmffUP6oxYXWtpmGHVnhqCdknktb1YJ0INPWHd1Oelk7W7kU+Xscmm1igzBSWYqfld5YEcZwWe8B/yu2plBKoIJ8fVfr1/CXFLe/2sJ9o8/K3WUZFMSQS+9w7ZgOle2Si0JybYByuSSOqCe3xdN0ycPDh8q+qCnMchQa6+WCv+expZ/WdVwTjwDFiUPTE36hsUz+QRcRHYGhbI398OesVYMAVxIjd1O+Ko+Xw5SEohmmrcMWaSP9DvGV61xt13CNrsFadi5alAxCXd9ujtoulEb8LcG+T5EMqKhEVdcph3aPSXoMLz6xuC/Swwbdj8rD78I50XiJid7JDew0v1YXrLBBpuNReg7/GSAJQmCcvPf7j5kHCkI/5iH5UV5UeELqmiiFWwKWHTcJOe4qe7uiJ2nSIENwYg8Of56Sdgycp5uqfJ0WHwzHU+dcCfVLfcUz1eciTulQCF9Z6ekTS+jasHPs74owfenXeN/AB/RbdFYdC3vg5h02",
@@ -1348,7 +1348,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "87530fa4-5e59-4621-96a2-ea6f3608b68c",
               "action": "complete"
             }
@@ -1367,7 +1367,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "771ad12d-c95d-45c9-94b8-a0fb77e798d0",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAatGX9pMBVpkc7UV9ciXhENZGaP02itjBlRZ55+F1mDoYk5toUT8aZQWLAjdT9RKX/A8vf89FedCG9CeD86YotKTYFuuRVzdNe1Ex++aMsESTvhSYcnm+0YVz2fZY7TvqTTTn694MBIZEgP1Hs8mBtvP6/HmDzUgFeI91Cp4eaEoKlRJV5pxfDSh+U12X9/axUQHmFAGM3u2WAADC96gV8KuTO1CF6Fqe1o53H8hfrPOi/NT0gt1VteNy1xL7BVg+aEBpe1Q7ayIHY3mhwVJQ8jRtzg97j8TbEHAcPftpbKHTtIM8FpOyKFAvBdarq/Uiq3YtZgUD5peVQ4S4buMrQa7j4UozqPyOCkSC8X52DL5F3l8iAzeTqQGRbyvHDEdh6ySSz1zbfIkyNXcNKrguh8z3d3LkPfbbKxKTX6eSYNrJV9fNCRxvjj2bZCXrAoin1tvPRF+dvAvti1VNNuCYRJuj/Ky1ec9P5wWRj+q3zvyOSy3awyZGrCZmh1ZN4bZaIU7l+a782pyoILa8ciP8cQBqM1l4CrgL8u3oLrSw8HRXBFsWWhXwJbHd1KlMnpZwtOe5dvdLPr8lEeWp+t2mXzu0B9oIEhHbxpMCO+2RkwcqqieJG1clK5V2iO+QbFy+2UGm+gqpUQHksLj74mO",
               "userId": "robot"
@@ -1388,7 +1388,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "0901aefe-184c-462c-a6b8-6f57940f3322"
@@ -1408,7 +1408,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "32",
               "orderId": "771ad12d-c95d-45c9-94b8-a0fb77e798d0",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAdxfjPMsPydvJsIReAiI7X27qL5r+UKklv80LPAPtBGLOAHJxNViIu1fXrBDf+gTabPIgXPrpJ6C3q16ffq9yvaJnKwxDAXTWKnLekJxpmJ4qDgUJiIB+nOyJfD6K+zVuR+TvMZd12IFHi1t4edwlZXVcFGAA8YlYZKTMmUFxmkmu7k/k71DOfFukux8xQGgRwgYJPD86U6G0v1RQVqHLN063nffreBoCCz8agbWwPGdfZ8xTbRir7EYy0PnXXiTxHpEzBx7eLAdjdcbACETZQjk98nkY72vnzo05RuePNP2jKEog9sfwwRyqeLsZO/u8LwMWl8Fy9ge86RC9MquLtfmlzHmE25dbE65m7gpuOQjSQTYnMrWvxL8WOJ2+Ur2vgQ6mGlqMX469VbkJIbXU/wCQyipObRDpapjS2IU8TToI0KaxoXLiIo9kjB/ylagUV5boek7b9goWRXyO4dkyduz78AiP/hxF2l3DxeD6IYS5Jb0H0fiD7qZt++2NJl4r5CnmvoJo3sdCDQcpmMigkkg/ZjiLdZuQ551o53Y15fSTOILXiu9BSLWzaf1Ys/aYLKXYPFqK+3cnhFw1R2S6j3Tih4S31yBeuOPYMdezhhd0VGhPGHjOP0uHFUIRfnTNZmNc84MdQnOW3hhkfuR",
@@ -1436,7 +1436,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752203104,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -1455,7 +1455,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "63268fd4-27f5-4100-9706-c4ab00d6df1a",
               "action": "complete"
             }
@@ -1474,7 +1474,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "7ea64372-c480-4cc4-a12f-f8c438b25b9b",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -1494,7 +1494,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "7ea64372-c480-4cc4-a12f-f8c438b25b9b",
               "userId": "robot"
             }
@@ -1513,7 +1513,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "63268fd4-27f5-4100-9706-c4ab00d6df1a",
               "userId": "robot"
             }
@@ -1539,7 +1539,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752213603,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -1565,7 +1565,7 @@
                 "userId": "robot",
                 "drink": "Americano"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "7750f5ac-8e94-4a71-b003-811942671931"
             }
           },
@@ -1583,7 +1583,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "35",
               "orderId": "7750f5ac-8e94-4a71-b003-811942671931",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAcpIfupWQ6KtTModMZpYjLyEsubjRq7gWfIwspL84qK1zARJ0GB6wlDhjAebInTgxNqPVh+Fq7tAe1QIGZpB6FXYniG9XWv+C7LYD0AqwGyytqAGoAKx8VFq83mTttN+dCZ/rXRf1hnjF56rm8tD2gHJnFZ967eX27OcfKES3mtF/P0YfXN+8inRf9TucLGkTm8WcNlulGAcUTf6Gd9ntOn7QmzIZ1PeSyUkPj8aLeRbmHTqs+voieZzh1QmJYbS5Gc4rA8YS1a5h4gYlZFxP/CIlM9t9fFQMaJud4iTsgeetFuhwEDlIYXsvmgb28c6VIw33iePTofZEbnWJ2gCOUf5CTxvAk1W7ttJJShWl6VUrmLOgkvWNm+7rRgIapTKIFNEenXwrYHVl+c1jCRYt7oe6zZWI7v/HMD1ftkf6kLH53UFKeRgWDHha1yCJaS/SKjuOImWXntvh9HfvROVsiEcdmpAdpoE3irssSrkdQGw5MDi6d/3KJlEx5yn7oGZrnnZIq0eqTX6az6o3GY7rY5B6vzAjX2oBZ0lPrmzhClLy7LN6ku80S3SDy+IzFzAYc9GEzWG59rAzUIVTZmTIJntaFXlrRj0N1+Mr90TbtnVxTiRuCRCziiKLp5qRMPC+M9Wwarvlaye+/p1dI7A",
@@ -1611,7 +1611,7 @@
                 "userId": "robot",
                 "drink": "Americano"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "49b12232-20d1-489e-bfed-a131d26be59e"
             }
           },
@@ -1629,7 +1629,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "36",
               "orderId": "49b12232-20d1-489e-bfed-a131d26be59e",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAZp35u9a7WEU9Kg4/EaskAh9j826973zhuwRdlUwcO1nH3N2Zwr/4W4lXgChbI08uSCEDLqKouylawvsHdAt0UAHXVaq+jadwcP6j8BBJ7RYZUA2JF6Q2TpIxlZRRz86bLrB8JKOkPBnJskJoACGpN5/Ydmg23n8UgSX43yuzyrc2mqW5C3Cp9PseOfEdb8UuV8djJ8kuj5LE2owWKyXEpnkwezDY9eO3XS/CX1VlrsEWwKNsNPIEr2wgne4cl69j48bxYn54O6Xn4Eh+ScjdxQz1ExJH8B/yG6dJjjwvAoo2pKNFNzUtmTjLBVXAe+oRwMJXyZLZCVMshlOHKHHRCxviY3T9o0GtQcQD3YhJ+Y+jZSUB/t2oPs0Xi+7BEyYbNCr0ZOyvDrIbEO6XkkWbVV5JvuU4Gfl9UOTGIASKQxOyuyFYAbxsQpk4gvIEyapLn9vo5szvP0P6pcymqS7LkiWd8EREm/aSjW+qEDBYh52eq2ROaOyPuYVKx9nHwQUm/Ac8gASCfxvHC0RD0hWUAVKVA83Gme6GRYov4oBc/IfF6kjsnJmG3S0/W706IwVmGWb2tMWFOI3fm3CycdGCWEUPFljCaewbEoNAx2PaZBPPu75DTgpLPeVfwqT7bGxJZtoNtPtHSzbcJPpFrU7",
@@ -1657,7 +1657,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752225000,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -1676,7 +1676,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "771ad12d-c95d-45c9-94b8-a0fb77e798d0",
               "action": "complete"
             }
@@ -1696,7 +1696,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "03b6a357-441f-4d3d-aacd-c609bab5c144"
@@ -1716,7 +1716,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "40",
               "orderId": "8883fe42-2e9c-477d-9b80-1477699f0971",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAeLDJ/3fx+03uFHDuQ/sGtdZwcur/ZkhcyIrT38c2dx7IhZXFNRkQcHFOKn2XOpxOIlZzt/Q4dHSEO93Eym1lVOgwK8zXk+EimOgVdLV0tB4gMRV+3KhHHCa/pO3tNx1NV0C4b6TreoSrr22zeWIX2yemSWJtPRnzsrCWDvICYvDYHuA4FQ21L/SBrxnvmxcny0LYh5cMwyj2Bcc88GlgtydHjggY64SxwLM1i+XnmPYdoUHOyRWuco5ZA8WO0NnDMZAsYx9agPxYm3zDP8qWbdlafdfjE5IPJs13dBHEJfRWL1J/lOVN2PdQ86tz6KHrJGz6csSYXxFjRqArzSaRNnCcshPPEkXCuRHD/cjVbrDTNYymVI36agMZjNGCFtF8uDNfXDHBRdCT5p67s/ILtm6XxuNHvmHKQFqiGlRj48fJ/VV6DIrcp+OXzuGAXdZxatxg4cTsXee892OzEkKmuPzsOs3OWXCzF/2hACrR3ZEWFnW2hfnvWMVxBC8SULt00lWQm+UuGcMclkgoGaaPPaTT1kKjYG/YhvBfscnXmPiiTFPv+9JIsrQ1mQDBWrVQn8zQ+KhvE1AxT1MdKnzFKnaK9bANQ93RTSbFmJ3Rc7UAdk9ZglY3z2ZcCL7eTCbnYQd5avWYilVpwdWTASn",
@@ -1744,7 +1744,7 @@
                 "userId": "robot",
                 "drink": "Bens Brew"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "7c730906-4547-4494-b23b-32d16f035efc"
             }
           },
@@ -1762,7 +1762,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "baa657d6-1525-4f37-b31f-61341521175f",
               "userId": "robot"
             }
@@ -1781,7 +1781,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "89b449d5-1687-4354-a9d7-d5e9aae48d80",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -1808,7 +1808,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752257639,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -1834,7 +1834,7 @@
                 "userId": "robot",
                 "drink": "Americano"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "428f247b-1936-4626-9024-c22fc27f6f1b"
             }
           },
@@ -1852,7 +1852,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "43",
               "orderId": "428f247b-1936-4626-9024-c22fc27f6f1b",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAdUGI/J9ylAPVAX+j0/zAIb4uLVt6gYOGbfX8hPYKlPCywEVexOH7cVBP95kl2v8xOGfmiOVqpqhJyBIK/YViP1rRiLDZzvZpSTlgyyQnT7o5eyKoH+AK2yE/QTjFQ3KbCSIY1BTxOL9j6MqPim98NXrAe4n61pPxytccSG7BNvRAses0nEEihR/dyrAs2xZezVwXCPLopesCohWtEAj7x/AhqYvR9U+s/qzuZmbPNGlcUIgWf9ImCOJngx40cUHkCMOOFTvobKDHBvn6rsyF7ZAuXlnrK4LBkPUJVklTQfk0hYFUueHlHkF8xf2HTRt23B1kw7XJZ1mw4rj5QmuqC0UfdLpxYDzdUWXBca9j3M5999/oNV3xNCS9HOPhJcG+MmSio0yqFfAq9Vu/+AvPdDUtOe5un5U+m17gRybcodEiYalzeXg2veiii+iEnt2UaaL37je+Tl/WVscyFgPg/wKehJqufAp5HWejmBZ0/bfjN5jORIJvGB9arT2Bvm7VJqJ4A/tP1bPn2nQR+nYOF06Q9IHxI193SpxOt3xMwimCYrJPwjeSTvj8QNWH82LdERmWJUm9WpOqba5iSuTKewmEBFHXj9DYfJ8PiR1x7nQQcwoiYUvjhT0nCXT/CukrUB6Ad+jGlnYYn2bRtW8",
@@ -1873,7 +1873,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "8883fe42-2e9c-477d-9b80-1477699f0971",
               "action": "complete"
             }
@@ -1892,7 +1892,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "1f0f8025-c0ac-4d07-ae3a-8cbc0d46d484",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAcECSajLi7/0CjRDCMBZxGo9N/o81jOasTjuWBM55XfdH4kKX11jU/FZvzUEoLx2GPVfTgKTyYrM4Y6FsNlV5kpENdk3cmEnA7LCDg+2R/rzbndlSN1Rn/cT5kbRNe/z6wjGkqD6xNajJ6UqSJ4CgNbGfcq/f0e/8dpqIioIZjHO/MqsIxznK30BdvQw4S9cxlXnjFsyxBVZQQoXHXQImpQ3qHWghTTyK00oNyTcVtKXXaeHuApe5ubPw7zVeTea+WB3SxpA9OpIpGsFBSP75o/gw1+wx3gFO8MQZuVpHXQ0jj1KtRMMleQc1pcGdoO0zPx6801z3Uv1qrwBY4ARbSu4RH1uvTIPVyoDPbuYQoxcdMj25Xb8ZW7lKeFXoH5Qe2a+xu+yRcxm1goRLOItSkMYftMKS+Iv9/pEXRryEtoRyJjlhcDiXQ+KTURiF4Gx3jnPapiDZyQVvA+BTxGCUcOf3IO81Zq00FnukrkQYpEowA50HzzXZmEePvDH9FCf6NU14qX+sg0fvJ9OVe5qcTQZoqBf6MR5k39eIP1bwgRTnFHKNAYUisyBMn25stxvSBP3rsZaG9PRtbqzW9b0NKXYZ3b1ZuZdcR3+Q6h7fbccnwirXt0ol6i5gToDF7PWW8vFcXEBfrb49sOuM9nm",
               "userId": "robot"
@@ -1913,7 +1913,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "4ec097b9-3707-47fd-94ad-e54a093ecc3f"
@@ -1933,7 +1933,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "4ec097b9-3707-47fd-94ad-e54a093ecc3f",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAUaej9V+w0/U4uBOOrsUaUV0PzAmMTU4h6hDRO5zLfGS2V1tKxkGWyl+aMlCmhuS+4XZB4kM/dvmCZbnh7D040IiVK/pJEHNWjX6qvzjS7i+TuE2GN8MlpPEueyRYdqVF+iV3idKSmvPL9yXQ3c7BxVUhFjsvPEG+e2Cc2s/jucgPHfWl3sDPv4dy4M3NnCklPdXPQCnAtt9iqxGpSKEMaSu20AWZT/rVCtWRpaZ58tC1V4pzo+QRJaDeO7ABfRfi8QFee2MPDoKpZLxmfSWCzmFEKV6L8wOIjeJeJnEWs/dh/9jMlVk9rUAGId32HE11kgWRiwNU0TDBBRYVu4WTXOrONc0Ozv8tPKePlwFG45HSCqsfz4rSaCJhSNWaOe+MhN0m3I1GWfwyfkWtdBe28rE6vItxswun3tgxOOyok+dTqrIuDlGqdeWAeSRDHSwU/qozRbuWOUx++MVxw9byv1vWZFeaceZxl6jKw1dYcb/u/spkpobWEsnTSIPFs/OjhE5xQUwczR8yxSEegHIUIFOGtPsdO66j8dn8zJbsrtv3hyM0FyKtjBuIRQoepVk6pR/Tw6Id5jR0auV24MbiRtiMX9s7uwxk2G4H0jYfEHQk5w4nSLlAHO5wLqrpxI/s++V5dCCv5tUgURENNR2",
               "userId": "robot"
@@ -1953,7 +1953,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "38d006a3-1132-40a6-a172-14ff3b923a3d",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAbic1sAc+1H6u95Q7CSOYl/i9/kJGEHfoKAswkwwGPDKy+l/khbAqWz04yAqpWrYpHw2+Cz6oJJHHg+47hNbAlHSofkAZ7swsP0sU2cMEb660eQY4cJZKEWg+VtEL/TrKKdcKj0CkjCDawOmxL72Z0QRhjKRx2IPt9hZcHnfgl4UMs1nZbNwXgtE5UTFiVakkF6KeLgqXFsedYSeRlYvU2sxpLqpZ+e4W/GGCe/zgcjYExSqe80klwiJjjyUc6KL+NEMFbo0C+nHChQVT8B6grCnBMuN42txT+TyVfs1FWoRoRUm9KBQQIMEw4LSk408RBFpbkTEvepL+Qgp4thsU3GfqMtT1mrXHOJW71ib4LkXc0w2wyfGsn+bSiHP6GK2Uh6N0stD+0BMFnuv1LucMWEHdpke42oNHMjFYjPCFDbrnvz7oj6LBgywqnD07fiUKEPrItYnkTU72WdLT+r47V+lfKaxN2ghzyiwOjblwaoBP7aoyCrOdXSb/XqZkc2C/X1PxWNeCF0DVtC4gCrG4XAe72Qh1pDiUq7onnWoDVjpuwyN/0dqqGDVPCa7Rw96nna4FuKwmo/R43p3llR4G76NEk8wDMhVS7dNbUR860egyD90YHwgfsH/Y7I3eGSrykNxRIkCwTlrGD7okvX1",
               "userId": "robot"
@@ -1973,7 +1973,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "46",
               "orderId": "4ec097b9-3707-47fd-94ad-e54a093ecc3f",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAATov+0AlMaGI7o7xflvC7XYhAT6wA/qsRQfQk6ZsJqiSR9FEMp2dfammuSonStQQEkXdd1f8vjXKLfj4LyV2wlzxiZm3+z/833Vp2eFpD3NRduSkzMFKUwxRh/sKBXockyX9+Kgyzoz4PK7V6qQ3PnYqVWztvYKTswBCwt+rJZNbFEgEpNgQVUkzrTM9ZRK0J43Iv/3SbMeRXtFXJZk81aRP5M9lemAKUsneTKKg1n9XfYrP/GrACsPwOEBoL6CXHZIctwMzI/F9iUanuswXx1S2FEqWuIgaa2VpoN04kQIKCVFlp1ril5crxVu5K06FZ2zB5Byew7DOtrTkuGHiJvaTS/bX6q+OkUq0H850xdh8K9cPtaYIlZY1R/ZyBywUH+e+iauMKShnDS237XWnUmtPb8h2vz4a8d695pjGZMlYQXTvxEzGoDIk4M8v/L16juN9v5osfuhAZ0TCEEQr1cwccwr+sScNjy788zSHW2WOJpH4L0qFb1n2xWs3ahjvtlqbgler5TKZrrR3xyCY0hChayRX/RMYrXC5G4c6ThWPXYteWd49XPxS85rLz52pDwBqaiCj+FFq3/Vh+z4aePdmkuBuWDQ1Wg4iu4D63eAQsb9/Wn11D+OdYaFbiosuV9W22ZoxX0owhSvN6ICn",
@@ -1994,7 +1994,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "0f71ad6b-4283-4125-a6d2-88e5c46d73f4",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -2014,7 +2014,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "9bab2fe5-bb4d-4cf8-a4c0-00556c3d574b",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAATjtlrRBHzSKcIbjC3kVuBVhJlqBpSDaXYQPO/yD/UrBTvxXtICyCtS1gRGKjIpzWJhPB2RsTrz8SbRKzsdO6BOMw2UTXCi/8s8dOWVJ1euk8+1EjO5Y1a2AvDBkB0M5lkJj6ESkkTERVNtDlISw4OUVMsWv5gfs244NcLNWcGe+auVuofCYVeN2dFXAItlJKlfk8yaiIdpLYAS9+tyqNNMucRafuK6o8CUxCFg5TuB119pxnGUXuvgR1SYziz26a8h/+X6Jj22R8Tvx3q1ZBRUwRf7lT1E73YnoMGzTY3h2YCq68v/iH1uTw3O0f4iOrmBc2csmcNmv6K6Mtc+54MRRk80f8uZ3XuR/q/oKEui63dXKFNJavrN3GPxoBngmwPBxZzSvaFbc+0ZN2OT4Um2WuOzODwNPR4WAZ7yrggubBJaEIVRK1NtFCEsebT7d/oL2Lhiki0B74e+PwMNnIR34CJIiogPXcDEMuEV9GuelPvLPQeT26CdLLutz7F2BusK/6+IkaTC4HAqMHY04UIoQ5jMXhle3Bsq2DQmqNjEXH0GF3yWx9Y7DYhiNYRk1bDhkPOZd3MSy0mxYn07ATjm8AeV4DVs2dImd4JaLPZuBVniyujO/EqffV3beUNcSJHXYDan2FxeC5YzMumj2",
               "userId": "robot"
@@ -2041,7 +2041,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752285486,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -2060,7 +2060,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "1f0f8025-c0ac-4d07-ae3a-8cbc0d46d484",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -2080,7 +2080,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "1f0f8025-c0ac-4d07-ae3a-8cbc0d46d484",
               "userId": "robot"
             }
@@ -2099,7 +2099,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "428f247b-1936-4626-9024-c22fc27f6f1b",
               "userId": "robot"
             }
@@ -2118,7 +2118,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "38d006a3-1132-40a6-a172-14ff3b923a3d",
               "action": "complete"
             }
@@ -2144,7 +2144,7 @@
                 "userId": "robot",
                 "drink": "Caffe Latte"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "6b091306-0fd0-4e84-b40a-cb7c9199e337"
             }
           },
@@ -2162,7 +2162,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "50",
               "orderId": "6b091306-0fd0-4e84-b40a-cb7c9199e337",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAXX6j4XnnkaZe7/1L6IbHvYq3odlzhTLcr66IxG5z4IHTqwHHElflUuJqEm3PcnmpTkXYwLGDrN+iwFYqWDMkUOYsPAF5+EA630BHqLuD41h6mtwkmm5TW7bVrmRd79KmPWfEenHZL1C9WbwjtLY2VXCj+q+igDL3ZrM7XKORjMkvU+PtI/ffcz7GzfKa9+kgbcRLc0lifBestoZjnlGwXF4fxR0KXMkyO1Hc/6AU2CwhrjzqVD+jeYXqJ/Ypvh+8YAn934rgFyGoYe4IIPppv0wBNmT9KEf7Mydi9iucQh76boQgqLdn26KIATBA9GgHtYwKC6PIlL3rQ65O5dohb0qIhaKM9MfbLA2v/HswDbCYDVy/DbMlbquCfH1Mt5H37e0PglU4MKkngeCLtZ5ry2gGBYdPw10XwpZEAi2SM/KO31pwAq6viIolyrCvzy89XTvRTT13NaG8yjvRBzitkWti7oko8IKx6j2eYPPvMk3VdrpRtClqUoeN9nfP2p4AQE5xZzjh3vZG5i8u/KJxji+38B2U4TTKU2n2Xb2KeZJoH6LD/iSYbiHJ6BTvL0zYhWbTWgpFo6wzqEqEMuibz/e2dLIvvQDV62ZNkSeD5AbfSjUmct1dKBjccTPK67TUgA1sc4Y/vZc4fJmOGpO",
@@ -2183,7 +2183,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "9bab2fe5-bb4d-4cf8-a4c0-00556c3d574b",
               "action": "complete"
             }
@@ -2202,7 +2202,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "51",
               "orderId": "b6374fff-ac93-41aa-b621-d38dbf7a2df3",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAbroDY3fLMKUi4lYnBj+PrsG9nQJ5dQC4mhMza/8tJNxQODqeJXlqc2ggJR/3fuFTTf22Q2OervS/O3nWKR7XIWqk0R8EXLoCm14S8QOUqKFXZAGvC4cOSl/mF0j95t2e5wUGiWsc5pJyU7v247OPXw5ddRHfWUttwYqjxWyrMLksVHn85d/cMtLUXcYfl2Yeyu88wECf2wptwn6XAtjHCfk3GnlvAkjrR1sW6TIzx++nVaxP38Za2IJpiTb+bgOSJ1VcDWslTEx1rV3VDkxD4tV/rNvfZ6Ftm+iuQNPan7Dldath5dsWzZ9yM91A0eTuTNkesQ6lGoCyVTZd9I/d8RR1FDxv6zAHklnXmy3sdU9J7Sn8MtmHkzdEs48eOqlRb5pe8Z1hFX8uICz4ZKwnfJDUqnetYFXcXKwwxBQVlTpA83PINn30OYHxw+GM2h7si1AKjrlFPr/kdGhzUOXMm3uijcxwtXrk+pmlYEAFc0k2L11dA9UEPmh9HkDRsY+JaNNdFAQOnWHrN3jlBsy3Oo8kRSsuTZX6dtGrHUisubB/iutfF+UA+yRcHt1rTtYkn+8dJRRFgghZ4fnvelOksztrbLySRUNsSGFKMPTPjMv6jEVKKdbCRQUsbY0xgq9fuZHdH1URxuQdZjU00f5",
@@ -2223,7 +2223,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "4ec097b9-3707-47fd-94ad-e54a093ecc3f",
               "userId": "robot"
             }
@@ -2242,7 +2242,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "cffae013-a005-429d-a3bf-647f909f8384",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAQ7j6JIt0DG/gng00X2XnQyGJssLWKGkmd/QStimOwQVUqBAKqBvP9N8BKYXnMZgybZfd8Yk8jVE7X1e8OmiaicETUAaIMjPchm1iZtmqfGQhIdJYw78oA8a3Ghvv/DurKRW09Kzdf/SQcwhJoM3crFZpqLqJeYaWlNxt70GFmhGZqbudXEIOGq2oG3s5PhKi5LWGNgZMJYskyPUFRgAuCdP9aonKWo+clU27HvAOSXgRWIYupqYy9GKXlopxbJd7286ETIYisqpNMqqO9dXH3PKV4Hhd/vddoQWHsfTgBvRDLcop4IxGBUG9lqNR3Z2ejNiOOLTKwhnN4L/0oOINCKE4iUhQS25tnr7sqmdiNYVV7j/7QiflGtov8kQD01o36KjL1Fag6kLC1yajCA1B8ytHQld5Mm3du6tz8f7LOPS4OTbTWAQn46W4av2NMsWCNF1Jk965VrN+bUzkCeVI9kzIHd4luCPdaAKEZihx3vpah0hsM/ABeEsCABMbnFv6J5yqzVnVZpMaeKctzSqiAENXqFlZE2N9aHZ29oCSBFx2SwZPmds48cOy06QP0qngvOFNai6M2gBJUI54R15JxuHmF9tNZ1mbMq7Nm75nhzMv/02kz+cQjpmDqU6mX8ql0nf3j9Jtr39MR11ovs6",
               "userId": "robot"
@@ -2269,7 +2269,7 @@
                 "userId": "robot",
                 "drink": "James Soda"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "cffae013-a005-429d-a3bf-647f909f8384"
             }
           },
@@ -2287,7 +2287,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "53",
               "orderId": "cffae013-a005-429d-a3bf-647f909f8384",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAYUG1DP/GJcEvuMfr6u0KqMRDsc+tDwMeu0gvCVYG2a744PkJuNrkFVilcu9r8cwWdz60m/HZ+eChm/zWxcFk+JkKMCuDf21aLZRSiBCi0yC0qSGB1hk1y3HLLj5PvoIiwCVZZoLB+aTzjgLGQdg46zue9RjUbRmNYs/bNTDGvNPzbyAzNkyjID5en+CNpChGXdnMzIdhJV1x0oZbgjjqbWbNaDLvWmxrG7+RCtj4FZpD/dA/0vKigLK7QgRj+zgL0VOtIjBx3NII1PnJjDIpP87ha3kQcxvpngTFo+heJ/O3k3ALtvlRQ1LJtiKDho7a7QSMBwY4rLIJwdXiNBaqX5UpLB7TUZv5fqelfK6ipG3Bzue1Gl0ole9Y2X+DiDjlz50OU2H+6xqCTI6eXDcKwL9xesSbr3A1GJK7VSCBZhXis/tUqhsjbDH7Acdzdrmq6KsPK2eo8rf4MQPh+XXNDNaNTMAmGzKi9il3KX4BaygI+9yLd9g19kt5PXDwiVbtYRlRBtz30S1kmgHs6itS/nN4VXEwbX/gydDiHhGCAUgnNwt0UmbrYNXkP/tfY9915Lnis9IowQfxB9VxG5dR0hgFGCqu0kPJEOlNHfFXNK44HhBWD94SipZtJxeEHpPNO+DD0hhFr8PRTUesT40",
@@ -2308,7 +2308,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "bffe5b4f-bf2a-4d1d-b92a-5327ddacfcaa",
               "userId": "robot"
             }
@@ -2328,7 +2328,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "de0d4230-10ff-4463-8615-2923bfdb48a3"
@@ -2355,7 +2355,7 @@
                 "userId": "robot",
                 "drink": "Americano"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "57b8dd34-3ed7-4dca-ba68-bec90ec86bf7"
             }
           },
@@ -2373,7 +2373,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "de0d4230-10ff-4463-8615-2923bfdb48a3",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAATqz7LHHSJ+befH9t6BdsItZVYGhWNqcQTQ6BlL/6MqUf4Y8if0VvfBfrqobe3gFWGAugksHeAAzdQtdBoM5tcmscA62nhRQYU5rsmQLNS0n9ElxtnyMhba5QtXTx4y5hpFVGIkmq/ctWpj04m0V722Esnulwb8BHfEXGvvYB0TLZNab2z4Yw+YTy8wBcESYW2k4Y3Ogv7TptMbQR/rMpXaPXBLmCJCRPbLGgCgQoYJb+ERLwjKV2WQajUidsMEGXbpeA9qiudD28xo5sFlX6CHmxdrq8HS94Hedc+rPrMG722JiUyJ1OzC9m96VheW50joIzv4LfM+nI3tegHiUmimIAAWuZEgWy112PBSIlLgx7Qw14DOqXgedMnXAA2t+gYSdAzwaEcvT+mcRr+U1btDxmDH7WKCdPO7F0fvJoLGYY9KLr6/6GBqQ0QZgHBWO4EUt57/JWx56oCBNMUxDsAMps83KPC5qNa0Xgg6eOUig1Uc+3JYewcrPWQy5D4zXo5s/Wl/HL6r300SNYEE5FFqv2btthuZ25+xLIclHHz05FomsoR5cR9Y54zw6flwIFYfQchFOrwg7QUjBDV4JCeN3I7ECuRJnfrn0duFnaE7gtrVggtoL7GN1ajQVftPpmi9g3wMu/JIlN4ErshA1",
               "userId": "robot"
@@ -2400,7 +2400,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752323946,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -2419,7 +2419,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "55",
               "orderId": "de0d4230-10ff-4463-8615-2923bfdb48a3",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAd/3D3Tj3dS70P2cYBVDia/lya1UEzCaH9qlVOW+w5yVJVQ7xgBdLTc/xJHvyra/Rn9lJsKz9zCz7iE3ICYGBUdzRdVBLqSnEwa807E/0MoEq4EKhKUK21trc7EEiTf5iRtNVR7DtDX1xrzTsf4SiYk8bdhr3MpXZBEAom8zFNmvRl99Fcj+luNj6CR+NxCaON8vOqvGDLWRJrHyKu5pEynYlQiP5IRR/yM/7khtUiUSw+4pgmiE/uuYijtRrpSx1i/mr0kAmZ44RfQA+qLzSOheT5y8eDQGpjIMT5p7IKr8maFSJsdxTQlil8bFXY/4In1wA5+A1A34T5MtgjZYBVFwvU4rKoMnsFUJKZbsthHo7EQi74YWxFn0T1uWfFROU0gvkWs53UGv04Etk//XD2VrBcGoQ+6wHhZa++vFpLbhpuuvHGa5ZqFT1kQtmgvbKN8kiRt8J5SrTMsQcorQkA+52DBrNZ3hFTO3b8UhEgh44OCnlJyCCgxpPCY07UMuWtVE4msgQmHWs/oOMEQyeU6FgLsVNXcgScPPETTMPbCFKY5DmhBmquaYqSMZfkKjRytgz5TrWoAi68ExwJ9YmaPpFKC+D5xxm4OYobbq9cRMZaGoJip+JKi0Jcz49/I3Xom1MHQTrdGnpNnN942n",
@@ -2447,7 +2447,7 @@
                 "userId": "robot",
                 "drink": "Caffe Latte"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "80c6d7ea-7b26-4173-91e6-ed9ab0d7ed3b"
             }
           },
@@ -2465,7 +2465,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "5b6ee82c-0e0e-4a2a-8777-e8eeddf4efe0",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -2485,7 +2485,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "57b8dd34-3ed7-4dca-ba68-bec90ec86bf7",
               "action": "complete"
             }
@@ -2511,7 +2511,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752340213,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -2530,7 +2530,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "57b8dd34-3ed7-4dca-ba68-bec90ec86bf7",
               "userId": "robot"
             }
@@ -2549,7 +2549,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "cffae013-a005-429d-a3bf-647f909f8384",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -2569,7 +2569,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "4e961332-0133-45df-a875-981fd7e554b0",
               "action": "complete"
             }
@@ -2588,7 +2588,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "4e961332-0133-45df-a875-981fd7e554b0",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -2608,7 +2608,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "f4f295a9-972e-42a2-a29a-dad2b598b00f",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAehvAafxdQL7Lrq+BLxg3c0MIvZjXS6qq1iVH6ntsrh6P9btjbxBUwHnNKSSM2ISG7MDaU04O1e3uH3HC0tqlhXiCM/1MwSBjm/xHV29zcdXP2+JT5h4rBvxTAfUuNSGN+oVul8gP3QRy+iuv3x3ZKIWkpbKR9vMvbBC3XvkCWqIFl8xhEt7de21S1rF1fNGV6tdKZdX1us/OiAFuDhWmCux+GoPLpWp1umh1116IlVrPtBsNyMHJ5fQx0cBEESxK+8VjyNY6npN9RijcnPRqwjm19XCJ9FxQLlIMSTXHjoquFq191ew+kOOwkOtKyAvgchoHEF+PjrhjJl2OBkuJQIKSPLCX/dmt+/O6q78LPo2oil/QZw+MqA+/rurWRa3m39YDKzpcUQ6Y3K/UFR9b/BLEAYFrPKIsYflHmJS3t9BAQo013n84vPicDXNsnJTkjELVq0OCFQ6dqMcA8q5NOZBB4uUcb3Wey+oF6vrB800nTYFXGun7w6nkz2L/5qMx7Q0skBhuDgy1CNOxe1hz9pihpTyhlNNahndhIulqiQ5YSdrfe+2K9vNXeUsPPJkc5gSwvk7ZmvQ2lmLg/r3LlPetK9e3VYj35t1PZMknE5aP9wDzyZU+LDEOkDCzmQhnfV06+vojAdSU6ph7H32",
               "userId": "robot"
@@ -2628,7 +2628,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "80c6d7ea-7b26-4173-91e6-ed9ab0d7ed3b",
               "action": "complete"
             }
@@ -2647,7 +2647,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "80c6d7ea-7b26-4173-91e6-ed9ab0d7ed3b",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -2674,7 +2674,7 @@
                 "userId": "robot",
                 "drink": "Espresso"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "8ddb8cf4-4a66-4819-9d59-15f45e5959fc"
             }
           },
@@ -2692,7 +2692,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "86031fc7-5803-45b7-ab1a-6c6a9f5e4f05",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAUNPuXfMTFvgdJGapbr463fOVI3CiJ9TGaD3s1eVNkyIWNajRQbNkLVp9wjMvqgyGJTItgzoFVoN1FLzpnJe2vEi0IOq1QgeJW9mxwX7sPwp9+y41MABv6uWIMBD2VkXZWbdlHOJ4euUCn+Cv6Uv3sLy1yM00kzWQDJSvXyMPm3DaVCZymK1Q87PJrwTB7pwm2+DaO8+ehMSwTV8t5pGGM401111EANuUN3dTCHutqf5KGAoZIuFsZttAeqTE/eizaoru2DSInok/n7lchpcK+XokAhWTsL3HgM6g/bKe69qVpcuVjJ/lI5npe6vNrsf0ZyTbUikpIwwGkyAoWEK2bf7q+9PcPNaqtOra0BXsOL5s9+JgMIB6HpYQnAho57eBPcx+oa+DmfjZnIC/MQvZkA1lYbM4c1rffHsM/v8E/nYFmBn52dZtxuvKR8Iwu9FSY3rB8Yfm2tseDiBSBWJdywWlgPD3q/gr1qmNKnMQk1xdyEi/xmD8AbHnUlLOQ02AJdUmvxDuNX0NUMhHmVnSz9jwpwz4AsCvXYUr9YTtBotIcncJktMxfR3bDXIiYO0OKgBNt9M6J87GvzngfVnDJkQDjaReQinvD9Z7kFPm1dclzlkKc0gsDQMhte+AsCkKGv8QXL77/9HP5/r4TZD",
               "userId": "robot"
@@ -2719,7 +2719,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752384111,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -2739,7 +2739,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "874d42a2-174a-4660-9549-400f0d7df1fe"
@@ -2766,7 +2766,7 @@
                 "userId": "robot",
                 "drink": "Espresso"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "874d42a2-174a-4660-9549-400f0d7df1fe"
             }
           },
@@ -2791,7 +2791,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752395016,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -2810,7 +2810,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "e81d7446-9499-44ca-8897-b93402687205",
               "action": "complete"
             }
@@ -2829,7 +2829,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "a3076068-310c-4334-b2bb-52cf9ef61f68",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -2849,7 +2849,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "a3076068-310c-4334-b2bb-52cf9ef61f68",
               "userId": "robot"
             }
@@ -2875,7 +2875,7 @@
                 "userId": "robot",
                 "drink": "Bens Brew"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "fb6c5bbf-aff8-4a5b-a410-7f7de512c78d"
             }
           },
@@ -2894,7 +2894,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "77a95ee1-1675-4f78-9352-52535f17a816"
@@ -2914,7 +2914,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "5a97cc53-8ed6-4390-b519-bd049c660e67",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -2934,7 +2934,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "5a97cc53-8ed6-4390-b519-bd049c660e67",
               "userId": "robot"
             }
@@ -2960,7 +2960,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752422754,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -2979,7 +2979,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "1c11e2bf-e472-4f21-a13b-d6aa4678a2f3",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAZSvspQqEVDOHSngHgCAGilxPlYf2ud5EG6lrf8GOgmkeF1yjd1H/cXKH+mq9LEAyeYcUKiCsXMYvc7B6q0qw3vMKd7XsQJDEWky2orAhrzaVjimQVkivBKr1K0PSSpJ07Gciv7X3Ani7jqe0VKqd8Y8DHkS9vOhsYJb5imoyvb6BGQ1Z+6oQUGefeBiGptoFghECdx7ku9IyfhEJVjuiTWVqV4/12H/s024J09XCB/F/XIcTkpVIgLBuGZy/N2bJ5TK3mvvSmmZKT8ocTmjwU80PxDOCKl/D7Ga083rY/OEABXql0OCf7QLk3YGlFEPSdFaGWqxNF1Fz/wJk3hCTmlE8IkRWhWxi4SkxiCKbY8b78e/z2f7cWXpGU4lZU0N/xl5u9XcsqaOefLW6Nh0JXqr6H9mnbF7pwMv1ctaxNxwVPL7pGO/QdJ4Oip2T1jlStQTGasYVwCCMZfbf+UOjQiNVSyuKmA/O7GCxWYqUnx/G0+1tyhggHtnx2fHbxGcmtqZDlgerWKbQ0fOW8IO3YuQMqxYsqMAw9oRpFub+WWslRO/L/ylN93Tno/xwd+mB1D0+c49FYC9pWluFpxFDoLMiTJBHjnj+H4lqjbxld4HOJ9BNQ3Se/TQKfhjvmYjaWCsRZOyfd+LRqCZ1K2e",
               "userId": "robot"
@@ -3006,7 +3006,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752428223,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -3026,7 +3026,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "64c4d7e3-f91e-4d71-b576-192d83be8969"
@@ -3046,7 +3046,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "64c4d7e3-f91e-4d71-b576-192d83be8969",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAetw1GukX3KWDSyqpdKtD9me9KR8p6DCYU5ypzwRuWaauej2mYxfAvL3P1pXGgWcpB7q9Yfo4pMllVr867BF5chVTih8h9hz5jOhDTN/CYV2Rq2IiSn+mYWAFelFKdWCHxlX5YKEWrbxqaU61JSAhny0oNteNIAqQ+LPMZXm68R15P3jMjE/Xk87l6sDgnn+RYD2930JQJA0aXNsVd3Xqn8lblKezewx4DtU934ShmxSBcsK565JcPuB+2mUfYq2QSx0NQ+8r6B8WPRR+ysdm/qrRoYK6bYidPcbk45V/fOcOVFJ2iFGhDl+ELwMoSDKPvcwrlf8AsbNpHfY7kVZlCQf8YN02UEFwDEufhOS7jvwky+3k94ZuPeKC8112Tcdagg39rGXDa0vgIr64kdbtoyZHkSqzIKDuMs47DOxAPsZK1J5gwCvUZsTl9MWgr5HUw/fhpjOFeb42kjkvTYDWO+UfUWTvHAMGJFLPNXZVhr92hkCywwuQeBHfGnIpe+FV2ZGbhcGQBuAlUAhvb+2RPqVZwiYLIZ+r2iLhQcRtXz/K9wP9v2hZQY7H1UEUuKl2CVy9En9YlvWHfaPzZItH4w4dgE0SIk5jSmLov+SFlY1xSWaQFwYa4PR05BxQJEBBc6gzIie33HU8W4B+5cB",
               "userId": "robot"
@@ -3066,7 +3066,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "77a95ee1-1675-4f78-9352-52535f17a816",
               "action": "complete"
             }
@@ -3085,7 +3085,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "77a95ee1-1675-4f78-9352-52535f17a816",
               "userId": "robot"
             }
@@ -3111,7 +3111,7 @@
                 "userId": "robot",
                 "drink": "Flat White"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "64c4d7e3-f91e-4d71-b576-192d83be8969"
             }
           },
@@ -3129,7 +3129,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "fb6c5bbf-aff8-4a5b-a410-7f7de512c78d",
               "userId": "robot"
             }
@@ -3149,7 +3149,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "2a447162-dcc7-4d00-a7c2-fcd467015f39"
@@ -3169,7 +3169,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "76",
               "orderId": "be561fc8-323a-4d2c-8663-15ba6015e5fa",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAf3NZDwQ+nuNST3qsZIlUvisC4sD3wiKIeDtyPEevVes8L7dL0ZtUK1B6c4FkJeqvwGl7qmLdazSJEQ1BFl6cYvWzbpmbkTAxoe8c+64CeAbdXVfPNMKyx7QAKBn1+Nl/aLTH0JuCP7iK6vQicLelz9wXWtCAM7H3C6k36tCZv/foXzTEqtHxacas++Lyt0Tenp99mtAoBbkU7lczVVdl8D0zHE32ZIJIRxL/2ZzJCjmus/4RaZyHYMvuAakJPFt6M5Rt1qW8UXrbUYVHF5dns2aybmrSdOWtKJkokUvReUNbxuGsOqyfoMQZxC7yledmTxw8r9/iaRVLF/5ZKc8MuoJK5UoJdo9ArmwXHz++4IHgmzncbtGGeqSKEFcAMp3M5FlKcl1KjaqmHUQffJTMGfb7sQGoR/qjHwdH/mx2iADRiGfVMDFbvIQT0ZFlZT5ZDTHm3VrG/tRMISPprghsgVf/YNzda+cNPcqgF0zZAI/0dwdvftCnUA+nj0VGWDBxNO+J3kMVT6ow8BRumXwzVuuVyAMeYEIciHQRS9xO/QAErdMaR8Sup9/vPj47MDDwUXIHUV8LIhZQOquuPlr2DSVEWKMWHJCsJrg9cJFJPbnTRPiHa7PTFEfCIHZWVgqPQ22DRz1RWc9CCXV6CFZ",
@@ -3197,7 +3197,7 @@
                 "userId": "robot",
                 "drink": "Americano"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "2a447162-dcc7-4d00-a7c2-fcd467015f39"
             }
           },
@@ -3215,7 +3215,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "77",
               "orderId": "2a447162-dcc7-4d00-a7c2-fcd467015f39",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAATZECIxgFp2wcOzGBpJKLcg7azwh9so0T7jIB7w6YUqzrnKh0uxTBxAnxVz/JT15zTY+vlurmxISAxrHOXepJSCNdLFwYSuE7Epa83sH7Lny9tjejbYpikXfSqbhTMoLXR7w8CyTi2cFPb7atDuDnrao1R6atlWQ+5EI2JG9mA1fCG4ww7L4MioXtBUW9fLQzyNghP+AxVhavAR9rI3dJRQHVTxoi5BpT9ZbN0z37eIoxAubtZBXKFzADMjfqxx2zA6bwwfVrMbbrdFg/6kD0MLNxYr3LfQPO8Zc7iSdvBRbj4mUFpHtZB+8oAmm3++Yq7nMjoBGQjymfnqkIk4jZg9UWtp6AkYgwiiA0CDQzeDIOs2Oqjsr7C+ygilwuYffBIbjFbaIM0hM89prpX0q8XDL230fsu2UMufkX7WynwkeWGgdTdXpOMcGonLVozMimTeMYq10+HZLgTnNbzyh05qhbJ37Tj2xDR8Fgv7ks8eSUQDj4J3yswgMS3JAJa+uxpTCIs1WrTT0olN8GOXOZksEtBN5zIpoOD9U95FifvHJkEM1IElEpMDNQEwQK5AdbytK3r3x/wJfigGvMKGvu7wlQiObj8rXWnU8UjwV5Mw5jm99iLah4xyqqU/lizjyhQjcG3sAxRz0WCNCMPYP",
@@ -3236,7 +3236,7 @@
             ],
             "detail": {
               "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "d235edf0-f7ed-46f3-9ca1-a982259cb0ec",
               "action": "complete"
             }
@@ -3262,7 +3262,7 @@
                 "userId": "robot",
                 "drink": "James Soda"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "95a4f8c0-efcb-4b60-b506-c74060e75d5b"
             }
           },
@@ -3280,7 +3280,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "60fabd23-ae43-4262-92b4-fd77a0ada6cd",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAVoAiQey2iVL2XTc8KgICzoI7R3JzMIsNboT+u9m73F1j8bW5mps5CnAR3HniPHo/6Ypd6WdUoOKna+aKntOLyqKFr+x/4a/ows/9K1Rslp4sIN0HFf0qBbPdBxnHgiY8wmy5qRXGeyG8Jz572KgIOk25DfNGqO6jVlwEOaDFpowXpwDg2aBKd9l9XiLDo7TMd0JVoFcuNSfsco/3B8RaAjKNSRJRdXqVuQgXPaQ9tI61Q2r0Ic02Iom3STRUH3ffslhEibMTifxf8UDJ2GGgiE3r/hf8cN5SwU3BppK1ufdZP2hWVMoyoA2ZvDxnL2tQwNr/26kRNGPSJGEwn2CBiOKsiOA6WHgQRbE38l6opdhqSCVv5zSLvPywAt1QQ8LWauWgHgHQG3rqonsFizoNmLPTlChAzTNbfH9S5MI/FGrfB8Jn21GtNc2zO0CZ/FNYnf1gqARziKjsme9g6I7ajbDDmqOR/orrNTAm3YSrei76PAWD8NcQNwe23JJoZVPt1XYjd+DZsIwb88t7LFKbkwSS1XoCYIzeO0/R6Vx3GadZHyb/ar5YYmvf5TPl6/2nW5xc/zncjidvPsafyoA+13LLk1Rpxst/+fkYtRtsUwurEDKLF/EjJRxyN8RFIViAxwwrGPkcHB0QakEUMzf",
               "userId": "robot"
@@ -3300,7 +3300,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "80",
               "orderId": "60fabd23-ae43-4262-92b4-fd77a0ada6cd",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAdJuv9inVYWbTe1GpT4LuVZ8zK29J7CZZq9+KIsuj3PmKxvsj4+aA8QEXtg0t2OLNXVAImQtTKQkNAP2GVuDamNo+EJdEhBGkzsork4lhEMU/o6vn7M5kY+9rhnm+klOL5h94ZKW2Q8jhXTQyZDZmcZZIew5YzFZVS+DyM1K6J7U6Nwk6CSK0tqtzUzq43K/lXJGBZsWJcUiMrjOqwfDYIwnlNFbWQ1iF6/BTaDBgZ5eQHwm8wVvDgydRU/eLyl98XbD79kWmWu4QxpulQhQeqjvNuAfZTsNrOXJdW7JbguLc+ZChy+DHgPsQGAoi5547KNJBsdDIRyDO1sxnXT9Am6KoSgnwNPjpFpjJrei5NYiz6oMe3bTBhxg0ZjVSKAC8vubTPIPwy4r6FwJ8DOLUoxam8azVEFEQq3NnShI0IbDyukrxtPa+ejGo7kucSopyFIi2BAnYg2k+d7+pHCNIJ4ruDNEby2V4f0bA6iPm7Uw9Wods6G/HlIFfFl6vkjlmt8rIvj+mn08Vg3d22tWvsNT3FuJwYs8dTYYajMeMA8NwbSzwInM3LsyaTXpK59ZSJvIxU/j4hti4RHDVJ7S8I26xpDMufSfAdJGJtNR3EAe6PT/nfuoyte2IrM/VTdwh2rs9coKtKRX0obJAUS4",
@@ -3328,7 +3328,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752467076,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -3348,7 +3348,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "80e8cafd-dd0e-4cc7-aa80-2f002516de20"
@@ -3368,7 +3368,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "80e8cafd-dd0e-4cc7-aa80-2f002516de20",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAASEYg77jLVeJ9EGVNxBNb21fhcV+q/m+Jdf0hebufvKDxp8t8dJb0RzTSkogaQ6qzDaBlbIgY5Bn9FOjPILuvsC0g59KRlfJ4RVLjyqgNrCaJvjWTR+f95VQovQn/38Wbw3i7hSvdRC8+OHmDQT6g6auBMZK6nZi8elT3Rkj540h/v7ImTTmz3aLHwYj3OOSEixk5lMk4kQ77NeJ9aQouH2/eiQG7Zk55oVK+hDNiKwdO9tA2k86ZJimhwdRZDT9tYoNuJltR2rsJnTlPPNMW3V+GBTb1YaGAPzr19bHh8h1hLiBJ0R8e+w1cZccqz0gIh0v0kxBKlbSR2bveljdSaZ1SxoFdpWnZN4t3za/gAj/SRY6uhCP1N84uALXNnlS4Bqp1mqKvsrP25KuuAtjgJ+urvzImybuVIvv+9XXZPznoYMFevp4FileqlpVtruJBkZwqoUT3/tlynLE84TQXrctWNVk+WV+lxF7+1nIw4JQhklRRaFyDSnHVp0/Ia3AQoZcho5JF5tJf2AIsUlWzu+SbaA+sCvLUYznKPawNLTaHmLgL2INRzqLeobqzM7jzOn51UE00K93ZNylN8OJwlGQNKQ2HEMCU28GKeco02ABkgvzWnK/f9fTKhBOYQ7JiEqLTmVtqIBYP1/Gte51",
               "userId": "robot"
@@ -3388,7 +3388,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "95a4f8c0-efcb-4b60-b506-c74060e75d5b",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -3408,7 +3408,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "95a4f8c0-efcb-4b60-b506-c74060e75d5b",
               "userId": "robot"
             }
@@ -3427,7 +3427,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "82",
               "orderId": "258b93b1-a60c-41e4-89bd-a760bcdad688",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAeOfMtnGRFBrCPN9jgYTq1/23Al0Zz0q4wN/w+XaoUJeAEMcaTJLzIhNpon7yyyj8zETZxFSgr+Af9oH0+30Oh+xvgPvzGNRYo+vIFXeuTVQV1CXV55+P5zmPWgnBxjK7x2hb7I20Fcd4dAjROa8IdFr4djwHq80jVkKqiqtbXu+hgf+10v8FxOm7wMuvYcvcfbFG8KConSg2SjYGblKUr9QxFCTNcnyyqiVDQnUyVFU2cZXNbb6KpXq5dm+7NMqLoFjXGPAoa/si+GD3bw3Dg+xH3Cu0GtikhE4wZbiCx6ln5dyTOZNqSjSRUnw4jRma6UPnoF12R6I/NgUK0riLBRMAyohwPs+EnKoaoHFTmDqoqES3y9PUwcObx6IqRoZSEsneKWjf/2xA+XaRJ+NHarzZ+or7/yCRwaFnDf4n3t0Xf50VTc2vXN0/dKU9hVLmVG5B/GmmVtRycd28MFPICOgs22JXtJy0PcjX7/QKVjhc9iWNpbt7ODA4IzXmMoeDuoRHRPCKx5B313D+m38nv5XbtwTyD0YucptIdr47R/n+0bJk4MzpkI/sCKEc2RjLTC+1Y2GG2096GQWAsIr6KgEyZBCjhv9nOWN9+bH7cqjsAsRBns6mrvQ5SZ8zoXCvthFTvuEw15vp9fHr62i",
@@ -3448,7 +3448,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "2a447162-dcc7-4d00-a7c2-fcd467015f39",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -3468,7 +3468,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "60fabd23-ae43-4262-92b4-fd77a0ada6cd",
               "ORDERSTATE": "NYC-CANCELLED",
               "userId": "robot"
@@ -3495,7 +3495,7 @@
                 "userId": "robot",
                 "drink": "Caffe Latte"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "80e8cafd-dd0e-4cc7-aa80-2f002516de20"
             }
           },
@@ -3513,7 +3513,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "7e418e6b-1892-49e5-974d-90098620a26a",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAaI8EEmnDP8GQIUudrkGkStuUh9vpnhdm2WniAUnl8434UWrV1v3YsEovsKupEP8JKYi1eM8DuDslBjuWVvO7otgS7Wo9gdLmiL/dT1w9z0NeK5Z4OpriP0roobUt2LcjgQfUfzVWuwEo44ssertQkucD1l4dZvd46mpZXpiu6GQGyUiqvB52Sc7qQXu3SYVKoFv11uCpqtqeykd3uETshwxZ8AwzQqYJXPFEHEIKDzsVVypHpywy4a/PnnXURh5FUHISYJAb/Vl0WlN62bYx4x4JQxjuDk+fdrtzrI3BqWhqWnzARBmuRgQqgluRDuUAdrZGPbZCDFVd8rBeKDrRqiOru1vTDyuAXIAXSjPEybVCzepFVDbMTQtO+4aRb3uuLT92MAd2jW1nw/o2+zSD8Qz8Ag6qiBig2bbaZuz2qrjCIye5w9jCRniPqxfWIo8FCEJz8pz7UZ0dxY5NaA61iHeJY8ZuCEYC7SEmge9ChyCQ85WXUvmMWlDIejfASW9DoQSng+pmL/RnZXH/Nr/smAZj3h0jdVMZZAnHdxAJJzZYFi/Te/YzzMAU/pzaMU3dfLojK0MdDcCViGq3YW0uK1yOvx+JPBMudN9JYmCPgx+qXBwV07aP4qi+wy9beLB98EzPlYezCx84kxIVlBL",
               "userId": "robot"
@@ -3533,7 +3533,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "84",
               "orderId": "7e418e6b-1892-49e5-974d-90098620a26a",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAATXfynMqp5E/mKiWkXdxTf4a0zhV4O0WCCGmUQGNZkOa99RQtjyQxXdfZQnHzALxHg7X/1yHUgiut5nDsF1VuguQDKsS8zX+4n/V0/e3YMjb484Ga5KytTurZZCUV3oQYGxTiE60zVBTzFi8PYFHhzNWGg0ewM9rlRlUEAwBPkV8jKWty8G9hGncvg6xa4lE7Ht5satGNdYSdJcD6Hv7BtscNRfBTxqfGKOPGNcCkNxsNuj0xkRL1qKElz6ot6pKsjdqoa+ogmDz5SrScSYaW+qZQaZ+mZWYhABHcIakwp2jiQ9grbz/C/Ij1hNuCE86cIEBjPnPVoG5NeOUT8R+NBHSNNK8H4gnUyMTiglcDJ6rQKAmghr22HBjruLU4kPHEaErlEde8H0q7bCADYqRPBXufYnC5EQTp9pa4FGjCIAGrEMMtuorOfXTT3qgwI2F5rIrAXJYSGWvOVyGK86ShF/jWPfiTeOZ6BSpGyCu2yc+bAj7hRKNz8AYERKPYjcdk7VH0IqZCymrwhwEHMOJKNsPqpX2ZFeYpFcpXTh8zjvgZrWAGn5i0yJVdqsW28+cBTIND1fndzf9PChAeMWok/BZ4+V6bpvxQePRJ1+fvesybwS+tp8cqySN6u4ZvKbd7E9VEU9l+/ATfd28W4PY",
@@ -3561,7 +3561,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752489128,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -3587,7 +3587,7 @@
                 "userId": "robot",
                 "drink": "Flat White"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "b1b73171-9a31-450c-9460-df853062533f"
             }
           },
@@ -3605,7 +3605,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "4c984af7-96af-475d-b082-e5ff6e0bf038",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAASV7w/yubYi618DK3zDO/4+SsoCp8ImZk18zdJB170coEQOiFKDYt2e1giXJWjKVhOXVbI9V5R13Mes3NM1cAIbmzooSpZIZgUtyOX3bqkVFR+hLhwgYudHvaBIG0Aq45bQkwc8X6hK3Pz8XjPfmreVjaqZ5kWSJBfnvgeC1Ef9RpPmBoWGPP1bN3yrTFQPnJsZxWdkqeCdKQsnOSMBSa2jlNa+nPNgDndFRbyIP2AvQkmokhU3+LPETOziYYWnOJJRN9c3qpkYc62TDouDhfcdQ972b2yMLUtH1T/UUoRN/zKolZ3W9+pGu8E1yMG+yP2o9ZmcKhMCn2OFf3CRjNXckUf0XwO0RtZO76XR6YLc9tpZNt0ks18X94s8MSEcgGuOYq3OhmKtIEmWxw2kNMdQqF5/aoZPsq8xh3NCExQKQ0bO9F00AXdteMEittcbkW4imZGabQDfXNoBgCylPscN1MtCXC7WRka+evgWWPSIwUS55mXNFxHGDU0f6bOj5lL1xQysbHhCXSyMUgh0oIoXSHXVThpvz76/hIIjDfFPNJFhqc2h4U3H2fRSqzeOwfyX2YzFLHdVjOERhr6n5ZdRhLlFs0PMdwMTboHH1pq8gv+qyE2Ri5bgZ6n1xA+nwcnNz3gcxWT893DiDagqA",
               "userId": "robot"
@@ -3625,7 +3625,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "80e8cafd-dd0e-4cc7-aa80-2f002516de20",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -3646,7 +3646,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "4e6c7f8a-3720-463b-af9a-55d0d65acb70"
@@ -3673,7 +3673,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752505661,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -3692,7 +3692,7 @@
             ],
             "detail": {
               "Message": "You pressed 'submit order'. The workflow resumes using the stored 'task token', it generates your order number. It then pauses again, emitting an event with a new 'task token'.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderNumber": "88",
               "orderId": "4e6c7f8a-3720-463b-af9a-55d0d65acb70",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAAUkYk4Dn3sr6URl8IRME7wq/shWZCvRGuIjLNygxYbIOQj8nFoDl42+0nZBudOipZqMjMaZVo3Pq9qf2Ov3ba2o9DwbTpZBGYlpgQ37BqkKBcgdhWwJvKveqE43VQhpX0zd8SVVuCpnUv4Z/Ma/uk+oFQjFaz0r/wPIdvVWGNtYIPnRfu+yF2ULVmBxVqNtE3N/kYCVIEueWP7UAPOvonJexaXZN1VnJMufdJ/7wAC7O6fjqdHd9jBdX3UnR0frzFEaUcqBUjq1V44FkcZLs0CoK6rfR3v+iPEFwkLXj14CwOMDmYttWF03GS+7EY/7dt8RZre+dk8xaBy5aQdw72BbWF7Mih348KbKfZD9/N3ckEH2G7DBucOR+oHpVtpUf1gPS13P09spwEK5aBnKi71aVAjL8R6vm/46HTaIUGv5/9C40rQdfrvIqvLwEdmKZURN49Zg1AUcsJT5ILZOSKbezBlOZ+lWlqmQbkTwc3IoMGZmSRNqk/qyoLPgH0NzRVWH2Lku8Sf62PtyUSS5+VGYo524N1ByFBtAeqSvW84Vy0UaOVHdgCpJ9TL00yFWrI8zNEsNdShZcbtiLP3/eaL7BAAIFCGKmOrqIPNsZm/yiQiJY33Yr51tRqiIplEOCV2u9xjbAXqDzEn2RAg5n",
@@ -3713,7 +3713,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "4c984af7-96af-475d-b082-e5ff6e0bf038",
               "userId": "robot"
             }
@@ -3732,7 +3732,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "b1b73171-9a31-450c-9460-df853062533f",
               "userId": "robot"
             }
@@ -3751,7 +3751,7 @@
             ],
             "detail": {
               "Message": "Barrista has cancelled or completed the order",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "7e418e6b-1892-49e5-974d-90098620a26a",
               "ORDERSTATE": "NYC-COMPLETED",
               "userId": "robot"
@@ -3772,7 +3772,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "8322caf8-351c-44c6-8d39-1f075f90b580"
@@ -3792,7 +3792,7 @@
             ],
             "detail": {
               "Message": "The workflow waits for your order to be submitted. It emits an event with a unique 'task token'. The token is stored in an Amazon DynamoDB table, along with your order ID.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "8322caf8-351c-44c6-8d39-1f075f90b580",
               "TaskToken": "AQCUAAAAKgAAAAMAAAAAAAAAARPYY1xVG2DvNIqq/z5Ju/SWNAtwHSR+MjRrPoRcgLC9Y7jGRZEbMmesBW8FTrhOL9nanOh0o49oBBAlel7/e5KzlSeFDoS2sj0riK+tZcGE+zp2mv/m9garlEn7XzEbyaBO1pZwFrBJ9kVfNCGzSG1sGLvPP64wXu32AV3RT69mfZw1ukiHSIBBxY52gG9PZwQGsfdP+wpdhHLn0QWGDmGNX0eBNCFJQEIDvl/jGB5xu4TqyXJ7xMsMJ3NLghOssOPkzST9xobgpntU/8ydN4v0zcgh1HpVck137X1eXgAlkeIqgC/m7tMINUn8dCHs5KN/ze/14BPv5TApVp3EUs1RSgrBqFcUh08/3l+OSfPgCKin1oO2aoCGGuuElRQ8NIou1+0Zu7SXiBL//+xd5kzz55DVNc9y6jPYKI3YyIj43zhYsf5Dd+eDS8lQ2wz6bhtvGy/9xPCLKJLAA11y+efqZG7tFApWT4dWjJFHULr8OmvG7DsK/VTsGuPvWkcRsvlZUHJOVZmYqf8q/BsVW5fsM3+13NZPABZefDHsgCyLycXiy69qQQA3jkBtww7pa6PJw1O52PikfLBMKkX45YVJ/1mR000cVemtZn5CEciXb6y9Kadz0nv6W3LfTPpOguNw2XCkD7B9DkW7KKNV",
               "userId": "robot"
@@ -3812,7 +3812,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "f232198c-18a4-4a25-9bb2-59046026f478",
               "userId": "robot"
             }
@@ -3832,7 +3832,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "e0fb65a8-c015-4fb2-b312-1f66ca6677ec"
@@ -3859,7 +3859,7 @@
                 "userId": "robot",
                 "drink": "Caffe Latte"
               },
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "e0fb65a8-c015-4fb2-b312-1f66ca6677ec"
             }
           },
@@ -3878,7 +3878,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "484cb70c-c0d2-4239-80a3-26aeceab89fe"
@@ -3905,7 +3905,7 @@
               },
               "userId": "robot",
               "robot": false,
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "TS": 1665752533101,
               "Message": "A Lambda function is invoked which stores the Step Functions Task Token in an Amazon DynamoDB table. The Task Token is later used to resume the workflow when the barista completes or cancels the order."
             }
@@ -3924,7 +3924,7 @@
             ],
             "detail": {
               "Message": "The order has reached the end of the workflow, and so a final event is emitted to alert other services to this.",
-              "eventId": "NYC",
+              "eventId.$": "$.eventId",
               "orderId": "4e6c7f8a-3720-463b-af9a-55d0d65acb70",
               "userId": "robot"
             }
@@ -3944,7 +3944,7 @@
             "detail": {
               "userId": "robot",
               "bucket": {
-                "eventId": "NYC"
+                "eventId.$": "$.eventId"
               },
               "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion.",
               "orderId": "d60cf55d-7d17-412f-af70-b811635ca3b3"

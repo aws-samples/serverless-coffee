@@ -9,6 +9,16 @@ This project contains source code and supporting files for a serverless applicat
 - template.yaml - A template that defines the application's AWS resources.
 
 
+## Running the Order robot
+Example input payload:
+
+```
+{
+  "orders": 150
+  "eventId":"ABC"
+}
+```
+
 ## Deploy the Order Robot
 
 The Serverless Application Model Command Line Interface (SAM CLI) is an extension of the AWS CLI that adds functionality for building and testing Lambda applications. It uses Docker to run your functions in an Amazon Linux environment that matches Lambda.
