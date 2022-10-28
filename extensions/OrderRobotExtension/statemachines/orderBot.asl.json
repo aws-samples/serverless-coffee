@@ -1,0 +1,140 @@
+{
+  "Comment": "A description of my state machine",
+  "StartAt": "init current order number",
+  "States": {
+    "init current order number": {
+      "Type": "Pass",
+      "Next": "Finished Orders?",
+      "Parameters": {
+        "orders.$": "$.orders",
+        "currentOrder": 0
+      }
+    },
+    "Finished Orders?": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Or": [
+            {
+              "Variable": "$.currentOrder",
+              "NumericLessThanPath": "$.orders"
+            },
+            {
+              "Not": {
+                "Variable": "$.currentOrder",
+                "IsPresent": true
+              }
+            }
+          ],
+          "Next": "Set up order payload"
+        }
+      ],
+      "Default": "All orders Submitted"
+    },
+    "Set up order payload": {
+      "Type": "Pass",
+      "Parameters": {
+        "version": "0",
+        "id": "540019ea-d663-5018-4201-f82acf2f4f8e",
+        "detail-type": "Validator.NewOrder",
+        "source": "awsserverlessda.serverlesspresso",
+        "account": "468083054740",
+        "time.$": "$$.State.EnteredTime",
+        "region": "us-west-2",
+        "detail": {
+          "orderId.$": "States.UUID()",
+          "userId": "robot",
+          "bucket": {
+            "eventId.$": "$.eventId"
+          },
+          "Message": "A Lambda function is invoked by a POST request to Amazon API Gateway. The Lambda function, Takes the token ID from the QR code scan and checks it against the valid token ID's stored in a DynamoDB database. If Valid, a new Step Functions Workflow is started, this workflow ochestrates various AWS services to move the order along to completion."
+        }
+      },
+      "Next": "Emit: Validator.NewOrder",
+      "ResultPath": "$.event"
+    },
+    "Emit: Validator.NewOrder": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::events:putEvents",
+      "Parameters": {
+        "Entries": [
+          {
+            "Detail.$": "$.event.detail",
+            "DetailType.$": "$.event.detail-type",
+            "EventBusName": "Serverlesspresso",
+            "Source": "awsserverlessda.serverlesspresso"
+          }
+        ]
+      },
+      "Next": "Wait 5 s",
+      "ResultPath": "$.eventResult"
+    },
+    "Wait 5 s": {
+      "Type": "Wait",
+      "Seconds": 5,
+      "Next": "Pass"
+    },
+    "Pass": {
+      "Type": "Pass",
+      "Next": "Select drink at random",
+      "ResultPath": "$.drinks",
+      "Parameters": {
+        "array": [
+          "Espresso",
+          "James Soda",
+          "Bens Brew",
+          "Flat White",
+          "Americano",
+          "Caffe Latte"
+        ]
+      }
+    },
+    "Select drink at random": {
+      "Type": "Pass",
+      "Next": "Emit: Add drink to Order",
+      "Parameters": {
+        "drink.$": "States.ArrayGetItem($.drinks.array, States.MathRandom(0, States.ArrayLength($.drinks.array)))"
+      },
+      "ResultPath": "$.drinkItem"
+    },
+    "Emit: Add drink to Order": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::events:putEvents",
+      "Parameters": {
+        "Entries": [
+          {
+            "Detail": {
+              "orderId.$": "$.event.detail.orderId",
+              "baristaUserId": "2842daf6-2656-4690-ad3e-06e4efc9bfa1",
+              "action": "",
+              "eventId.$": "$.event.detail.bucket.eventId",
+              "body": {
+                "userId.$": "$.event.detail.userId",
+                "drink.$": "$.drinkItem.drink",
+                "modifiers": [],
+                "icon": "barista-icons_cappuccino-alternative"
+              }
+            },
+            "DetailType": "ProducerRobot.FulfillOrder",
+            "EventBusName": "Serverlesspresso",
+            "Source": "awsserverlessda.serverlesspresso"
+          }
+        ]
+      },
+      "Next": "Increment Current Orders",
+      "ResultPath": "$.OrderManagerRes"
+    },
+    "Increment Current Orders": {
+      "Type": "Pass",
+      "Parameters": {
+        "currentOrder.$": "States.MathAdd($.currentOrder, 1)",
+        "orders.$": "$.orders"
+      },
+      "Next": "Finished Orders?"
+    },
+    "All orders Submitted": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}
