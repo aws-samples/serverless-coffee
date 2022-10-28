@@ -8,15 +8,15 @@ This section shows how to build an extension for serverelsspresso that adds new 
 
 1. Extension resources do not have permission to interact with resources outside the extension definition (including core app resources).
 
-2. Extensions must contain at least 1 new Eventide rule that routes existing serverlesspresso Events.
+2. Extensions must contain at least 1 new EventBridge rule that routes existing Serverlesspresso Events.
 
 3. Extensions can be deployed and deleted independently of other extensions and the core application.
 
 
 ## The event player
- The event player is a Step Functions workflow that simulates 15 mins of operation at the Serverpesspresso bar. It does this by replaying an array of realistic events.
+ The event player is a Step Functions workflow that simulates 15 mins of operation at the Serverlesspresso bar. It does this by replaying an array of realistic events.
 
- Use the event player to generate servelresspresso events, when building and testing your extensions.
+ Use the event player to generate Serverlesspresso events, when building and testing your extensions.
 
  ### Deploying the event player
  1. Clone this repository:
@@ -30,7 +30,7 @@ This section shows how to build an extension for serverelsspresso that adds new 
 
 This deploys a Step Functions workflow and a custom event bus called *"Serverlesspresso"*
 
-![events-player](resources/eventsPlayer.png)
+![events-player](./resources/eventsPlayer.png)
 
 ### Running the events player
 1. Open the event player from the AWS Management Console
@@ -43,5 +43,5 @@ The player will take approximately
 Submit a Pull Request to this repository.
 Your extension must contain a deployable IaC template, and a README.md file explaining the use case.
 
-The best extensions will be added to the live serverlesspresso application.
+The best extensions will be added to the live Serverlesspresso application.
 
