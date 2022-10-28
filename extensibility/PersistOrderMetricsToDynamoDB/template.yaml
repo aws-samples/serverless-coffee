@@ -1,0 +1,104 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverlesspresso
+
+Resources:
+
+  MetricsQueue:
+    Type: AWS::SQS::Queue
+    Properties: 
+      QueueName: MetricsQueue
+      ReceiveMessageWaitTimeSeconds: 5
+      VisibilityTimeout: 30
+      SqsManagedSseEnabled: true
+  
+  MetricsExtensionRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Description: "Route metrics extention"
+      EventBusName:  "Serverlesspresso"
+      State: "ENABLED"
+      EventPattern:
+        source:
+          - 'awsserverlessda.serverlesspresso'
+        detail-type:
+          - prefix: 'OrderManager.WaitingCompletion'  
+      Targets:
+        - Arn: !GetAtt MetricsQueue.Arn
+          Id: "MetricsQueue"
+         
+
+  QueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues: 
+        - !Ref MetricsQueue
+      PolicyDocument: 
+        Statement:
+          -
+            Action:
+              - SQS:SendMessage
+            Effect: Allow
+            Resource: !GetAtt MetricsQueue.Arn
+            Principal:  
+              Service:  "events.amazonaws.com"
+            Condition:
+              ArnEquals:
+                 aws:SourceArn: !Sub "arn:aws:events:${AWS::Region}:${AWS::AccountId}:rule/Serverlesspresso/OrderPlaced"
+
+  MetricsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: serverlesspresso-metrics-table
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+      ProvisionedThroughput: 
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+
+  LambdaFunctionpublishMetric:
+    Type: AWS::Serverless::Function 
+    Properties:
+      Description: Publish Event Metrics for Serverlesspresso
+      CodeUri: publishMetric/function/
+      Handler: app.lambdaHandler
+      Runtime: nodejs16.x
+      Timeout: 3
+
+  PublishMetricsTableConnector:
+    Type: AWS::Serverless::Connector
+    Properties:
+      Source:
+        Id: LambdaFunctionpublishMetric
+      Destination:
+        Id: MetricsTable
+      Permissions:
+        - Write
+
+  LambdaFunctionpublishMetricQueueConnector:
+    Type: AWS::Serverless::Connector
+    Properties:
+      Source:
+        Id: MetricsQueue
+      Destination:
+        Id: LambdaFunctionpublishMetric
+      Permissions:
+        - Write
+        - Read
+
+  LambdaFunctionEventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 10
+      MaximumBatchingWindowInSeconds: 30
+      Enabled: true
+      EventSourceArn: !GetAtt MetricsQueue.Arn
+      FunctionName: !GetAtt LambdaFunctionpublishMetric.Arn
