@@ -1,134 +1,171 @@
-[
-  {
+{
   "PK": {
-   "S": "config-ABC123"
+    "S": "config-ws22"
   },
   "drinksPerBarcode": {
-   "N": "10"
+    "N": "10"
   },
   "end": {
-   "S": "2022-06-22"
+    "S": "2022-06-22"
   },
   "language": {
-   "S": "en"
+    "S": "pt"
   },
   "maxOrdersInQueue": {
-   "N": "10"
+    "N": "10"
   },
   "maxOrdersPerUser": {
-   "N": "1"
+    "N": "1"
   },
   "menu": {
-   "L": [
-    {
-     "M": {
-      "available": {
-       "BOOL": true
+    "L": [
+      {
+        "M": {
+          "available": {
+            "BOOL": true
+          },
+          "drink": {
+            "S": "Americano"
+          },
+          "icon": {
+            "S": "barista-icons_americano-alternative"
+          },
+          "modifiers": {
+            "L": [
+              {
+                "M": {
+                  "Name": {
+                    "S": "Milk"
+                  },
+                  "Options": {
+                    "L": [
+                      {
+                        "S": "Regular"
+                      },
+                      {
+                        "S": "Oat"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
       },
-      "drink": {
-       "S": "Espresso"
+      {
+        "M": {
+          "available": {
+            "BOOL": true
+          },
+          "drink": {
+            "S": "Flat White"
+          },
+          "icon": {
+            "S": "barista-icons_flat-white-alternative@2x"
+          },
+          "modifiers": {
+            "L": [
+              {
+                "M": {
+                  "Name": {
+                    "S": "Milk"
+                  },
+                  "Options": {
+                    "L": [
+                      {
+                        "S": "Regular"
+                      },
+                      {
+                        "S": "Oat"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
       },
-      "icon": {
-       "S": "barista-icons_espresso-alternative"
+      {
+        "M": {
+          "available": {
+            "BOOL": false
+          },
+          "drink": {
+            "S": "Cappuccino"
+          },
+          "icon": {
+            "S": "barista-icons_cappuccino"
+          },
+          "modifiers": {
+            "L": [
+              {
+                "M": {
+                  "Name": {
+                    "S": "Milk"
+                  },
+                  "Options": {
+                    "L": [
+                      {
+                        "S": "Regular"
+                      },
+                      {
+                        "S": "Oat"
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
       },
-      "modifiers": {
-       "L": []
+      {
+        "M": {
+          "available": {
+            "BOOL": true
+          },
+          "drink": {
+            "S": "Singe Espresso"
+          },
+          "icon": {
+            "S": "barista-icons_espresso-alternative"
+          },
+          "modifiers": {
+            "L": []
+          }
+        }
+      },
+
+      {
+        "M": {
+          "available": {
+            "BOOL": true
+          },
+          "drink": {
+            "S": "Double Espresso"
+          },
+          "icon": {
+            "S": "barista-icons_espresso-alternative"
+          },
+          "modifiers": {
+            "L": []
+          }
+        }
       }
-     }
-    },
-    {
-     "M": {
-      "available": {
-       "BOOL": true
-      },
-      "drink": {
-       "S": "Cappuccino"
-      },
-      "icon": {
-       "S": "barista-icons_cappuccino-alternative"
-      },
-      "modifiers": {
-       "L": []
-      }
-     }
-    },
-    {
-     "M": {
-      "available": {
-       "BOOL": true
-      },
-      "drink": {
-       "S": "Latte"
-      },
-      "icon": {
-       "S": "barista-icons_cafe-latte"
-      },
-      "modifiers": {
-       "L": []
-      }
-     }
-    },
-    {
-     "M": {
-      "available": {
-       "BOOL": true
-      },
-      "drink": {
-       "S": "Flat White"
-      },
-      "icon": {
-       "S": "barista-icons_flat-white-alternative@2x"
-      },
-      "modifiers": {
-       "L": []
-      }
-     }
-    },
-    {
-     "M": {
-      "available": {
-       "BOOL": true
-      },
-      "drink": {
-       "S": "Americano"
-      },
-      "icon": {
-       "S": "barista-icons_americano"
-      },
-      "modifiers": {
-       "L": []
-      }
-     }
-    },
-    {
-     "M": {
-      "available": {
-       "BOOL": true
-      },
-      "drink": {
-       "S": "Caffe Latte"
-      },
-      "icon": {
-       "S": "barista-icons_americano"
-      },
-      "modifiers": {
-       "L": []
-      }
-     }
-    }
-   ]
+    ]
   },
   "region": {
-   "S": "us-east-1"
+    "S": "us-west-2"
   },
   "requester": {
-   "S": "jbeswick"
+    "S": "ericdj"
   },
   "start": {
-   "S": "2022-06-20"
+    "S": "2022-10-26"
   },
   "storeOpen": {
-   "BOOL": true
+    "BOOL": false
   }
- }
-]
+}

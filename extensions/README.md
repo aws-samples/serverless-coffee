@@ -30,9 +30,9 @@ This section shows how to build an extension for serverelsspresso that adds new 
 
 This deploys a Step Functions workflow and a custom event bus called *"Serverlesspresso"*
 
-![events-player](./resources/eventsPlayer.png)
+![event-player](./resources/eventsPlayer.png)
 
-### Running the events player
+### Running the event player
 1. Open the event player from the AWS Management Console
 2. Choose **Start execution**, leave the default input payload and choose **Start execution**
 
