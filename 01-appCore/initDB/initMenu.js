@@ -23,17 +23,15 @@ const params = {
   }
 }
 
-// Load in d template
-initMenuState.map((d) => {
-  console.log(d)
+// Load the template
+  console.log(JSON.stringify(initMenuState));
   params.RequestItems[configTableName].push ({
     PutRequest: {
       Item: {
-        ...d
+        ...initMenuState
       }
     }
   })
-})
 
 initCountingState.map((d) => {
   console.log(d)

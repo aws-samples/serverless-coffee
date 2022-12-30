@@ -60,7 +60,7 @@ Resources:
   JourneyBucket:
     Type: AWS::S3::Bucket
     Properties: 
-      BucketName: !Sub serverlesspresso-order-journey-journeybucket-${AWS::Region}
+      BucketName: !Sub serverlesspresso-order-journey-${AWS::Region}-${AWS::AccountId}
 
 
   OrderJourneyService:
