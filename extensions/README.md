@@ -23,7 +23,7 @@ This section shows how to build an extension for serverelsspresso that adds new 
  `git clone https://github.com/aws-samples/serverless-coffee.git`
 
  2. Change directory to the event player:
- `cd extensibility/EventPlayer`
+ `cd extensions/EventPlayer`
 
  3. Deploy the EventPlayer using the AWS SAM CLI:
 `sam build and sam deploy --guided`
