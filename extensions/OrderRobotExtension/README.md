@@ -14,7 +14,7 @@ Example input payload:
 
 ```
 {
-  "orders": 150
+  "orders": 150,
   "eventId":"ABC"
 }
 ```
