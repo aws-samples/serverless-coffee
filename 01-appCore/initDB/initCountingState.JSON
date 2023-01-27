@@ -1,7 +1,7 @@
 [
   {
     "PK": {
-      "S": "orderID"
+      "S": "orderID-ABC"
     },
     "IDvalue": {
       "N": "0"
