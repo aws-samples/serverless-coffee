@@ -77,7 +77,8 @@ exports.handler = async (event, context) => {
     const response = {
         drink: drink,
         averageDuration: duration,
-        source: process.env.SOURCE
+        source: process.env.SOURCE,
+        eventId: event.detail.eventId
     };
     console.log('response', JSON.stringify(response));
     return response;
