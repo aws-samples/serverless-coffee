@@ -119,6 +119,7 @@ export class WaitTimesStack extends Stack {
         detail: sfn.TaskInput.fromObject({
           drink: sfn.JsonPath.stringAt('$.drink'),
           duration: sfn.JsonPath.stringAt('$.averageDuration'),
+          eventId: sfn.JsonPath.stringAt('$.eventId'),
         }),
         eventBus: eventBridgeBus,
         detailType: this.detailTypeAverageTime,
