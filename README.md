@@ -26,7 +26,7 @@ This create a custom event bus, custom SMS auth flow for Cognito signin, and oth
 
 1. From the command line, install the realtime messaging stack:
 ```
-cd /00-baseCore
+cd 00-baseCore
 sam build
 sam deploy --guided
 ```
@@ -37,7 +37,7 @@ During the prompts, enter `serverlesspresso-core` for the Stack Name, `core` for
 ### 2. Install microservices
 
 ```
-cd /01-appCore
+cd 01-appCore
 sam build
 sam deploy --guided
 ```
