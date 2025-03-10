@@ -10,10 +10,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "aws-sdk": "^2.984.0"
+    "aws-sdk": "^2.1692.0"
   },
   "dependencies": {
-    "axios": "^0.21.4",
-    "nanoid": "^3.1.25"
+    "axios": "^1.8.2",
+    "nanoid": "^5.1.3"
   }
 }

@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dynamodb-data-types": "^3.0.3"
+    "dynamodb-data-types": "^4.0.1"
   }
 }

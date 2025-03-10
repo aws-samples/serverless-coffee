@@ -10,9 +10,9 @@
     "test": "mocha tests/unit/"
   },
   "devDependencies": {
-    "aws-sdk": "^2.1007.0",
-    "chai": "^4.2.0",
+    "aws-sdk": "^2.1692.0",
+    "chai": "^5.2.0",
     "fs": "^0.0.1-security",
-    "mocha": "^8.2.1"
+    "mocha": "^11.1.0"
   }
 }
